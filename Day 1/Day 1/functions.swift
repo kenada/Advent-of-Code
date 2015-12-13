@@ -1,5 +1,5 @@
 //
-//  main.swift
+//  functions.swift
 //  Day 1
 //
 // Copyright (c) 2015 Randy Eckenrode
@@ -25,13 +25,28 @@
 
 import Foundation
 
-if let instructions = try? String(contentsOfFile: "instructions.txt", encoding: NSUTF8StringEncoding) {
-    print("Santa should go to floor \(floorFromInstructions(instructions))")
-    if let basementPosition = basementPositionFromInstructions(instructions) {
-        print("Santa entered the basement at position \(basementPosition)")
-    } else {
-        print("Santa did not enter the basement")
+func floorNumberGivenFloor(floor: Int, direction ch: Character) -> Int {
+    switch ch {
+    case "(":
+        return floor + 1
+    case ")":
+        return floor - 1
+    default:
+        return floor
     }
-} else {
-    print("Data file missing")
 }
+
+public func floorFromInstructions(instructions: String) -> Int {
+    return instructions.characters.reduce(0, combine: floorNumberGivenFloor)
+}
+
+public func basementPositionFromInstructions(instructions: String) -> Int? {
+    typealias MapState = (floor: Int, position: Int, foundPosition: Int?)
+    let initialState: MapState = (0, 1, nil)
+    return instructions.characters.reduce(initialState) { (state, direction) in
+        let newFloor = floorNumberGivenFloor(state.floor, direction: direction)
+        let foundPosition: Int? = (state.foundPosition == nil && newFloor < 0) ? state.position : state.foundPosition
+        return (newFloor, state.position + 1, foundPosition)
+        }.foundPosition
+}
+
