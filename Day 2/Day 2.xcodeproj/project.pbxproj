@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8ED6F5521C1DE93400255F78 /* Day_2_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6F5511C1DE93400255F78 /* Day_2_Tests.swift */; };
+		8ED6F5581C1DE9A800255F78 /* box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6F5571C1DE9A800255F78 /* box.swift */; };
+		8ED6F5591C1DE9A800255F78 /* box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6F5571C1DE9A800255F78 /* box.swift */; };
+		8ED6F55B1C1DE9DA00255F78 /* packages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6F55A1C1DE9DA00255F78 /* packages.swift */; };
+		8ED6F55C1C1DE9DA00255F78 /* packages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED6F55A1C1DE9DA00255F78 /* packages.swift */; };
 		8EEF7BB41C1D0B1C00D2811A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEF7BB31C1D0B1C00D2811A /* main.swift */; };
 		8EEF7BBB1C1D0C7000D2811A /* packages.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8EEF7BBA1C1D0C4500D2811A /* packages.txt */; };
 /* End PBXBuildFile section */
@@ -25,12 +30,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8ED6F54F1C1DE93400255F78 /* Day 2 Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Day 2 Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8ED6F5511C1DE93400255F78 /* Day_2_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day_2_Tests.swift; sourceTree = "<group>"; };
+		8ED6F5531C1DE93400255F78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8ED6F5571C1DE9A800255F78 /* box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = box.swift; sourceTree = "<group>"; };
+		8ED6F55A1C1DE9DA00255F78 /* packages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = packages.swift; sourceTree = "<group>"; };
 		8EEF7BB01C1D0B1C00D2811A /* Day 2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Day 2"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EEF7BB31C1D0B1C00D2811A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8EEF7BBA1C1D0C4500D2811A /* packages.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = packages.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8ED6F54C1C1DE93400255F78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EEF7BAD1C1D0B1C00D2811A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -41,10 +58,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8ED6F5501C1DE93400255F78 /* Day 2 Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8ED6F5511C1DE93400255F78 /* Day_2_Tests.swift */,
+				8ED6F5531C1DE93400255F78 /* Info.plist */,
+			);
+			path = "Day 2 Tests";
+			sourceTree = "<group>";
+		};
 		8EEF7BA71C1D0B1C00D2811A = {
 			isa = PBXGroup;
 			children = (
 				8EEF7BB21C1D0B1C00D2811A /* Day 2 */,
+				8ED6F5501C1DE93400255F78 /* Day 2 Tests */,
 				8EEF7BB11C1D0B1C00D2811A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				8EEF7BB01C1D0B1C00D2811A /* Day 2 */,
+				8ED6F54F1C1DE93400255F78 /* Day 2 Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -62,6 +90,8 @@
 			children = (
 				8EEF7BBA1C1D0C4500D2811A /* packages.txt */,
 				8EEF7BB31C1D0B1C00D2811A /* main.swift */,
+				8ED6F5571C1DE9A800255F78 /* box.swift */,
+				8ED6F55A1C1DE9DA00255F78 /* packages.swift */,
 			);
 			path = "Day 2";
 			sourceTree = "<group>";
@@ -69,6 +99,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8ED6F54E1C1DE93400255F78 /* Day 2 Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8ED6F5561C1DE93400255F78 /* Build configuration list for PBXNativeTarget "Day 2 Tests" */;
+			buildPhases = (
+				8ED6F54B1C1DE93400255F78 /* Sources */,
+				8ED6F54C1C1DE93400255F78 /* Frameworks */,
+				8ED6F54D1C1DE93400255F78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Day 2 Tests";
+			productName = "Day 2 Tests";
+			productReference = 8ED6F54F1C1DE93400255F78 /* Day 2 Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8EEF7BAF1C1D0B1C00D2811A /* Day 2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8EEF7BB71C1D0B1C00D2811A /* Build configuration list for PBXNativeTarget "Day 2" */;
@@ -96,6 +143,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Randy Eckenrode";
 				TargetAttributes = {
+					8ED6F54E1C1DE93400255F78 = {
+						CreatedOnToolsVersion = 7.2;
+					};
 					8EEF7BAF1C1D0B1C00D2811A = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -114,22 +164,67 @@
 			projectRoot = "";
 			targets = (
 				8EEF7BAF1C1D0B1C00D2811A /* Day 2 */,
+				8ED6F54E1C1DE93400255F78 /* Day 2 Tests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		8ED6F54D1C1DE93400255F78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		8ED6F54B1C1DE93400255F78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8ED6F5521C1DE93400255F78 /* Day_2_Tests.swift in Sources */,
+				8ED6F55C1C1DE9DA00255F78 /* packages.swift in Sources */,
+				8ED6F5591C1DE9A800255F78 /* box.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8EEF7BAC1C1D0B1C00D2811A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8EEF7BB41C1D0B1C00D2811A /* main.swift in Sources */,
+				8ED6F55B1C1DE9DA00255F78 /* packages.swift in Sources */,
+				8ED6F5581C1DE9A800255F78 /* box.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		8ED6F5541C1DE93400255F78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Day 2 Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "kenada.Day-2-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8ED6F5551C1DE93400255F78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Day 2 Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "kenada.Day-2-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8EEF7BB51C1D0B1C00D2811A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -227,6 +322,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8ED6F5561C1DE93400255F78 /* Build configuration list for PBXNativeTarget "Day 2 Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8ED6F5541C1DE93400255F78 /* Debug */,
+				8ED6F5551C1DE93400255F78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		8EEF7BAB1C1D0B1C00D2811A /* Build configuration list for PBXProject "Day 2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -243,6 +346,7 @@
 				8EEF7BB91C1D0B1C00D2811A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

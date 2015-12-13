@@ -1,6 +1,6 @@
 //
-//  main.swift
-//  Day 2
+//  Day_2_Tests.swift
+//  Day 2 Tests
 //
 // Copyright (c) 2015 Randy Eckenrode
 //
@@ -23,13 +23,30 @@
 // THE SOFTWARE.
 //
 
-import Foundation
+import XCTest
 
-let boxes = readPackages(NSURL(fileURLWithPath: "packages.txt",
-    relativeToURL: NSURL(fileURLWithPath: NSFileManager.defaultManager().currentDirectoryPath)))
-
-let sqFeet = boxes.reduce(0) { $0 + $1.SurfaceArea + $1.Slack }
-let ribbonLength = boxes.reduce(0) { $0 + $1.RibbonLength + $1.Volume }
-
-print("The elves should order \(sqFeet) square feet of wrapping paper.")
-print("The elves should order \(ribbonLength) feet of ribbon.")
+class Day_2_Tests: XCTestCase {
+    
+    override func setUp() {
+        super.setUp()
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+    
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        super.tearDown()
+    }
+    
+    func testExample() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+    
+    func testPerformanceExample() {
+        // This is an example of a performance test case.
+        self.measureBlock {
+            // Put the code you want to measure the time of here.
+        }
+    }
+    
+}

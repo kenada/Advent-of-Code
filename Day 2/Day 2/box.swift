@@ -1,5 +1,5 @@
 //
-//  main.swift
+//  box.swift
 //  Day 2
 //
 // Copyright (c) 2015 Randy Eckenrode
@@ -23,13 +23,15 @@
 // THE SOFTWARE.
 //
 
-import Foundation
-
-let boxes = readPackages(NSURL(fileURLWithPath: "packages.txt",
-    relativeToURL: NSURL(fileURLWithPath: NSFileManager.defaultManager().currentDirectoryPath)))
-
-let sqFeet = boxes.reduce(0) { $0 + $1.SurfaceArea + $1.Slack }
-let ribbonLength = boxes.reduce(0) { $0 + $1.RibbonLength + $1.Volume }
-
-print("The elves should order \(sqFeet) square feet of wrapping paper.")
-print("The elves should order \(ribbonLength) feet of ribbon.")
+public struct Box {
+    var Length: Int
+    var Width: Int
+    var Height: Int
+    
+    var SurfaceArea: Int {
+        return 2 * (Length * Width + Length * Height + Width * Height)
+    }
+    var Volume: Int {
+        return Length * Width * Height
+    }
+}
