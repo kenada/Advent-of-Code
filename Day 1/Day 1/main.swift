@@ -1,6 +1,6 @@
 //
 //  main.swift
-//  Day 1, Puzzle 1
+//  Day 1
 //
 // Copyright (c) 2015 Randy Eckenrode
 //
