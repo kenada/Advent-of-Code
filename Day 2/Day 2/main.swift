@@ -53,6 +53,7 @@ func readPackages(url: NSURL) -> [Box] {
         return []
     }
     return rawData
+        .lazy
         .map { (line) -> Box? in
             let dims = line.split("x")
             if dims.count != 3 {
