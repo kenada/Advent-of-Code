@@ -28,8 +28,8 @@ import Foundation
 let boxes = readPackages(NSURL(fileURLWithPath: "packages.txt",
     relativeToURL: NSURL(fileURLWithPath: NSFileManager.defaultManager().currentDirectoryPath)))
 
-let sqFeet = boxes.reduce(0) { $0 + $1.SurfaceArea + $1.Slack }
-let ribbonLength = boxes.reduce(0) { $0 + $1.RibbonLength + $1.Volume }
+let sqFeet = boxes.reduce(0) { $0 + $1.surfaceArea + $1.slack }
+let ribbonLength = boxes.reduce(0) { $0 + $1.ribbonLength + $1.volume }
 
 print("The elves should order \(sqFeet) square feet of wrapping paper.")
 print("The elves should order \(ribbonLength) feet of ribbon.")

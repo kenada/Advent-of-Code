@@ -26,12 +26,12 @@
 import Foundation
 
 public extension Box {
-    var Slack: Int {
-        return min(Length * Width, Length * Height, Width * Height)
+    var slack: Int {
+        return min(length * width, length * height, width * height)
     }
     
-    var RibbonLength: Int {
-        return min(2 * Length + 2 * Width, 2 * Length + 2 * Height, 2 * Width + 2 * Height)
+    var ribbonLength: Int {
+        return min(2 * length + 2 * width, 2 * length + 2 * height, 2 * width + 2 * height)
     }
 }
 
@@ -50,7 +50,7 @@ public func readPackages(url: NSURL) -> [Box] {
             guard let l = components[0], w = components[1], h = components[2] else {
                 return nil
             }
-            return Box(Length: l, Width: w, Height: h)
+            return Box(length: l, width: w, height: h)
         }
         .filter { $0 != nil }
         .map { $0! }

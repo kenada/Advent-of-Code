@@ -24,14 +24,14 @@
 //
 
 public struct Box {
-    var Length: Int
-    var Width: Int
-    var Height: Int
+    var length: Int
+    var width: Int
+    var height: Int
     
-    var SurfaceArea: Int {
-        return 2 * (Length * Width + Length * Height + Width * Height)
+    var surfaceArea: Int {
+        return 2 * (length * width + length * height + width * height)
     }
-    var Volume: Int {
-        return Length * Width * Height
+    var volume: Int {
+        return length * width * height
     }
 }
