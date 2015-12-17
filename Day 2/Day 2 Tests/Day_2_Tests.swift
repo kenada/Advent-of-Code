@@ -89,6 +89,14 @@ class Day_2_Tests: XCTestCase {
         XCTAssertTrue(boxes.isEmpty, "the array of boxes is empty")
     }
     
+    func testNetworkLoading() {
+        let url = NSURL(string: "http://adventofcode.com/day/2/input")
+        XCTAssertNotNil(url)
+        
+        let boxes = readPackages(url!)
+        XCTAssertTrue(!boxes.isEmpty)
+    }
+    
     func testSurfaceAreaCalculation() {
         let tests = [
             (box: Box(length: 2, width: 3, height: 4), expectedResult: 52),
