@@ -25,7 +25,7 @@
 
 import Foundation
 
-func floorNumberGivenFloor(floor: Int, direction ch: Character) -> Int {
+func nextFloor(floor: Int, direction ch: Character) -> Int {
     switch ch {
     case "(":
         return floor + 1
@@ -36,15 +36,15 @@ func floorNumberGivenFloor(floor: Int, direction ch: Character) -> Int {
     }
 }
 
-public func floorFromInstructions(instructions: String) -> Int {
-    return instructions.characters.reduce(0, combine: floorNumberGivenFloor)
+public func finalFloor(instructions: String) -> Int {
+    return instructions.characters.reduce(0, combine: nextFloor)
 }
 
-public func basementPositionFromInstructions(instructions: String) -> Int? {
+public func positionWhenFirstEnteringBasement(instructions: String) -> Int? {
     typealias MapState = (floor: Int, position: Int, foundPosition: Int?)
     let initialState: MapState = (0, 1, nil)
     return instructions.characters.reduce(initialState) { (state, direction) in
-        let newFloor = floorNumberGivenFloor(state.floor, direction: direction)
+        let newFloor = nextFloor(state.floor, direction: direction)
         let foundPosition: Int? = (state.foundPosition == nil && newFloor < 0) ? state.position : state.foundPosition
         return (newFloor, state.position + 1, foundPosition)
         }.foundPosition

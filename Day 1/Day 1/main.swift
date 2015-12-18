@@ -26,8 +26,8 @@
 import Foundation
 
 if let instructions = try? String(contentsOfFile: "instructions.txt", encoding: NSUTF8StringEncoding) {
-    print("Santa should go to floor \(floorFromInstructions(instructions))")
-    if let basementPosition = basementPositionFromInstructions(instructions) {
+    print("Santa should go to floor \(finalFloor(instructions))")
+    if let basementPosition = positionWhenFirstEnteringBasement(instructions) {
         print("Santa entered the basement at position \(basementPosition)")
     } else {
         print("Santa did not enter the basement")
