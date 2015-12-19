@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		8E200E2A1C2597990097FB8B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E200E291C2597990097FB8B /* main.swift */; };
 		8E200E371C2597B10097FB8B /* Day_4_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E200E361C2597B10097FB8B /* Day_4_Tests.swift */; };
+		8E200E451C259BB80097FB8B /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E200E441C259BB80097FB8B /* md5.swift */; };
+		8E200E461C259BB80097FB8B /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E200E441C259BB80097FB8B /* md5.swift */; };
+		8E200E4D1C25A4840097FB8B /* md5.swift.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E200E4C1C25A4840097FB8B /* md5.swift.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +34,8 @@
 		8E200E381C2597B10097FB8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E200E3C1C259A940097FB8B /* Day 4-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Day 4-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E200E431C259AF70097FB8B /* Day 4 Tests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Day 4 Tests-Bridging-Header.h"; sourceTree = "<group>"; };
+		8E200E441C259BB80097FB8B /* md5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = md5.swift; sourceTree = "<group>"; };
+		8E200E4C1C25A4840097FB8B /* md5.swift.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = md5.swift.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				8E200E291C2597990097FB8B /* main.swift */,
+				8E200E441C259BB80097FB8B /* md5.swift */,
 				8E200E3C1C259A940097FB8B /* Day 4-Bridging-Header.h */,
 			);
 			path = "Day 4";
@@ -83,6 +89,7 @@
 			children = (
 				8E200E361C2597B10097FB8B /* Day_4_Tests.swift */,
 				8E200E431C259AF70097FB8B /* Day 4 Tests-Bridging-Header.h */,
+				8E200E4C1C25A4840097FB8B /* md5.swift.txt */,
 				8E200E381C2597B10097FB8B /* Info.plist */,
 			);
 			path = "Day 4 Tests";
@@ -166,6 +173,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E200E4D1C25A4840097FB8B /* md5.swift.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E200E451C259BB80097FB8B /* md5.swift in Sources */,
 				8E200E2A1C2597990097FB8B /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,6 +193,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E200E461C259BB80097FB8B /* md5.swift in Sources */,
 				8E200E371C2597B10097FB8B /* Day_4_Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,7 +311,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "kenada.Day-4-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Day 4/Day 4 Tests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Day 4 Tests/Day 4 Tests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -315,7 +325,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "kenada.Day-4-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Day 4/Day 4 Tests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Day 4 Tests/Day 4 Tests-Bridging-Header.h";
 			};
 			name = Release;
 		};
