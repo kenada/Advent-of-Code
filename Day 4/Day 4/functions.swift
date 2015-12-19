@@ -1,6 +1,6 @@
 //
-//  Day_4_Tests.swift
-//  Day 4 Tests
+//  functions.swift
+//  Day 4
 //
 // Copyright (c) 2015 Randy Eckenrode
 //
@@ -23,35 +23,14 @@
 // THE SOFTWARE.
 //
 
-import Foundation
-import XCTest
-
-class Day_4_Tests: XCTestCase {
-    
-    func testMD5() {
-        XCTAssertEqual(md5("hashtest"),
-            [0x49, 0x38, 0x52, 0x78, 0x62, 0x70, 0xB6, 0x8E, 0x18, 0x2d, 0x6e, 0xb9, 0x39, 0xb1, 0xF8, 0x02])
-        
-        let testBundle = NSBundle(forClass: Day_4_Tests.self)
-        let path = testBundle.pathForResource("md5.swift", ofType: "txt")
-        XCTAssertNotNil(path)
-        
-        let contents = try? String(contentsOfFile: path!)
-        XCTAssertNotNil(contents)
-        
-        XCTAssertEqual(md5(contents!),
-            [0xF5, 0xB1, 0xF2, 0x10, 0xAA, 0xE5, 0x65, 0x1E, 0x53, 0x93, 0x33, 0x82, 0xC1, 0xB4, 0x4C, 0x13])
-    }
-    
-    func testPart1() {
-        let cases = [
-            (secret: "abcdef", expectedResult: 609043),
-            (secret: "pqrstuv", expectedResult: 1048970)
-        ]
-        
-        for `case` in cases {
-            XCTAssertEqual(findHash(`case`.secret), `case`.expectedResult, "finding hash for: \(`case`.secret)")
+func findHash(secret: String) -> Int {
+    var x = 0
+    repeat {
+        let key = "\(secret)\(x)"
+        let hash = md5(key)
+        if hash[0] == 0 && hash[1] == 0 && (hash[2] & 0xF0) == 0 {
+            return x
         }
-    }
-    
+        x += 1
+    } while true
 }

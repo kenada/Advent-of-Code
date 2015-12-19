@@ -12,6 +12,8 @@
 		8E200E451C259BB80097FB8B /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E200E441C259BB80097FB8B /* md5.swift */; };
 		8E200E461C259BB80097FB8B /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E200E441C259BB80097FB8B /* md5.swift */; };
 		8E200E4D1C25A4840097FB8B /* md5.swift.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E200E4C1C25A4840097FB8B /* md5.swift.txt */; };
+		8E200E4F1C25A6E20097FB8B /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E200E4E1C25A6E20097FB8B /* functions.swift */; };
+		8E200E501C25A8360097FB8B /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E200E4E1C25A6E20097FB8B /* functions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +38,7 @@
 		8E200E431C259AF70097FB8B /* Day 4 Tests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Day 4 Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E200E441C259BB80097FB8B /* md5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = md5.swift; sourceTree = "<group>"; };
 		8E200E4C1C25A4840097FB8B /* md5.swift.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = md5.swift.txt; sourceTree = "<group>"; };
+		8E200E4E1C25A6E20097FB8B /* functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				8E200E291C2597990097FB8B /* main.swift */,
+				8E200E4E1C25A6E20097FB8B /* functions.swift */,
 				8E200E441C259BB80097FB8B /* md5.swift */,
 				8E200E3C1C259A940097FB8B /* Day 4-Bridging-Header.h */,
 			);
@@ -186,6 +190,7 @@
 			files = (
 				8E200E451C259BB80097FB8B /* md5.swift in Sources */,
 				8E200E2A1C2597990097FB8B /* main.swift in Sources */,
+				8E200E4F1C25A6E20097FB8B /* functions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +200,7 @@
 			files = (
 				8E200E461C259BB80097FB8B /* md5.swift in Sources */,
 				8E200E371C2597B10097FB8B /* Day_4_Tests.swift in Sources */,
+				8E200E501C25A8360097FB8B /* functions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
