@@ -33,12 +33,27 @@ private func hashToString(hash: [UInt8]) -> String {
     return result
 }
 
-func findHash(secret: String) -> (hash: String, value: Int) {
+private func countLeadingZeroes(hash: [UInt8]) -> Int {
+    var result = 0
+    for octet in hash {
+        if octet == 0 {
+            result += 2
+        } else if (octet & 0xF0) == 0 {
+            result += 1
+            break
+        } else {
+            break
+        }
+    }
+    return result
+}
+
+func findHash(secret: String, leadingZeroes: Int = 5) -> (hash: String, value: Int) {
     var x = 0
     repeat {
         let key = "\(secret)\(x)"
         let hash = md5(key)
-        if hash[0] == 0 && hash[1] == 0 && (hash[2] & 0xF0) == 0 {
+        if countLeadingZeroes(hash) >= leadingZeroes {
             return (hash: hashToString(hash), value: x)
         }
         x += 1
