@@ -24,5 +24,12 @@
 //
 
 let secret = "iwrupvqb"
-let hash = findHash(secret)
-print("Santa finds hash “\(hash.hash)” with value “\(hash.value)”")
+
+do {
+    let hash = findHash(secret)
+    print("Santa finds hash “\(hash.hash)” with five leading zeroes and value “\(hash.value)”")
+}
+do {
+    let hash = findHash(secret, leadingZeroes: 6)
+    print("Santa finds hash “\(hash.hash)” with six leading zeroes and value “\(hash.value)”")
+}
