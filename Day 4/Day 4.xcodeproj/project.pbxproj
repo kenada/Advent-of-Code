@@ -29,6 +29,8 @@
 		8E200E341C2597B10097FB8B /* Day 4 Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Day 4 Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E200E361C2597B10097FB8B /* Day_4_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day_4_Tests.swift; sourceTree = "<group>"; };
 		8E200E381C2597B10097FB8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E200E3C1C259A940097FB8B /* Day 4-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Day 4-Bridging-Header.h"; sourceTree = "<group>"; };
+		8E200E431C259AF70097FB8B /* Day 4 Tests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Day 4 Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				8E200E291C2597990097FB8B /* main.swift */,
+				8E200E3C1C259A940097FB8B /* Day 4-Bridging-Header.h */,
 			);
 			path = "Day 4";
 			sourceTree = "<group>";
@@ -79,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				8E200E361C2597B10097FB8B /* Day_4_Tests.swift */,
+				8E200E431C259AF70097FB8B /* Day 4 Tests-Bridging-Header.h */,
 				8E200E381C2597B10097FB8B /* Info.plist */,
 			);
 			path = "Day 4 Tests";
@@ -270,36 +274,48 @@
 		8E200E2E1C2597990097FB8B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Day 4/Day 4-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		8E200E2F1C2597990097FB8B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Day 4/Day 4-Bridging-Header.h";
 			};
 			name = Release;
 		};
 		8E200E3A1C2597B10097FB8B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Day 4 Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "kenada.Day-4-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Day 4/Day 4 Tests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		8E200E3B1C2597B10097FB8B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Day 4 Tests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "kenada.Day-4-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Day 4/Day 4 Tests-Bridging-Header.h";
 			};
 			name = Release;
 		};
