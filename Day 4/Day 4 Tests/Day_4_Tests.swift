@@ -50,7 +50,7 @@ class Day_4_Tests: XCTestCase {
         ]
         
         for `case` in cases {
-            XCTAssertEqual(findHash(`case`.secret), `case`.expectedResult, "finding hash for: \(`case`.secret)")
+            XCTAssertEqual(findHash(`case`.secret).value, `case`.expectedResult, "finding hash for: \(`case`.secret)")
         }
     }
     

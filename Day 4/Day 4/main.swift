@@ -23,3 +23,6 @@
 // THE SOFTWARE.
 //
 
+let secret = "iwrupvqb"
+let hash = findHash(secret)
+print("Santa finds hash “\(hash.hash)” with value “\(hash.value)”")

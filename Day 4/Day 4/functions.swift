@@ -23,13 +23,23 @@
 // THE SOFTWARE.
 //
 
-func findHash(secret: String) -> Int {
+import Foundation
+
+private func hashToString(hash: [UInt8]) -> String {
+    var result = ""
+    for octet in hash {
+        result.appendContentsOf(String(format: "%02x", octet))
+    }
+    return result
+}
+
+func findHash(secret: String) -> (hash: String, value: Int) {
     var x = 0
     repeat {
         let key = "\(secret)\(x)"
         let hash = md5(key)
         if hash[0] == 0 && hash[1] == 0 && (hash[2] & 0xF0) == 0 {
-            return x
+            return (hash: hashToString(hash), value: x)
         }
         x += 1
     } while true
