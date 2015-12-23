@@ -66,7 +66,7 @@ class Day_6_Parser_Tests: XCTestCase {
         ]
         for `case` in cases {
             let command = LightGridCommand(command: `case`.string)
-            XCTAssert(command == `case`.expectedResult, "parsing input: \(`case`.string)")
+            XCTAssertEqual(command, `case`.expectedResult, "parsing input: \(`case`.string)")
         }
     }
     
