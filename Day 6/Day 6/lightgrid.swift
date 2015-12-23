@@ -56,19 +56,17 @@ public func ==(lhs: Size, rhs: Size) -> Bool {
     return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
-public class LightGrid {
+public class LightGrid<T, Ops: ToggleOps where Ops.Element == T> {
     
-    var grid: [[Bool]]
+    var grid: [[T]]
+    let ops: Ops
     
-    init(size: Size) {
-        grid = Array(count: size.width, repeatedValue: Array(count: size.height, repeatedValue: false))
+    private init(size: Size, ops: Ops) {
+        grid = Array(count: size.width, repeatedValue: Array(count: size.height, repeatedValue: ops.defaultMake()))
+        self.ops = ops
     }
     
-    convenience init(width: Int, height: Int) {
-        self.init(size: Size(width: width, height: height))
-    }
-    
-    subscript(x x: Int, y y: Int) -> Bool {
+    subscript(x x: Int, y y: Int) -> T {
         get {
             return grid[x][y]
         }
@@ -77,7 +75,7 @@ public class LightGrid {
         }
     }
     
-    subscript(row row: Int, column column: Int) -> Bool {
+    subscript(row row: Int, column column: Int) -> T {
         get {
             return self[x: column, y: row]
         }
@@ -89,7 +87,8 @@ public class LightGrid {
     func turnOn(rect: Rect) {
         for x in 0 ..< rect.size.width {
             for y in 0 ..< rect.size.height {
-                self[x: x + rect.origin.x, y: y + rect.origin.y] = true
+                self[x: x + rect.origin.x, y: y + rect.origin.y] =
+                    ops.on(self[x: x + rect.origin.x, y: y + rect.origin.y])
             }
         }
     }
@@ -97,7 +96,8 @@ public class LightGrid {
     func turnOff(rect: Rect) {
         for x in 0 ..< rect.size.width {
             for y in 0 ..< rect.size.height {
-                self[x: x + rect.origin.x, y: y + rect.origin.y] = false
+                self[x: x + rect.origin.x, y: y + rect.origin.y] =
+                    ops.off(self[x: x + rect.origin.x, y: y + rect.origin.y])
             }
         }
     }
@@ -105,12 +105,77 @@ public class LightGrid {
     func toggle(rect: Rect) {
         for x in 0 ..< rect.size.width {
             for y in 0 ..< rect.size.height {
-                self[x: x + rect.origin.x, y: y + rect.origin.y] = !self[x: x + rect.origin.x, y: y + rect.origin.y]
+                self[x: x + rect.origin.x, y: y + rect.origin.y] =
+                    ops.toggle(self[x: x + rect.origin.x, y: y + rect.origin.y])
             }
         }
     }
     
-    var lightCount: Int {
-        return grid.lazy.flatMap { $0 }.filter { $0 }.count
+    var aggregate: Int {
+        let lazyFmap = grid.lazy.flatMap { $0 }
+        return lazyFmap.reduce(0, combine: ops.aggregate)
+    }
+}
+
+public protocol ToggleOps {
+    typealias Element
+    func on(input: Element) -> Element
+    func off(input: Element) -> Element
+    func toggle(input: Element) -> Element
+    func defaultMake() -> Element
+    func aggregate(acc: Int, input: Element) -> Int
+}
+
+public struct BoolToggleOps: ToggleOps {
+    public func on(_: Bool) -> Bool {
+        return true
+    }
+    public func off(_: Bool) -> Bool {
+        return false
+    }
+    public func toggle(input: Bool) -> Bool {
+        return !input
+    }
+    public func defaultMake() -> Bool {
+        return false
+    }
+    public func aggregate(acc: Int, input: Bool) -> Int {
+        return acc + (input ? 1 : 0)
+    }
+}
+
+public struct IntToggleOps: ToggleOps {
+    public func on(input: Int) -> Int {
+        return input + 1
+    }
+    public func off(input: Int) -> Int {
+        return max(0, input - 1)
+    }
+    public func toggle(input: Int) -> Int {
+        return input + 2
+    }
+    public func defaultMake() -> Int {
+        return 0
+    }
+    public func aggregate(acc: Int, input: Int) -> Int {
+        return acc + input
+    }
+}
+
+public class BoolLightGrid: LightGrid<Bool, BoolToggleOps> {
+    public init(size: Size) {
+        super.init(size: size, ops: BoolToggleOps())
+    }
+    public convenience init(width: Int, height: Int) {
+        self.init(size: Size(width: width, height: height))
+    }
+}
+
+public class IntLightGrid: LightGrid<Int, IntToggleOps> {
+    public init(size: Size) {
+        super.init(size: size, ops: IntToggleOps())
+    }
+    public convenience init(width: Int, height: Int) {
+        self.init(size: Size(width: width, height: height))
     }
 }

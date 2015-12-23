@@ -27,30 +27,54 @@ import XCTest
 
 class Day_6_LightGrid_Tests: XCTestCase {
     
-    var grid: LightGrid!
+    var grid: BoolLightGrid!
     
     override func setUp() {
-        grid = LightGrid(width: 1000, height: 1000)
+        grid = BoolLightGrid(width: 1000, height: 1000)
     }
     
     func testTurnOn() {
         let area = Rect(x: 0, y: 0, width: 1000, height: 1000)
         grid.turnOn(area)
-        XCTAssertEqual(grid.lightCount, 1000000)
+        XCTAssertEqual(grid.aggregate, 1000000)
     }
     
     func testToggle() {
         let area = Rect(x: 0, y: 0, width: 1000, height: 1)
         grid.toggle(area)
-        XCTAssertEqual(grid.lightCount, 1000, "turning the lights on")
+        XCTAssertEqual(grid.aggregate, 1000, "turning the lights on")
         grid.toggle(area)
-        XCTAssertEqual(grid.lightCount, 0, "then turning them back off")
+        XCTAssertEqual(grid.aggregate, 0, "then turning them back off")
     }
     
     func testTurnOff() {
         let area = Rect(x: 499, y: 499, width: 1, height: 1)
         grid.turnOff(area)
-        XCTAssertEqual(grid.lightCount, 0)
+        XCTAssertEqual(grid.aggregate, 0)
+    }
+    
+}
+
+class Day_6_IntGrid_Tests: XCTestCase {
+    
+    var grid: IntLightGrid!
+    
+    override func setUp() {
+        grid = IntLightGrid(width: 1000, height: 1000)
+    }
+    
+    func testTurnOn() {
+        let area = Rect(x: 0, y: 0, width: 1, height: 1)
+        grid.turnOn(area)
+        XCTAssertEqual(grid.aggregate, 1)
+        
+    }
+    
+    func testToggle() {
+        let area = Rect(x: 0, y: 0, width: 1000, height: 1000)
+        grid.toggle(area)
+        XCTAssertEqual(grid.aggregate, 2000000)
+        
     }
     
 }
