@@ -25,7 +25,7 @@
 
 import Foundation
 
-func makeRegexCheck(pattern: String) -> String -> Bool {
+private func makeRegexCheck(pattern: String) -> String -> Bool {
     let regex = try! NSRegularExpression(pattern: pattern, options: [])
     return { (string: String) -> Bool in
         let range = NSMakeRange(0, (string as NSString).length)
@@ -33,34 +33,42 @@ func makeRegexCheck(pattern: String) -> String -> Bool {
     }
 }
 
-private let nicenessChecksV1 = [
-    makeRegexCheck("[aeiou]+[^aeiou]*[aeiou]+[^aeiou]*[aeiou]+"),
-    makeRegexCheck("(\\w)\\1"),
-    { (string: String) -> Bool in return (string as NSString).containsString("ab") },
-    { (string: String) -> Bool in return (string as NSString).containsString("cd") },
-    { (string: String) -> Bool in return (string as NSString).containsString("pq") },
-    { (string: String) -> Bool in return (string as NSString).containsString("xy") },
-]
-
-private let nicenessChecksV2 = [
-    makeRegexCheck("(\\w\\w).*\\1"),
-    makeRegexCheck("(\\w)\\w\\1")
-    
-]
-
 enum NaughtyOrNice {
+    static let nicenessChecks = [
+        makeRegexCheck("[aeiou]+[^aeiou]*[aeiou]+[^aeiou]*[aeiou]+"),
+        makeRegexCheck("(\\w)\\1"),
+        { (string: String) -> Bool in return (string as NSString).containsString("ab") },
+        { (string: String) -> Bool in return (string as NSString).containsString("cd") },
+        { (string: String) -> Bool in return (string as NSString).containsString("pq") },
+        { (string: String) -> Bool in return (string as NSString).containsString("xy") },
+    ]
+    
     case Naughty
     case Nice
     
     init(string: String, improvedChecks: Bool = false) {
-        let nicenessChecks: [(String -> Bool)]
-        if improvedChecks {
-            nicenessChecks = nicenessChecksV2
-        } else {
-            nicenessChecks = nicenessChecksV1
-        }
         self = Nice
-        for p in nicenessChecks {
+        for p in NaughtyOrNice.nicenessChecks {
+            if p(string) {
+                self = Naughty
+                break
+            }
+        }
+    }
+}
+
+enum ImprovedNaughtyOrNice {
+    static let nicenessChecks = [
+        makeRegexCheck("(\\w\\w).*\\1"),
+        makeRegexCheck("(\\w)\\w\\1")
+    ]
+    
+    case Naughty
+    case Nice
+    
+    init(string: String, improvedChecks: Bool = false) {
+        self = Nice
+        for p in ImprovedNaughtyOrNice.nicenessChecks {
             if p(string) {
                 self = Naughty
                 break

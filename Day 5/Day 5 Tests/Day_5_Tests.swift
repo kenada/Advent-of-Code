@@ -42,7 +42,7 @@ class Day_5_Tests: XCTestCase {
     }
     
     func testImprovedClassification() {
-        let cases: [(input: String, expectedResult: NaughtyOrNice)] = [
+        let cases: [(input: String, expectedResult: ImprovedNaughtyOrNice)] = [
             (input: "aabcdefegaa", expectedResult: .Nice),
             (input: "qjhvhtzxzqqjkmpb", expectedResult: .Nice),
             (input: "xxyxx", expectedResult: .Nice),
@@ -50,7 +50,7 @@ class Day_5_Tests: XCTestCase {
             (input: "ieodomkazucvgmuy", expectedResult: .Naughty)
         ]
         for `case` in cases {
-            XCTAssertEqual(NaughtyOrNice(string: `case`.input, improvedChecks: true), `case`.expectedResult,
+            XCTAssertEqual(ImprovedNaughtyOrNice(string: `case`.input), `case`.expectedResult,
                 "Checking whether \(`case`.input) is naughty or nice")
         }
     }
