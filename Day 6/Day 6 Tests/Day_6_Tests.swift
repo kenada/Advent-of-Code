@@ -35,20 +35,22 @@ class Day_6_LightGrid_Tests: XCTestCase {
     
     func testTurnOn() {
         let area = Rect(x: 0, y: 0, width: 1000, height: 1000)
-        grid.draw(area, op: .SourceOver)
+        grid.turnOn(area)
         XCTAssertEqual(grid.lightCount, 1000000)
     }
     
     func testToggle() {
         let area = Rect(x: 0, y: 0, width: 1000, height: 1)
-        grid.draw(area, op: .Xor)
-        XCTAssertEqual(grid.lightCount, 1000)
+        grid.toggle(area)
+        XCTAssertEqual(grid.lightCount, 1000, "turning the lights on")
+        grid.toggle(area)
+        XCTAssertEqual(grid.lightCount, 0, "then turning them back off")
     }
     
     func testTurnOff() {
         let area = Rect(x: 499, y: 499, width: 1, height: 1)
-        grid.draw(area, op: .Clear)
-        XCTAssertEqual(grid.lightCount, 1)
+        grid.turnOff(area)
+        XCTAssertEqual(grid.lightCount, 0)
     }
     
 }

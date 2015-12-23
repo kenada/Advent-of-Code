@@ -56,15 +56,9 @@ public func ==(lhs: Size, rhs: Size) -> Bool {
     return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
-public enum DrawingOperator {
-    case Source, SourceAtop, SourceOver, SourceIn, SourceOut
-    case Destination, DestinationAtop, DestinationOver, DestinationIn, DestinationOut
-    case Clear, Xor
-}
-
 public class LightGrid {
     
-    let grid: [[Bool]]
+    var grid: [[Bool]]
     
     init(size: Size) {
         grid = Array(count: size.width, repeatedValue: Array(count: size.height, repeatedValue: false))
@@ -75,15 +69,48 @@ public class LightGrid {
     }
     
     subscript(x x: Int, y y: Int) -> Bool {
-        return grid[x][y]
+        get {
+            return grid[x][y]
+        }
+        set(newValue) {
+            grid[x][y] = newValue
+        }
     }
     
     subscript(row row: Int, column column: Int) -> Bool {
-        return self[x: column, y: row]
+        get {
+            return self[x: column, y: row]
+        }
+        set(newValue) {
+            self[x: column, y: row] = newValue
+        }
     }
     
-    func draw(rect: Rect, op: DrawingOperator) {
+    func turnOn(rect: Rect) {
+        for x in 0 ..< rect.size.width {
+            for y in 0 ..< rect.size.height {
+                self[x: x + rect.origin.x, y: y + rect.origin.y] = true
+            }
+        }
     }
     
-    var lightCount = -1
+    func turnOff(rect: Rect) {
+        for x in 0 ..< rect.size.width {
+            for y in 0 ..< rect.size.height {
+                self[x: x + rect.origin.x, y: y + rect.origin.y] = false
+            }
+        }
+    }
+    
+    func toggle(rect: Rect) {
+        for x in 0 ..< rect.size.width {
+            for y in 0 ..< rect.size.height {
+                self[x: x + rect.origin.x, y: y + rect.origin.y] = !self[x: x + rect.origin.x, y: y + rect.origin.y]
+            }
+        }
+    }
+    
+    var lightCount: Int {
+        return grid.lazy.flatMap { $0 }.filter { $0 }.count
+    }
 }
