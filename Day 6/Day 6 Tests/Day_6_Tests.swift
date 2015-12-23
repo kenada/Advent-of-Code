@@ -64,7 +64,7 @@ class Day_6_Parser_Tests: XCTestCase {
             (string: "toggle 0,0 through 999,0",
                 expectedResult: .Toggle(area: Rect(x: 0, y: 0, width: 1000, height: 1))),
             (string: "turn off 499,499 through 500,500",
-                expectedResult: .TurnOff(area: Rect(x: 499, y: 499, width: 1, height: 1)))
+                expectedResult: .TurnOff(area: Rect(x: 499, y: 499, width: 2, height: 2)))
         ]
         for `case` in cases {
             let command = LightGridCommand(command: `case`.string)

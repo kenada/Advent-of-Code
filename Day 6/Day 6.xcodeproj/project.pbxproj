@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E272F271C2A62E60010A43E /* day6 input.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E272F261C2A62E60010A43E /* day6 input.txt */; };
+		8E272F281C2A64ED0010A43E /* day6 input.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8E272F261C2A62E60010A43E /* day6 input.txt */; };
 		8E7C573E1C2A466700596568 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7C573D1C2A466700596568 /* main.swift */; };
 		8E7C574B1C2A468100596568 /* Day_6_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7C574A1C2A468100596568 /* Day_6_Tests.swift */; };
 		8E7C57511C2A4A0600596568 /* parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7C57501C2A4A0600596568 /* parser.swift */; };
@@ -18,16 +20,18 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		8E7C57381C2A466700596568 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				8E272F281C2A64ED0010A43E /* day6 input.txt in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8E272F261C2A62E60010A43E /* day6 input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "day6 input.txt"; sourceTree = "<group>"; };
 		8E7C573A1C2A466700596568 /* Day 6 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Day 6"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E7C573D1C2A466700596568 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8E7C57481C2A468100596568 /* Day 6 Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Day 6 Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,6 +80,7 @@
 		8E7C573C1C2A466700596568 /* Day 6 */ = {
 			isa = PBXGroup;
 			children = (
+				8E272F261C2A62E60010A43E /* day6 input.txt */,
 				8E7C573D1C2A466700596568 /* main.swift */,
 				8E7C57501C2A4A0600596568 /* parser.swift */,
 				8E7C57531C2A4A1400596568 /* lightgrid.swift */,
@@ -170,6 +175,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E272F271C2A62E60010A43E /* day6 input.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +340,7 @@
 				8E7C57431C2A466700596568 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8E7C574D1C2A468100596568 /* Build configuration list for PBXNativeTarget "Day 6 Tests" */ = {
 			isa = XCConfigurationList;
@@ -342,6 +349,7 @@
 				8E7C574F1C2A468100596568 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

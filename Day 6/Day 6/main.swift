@@ -23,7 +23,19 @@
 // THE SOFTWARE.
 //
 
-import Foundation
+let commands = try! String(contentsOfFile: "day6 input.txt")
 
-print("Hello, World!")
+let grid = LightGrid(width: 1000, height: 1000)
 
+for case let command? in commands.characters.split("\n").lazy.map(String.init).map(LightGridCommand.init) {
+    switch command {
+    case let .TurnOn(area):
+        grid.turnOn(area)
+    case let .TurnOff(area):
+        grid.turnOff(area)
+    case let .Toggle(area):
+        grid.toggle(area)
+    }
+}
+
+print("\(grid.lightCount) lights are lit")
