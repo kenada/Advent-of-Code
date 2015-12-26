@@ -23,5 +23,33 @@
 // THE SOFTWARE.
 //
 
-print("Hello, World!")
+let input = try! String(contentsOfFile: "day 7 input.txt")
 
+let program = input.characters.split("\n").map { line -> Statement in
+    let line = String(line)
+    do {
+        let statement = try parse(lex(line))
+        return statement
+    } catch ParseError.ExpectedAssignment {
+        fatalError("\(line)\n\n\tExpected assignment statement but something else (or nothing) found.")
+    } catch ParseError.ExpectedLiteralOrWire {
+        fatalError("\(line)\n\n\tExpected literal or wire but something else (or nothing) found.")
+    } catch ParseError.ExpectedOperator {
+        fatalError("\(line)\n\n\tExpected operator but something else (or nothing) found.")
+    } catch ParseError.InvalidAssignment {
+        fatalError("\(line)\n\n\tTarget of assignment is not a wire")
+    } catch ParseError.UnexpectedSymbol {
+        fatalError("\(line)\n\n\tUnexpected symbol found at the end of the line. Please remove.")
+    } catch ParseError.MissingValue {
+        fatalError("\(line)\n\n\tValue or wire expected but not found.")
+    } catch {
+        fatalError()
+    }
+}
+
+let vm = VirtualMachine()
+vm.execute(program)
+
+for (wire, value) in vm.core {
+    print("\(wire): \(value)")
+}

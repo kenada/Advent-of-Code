@@ -44,7 +44,8 @@ class Day_7_Lexer_Tests: XCTestCase {
     }
     
     func testOr() {
-        Day_7_Lexer_Tests.testParse("a OR 2 -> b", expectedResults: .Wire("a"), .Or, .Number(2), .Assignment, .Wire("b"))
+        Day_7_Lexer_Tests.testParse("a OR 2 -> b",
+            expectedResults: .Wire("a"), .Or, .Number(2), .Assignment, .Wire("b"))
     }
     
     func testLeftShift() {
@@ -65,6 +66,91 @@ class Day_7_Lexer_Tests: XCTestCase {
         XCTAssertEqual(result.count, expectedResults.count, "lengths match")
         for (symbol, expectedSymbol) in zip(result, expectedResults) {
             XCTAssertEqual(symbol, expectedSymbol, "symbol sequences match")
+        }
+    }
+    
+}
+
+class Day_7_Parser_Tests: XCTestCase {
+    
+    func testLiteral() {
+        Day_7_Parser_Tests.test([.Number(1), .Assignment, .Wire("b")],
+            expectedResults: .Store(wire: "b", expression: .Literal(1)))
+    }
+    
+    func testWire() {
+        Day_7_Parser_Tests.test([.Wire("a"), .Assignment, .Wire("b")],
+            expectedResults: .Store(wire: "b", expression: .Reference("a")))
+    }
+
+    func testAnd() {
+        Day_7_Parser_Tests.test([.Number(1), .And, .Wire("b"), .Assignment, .Wire("b")],
+            expectedResults: .Store(wire: "b", expression: .And(.Literal(1), .Reference("b"))))
+    }
+    
+    func testOr() {
+        Day_7_Parser_Tests.test([.Wire("a"), .Or, .Number(2), .Assignment, .Wire("b")],
+            expectedResults: .Store(wire: "b", expression: .Or(.Reference("a"), .Literal(2))))
+    }
+    
+    func testNot() {
+        Day_7_Parser_Tests.test([.Not, .Wire("a"), .Assignment, .Wire("b")],
+            expectedResults: .Store(wire: "b", expression: .Not(.Reference("a"))))
+    }
+    
+    func testLeftShift() {
+        Day_7_Parser_Tests.test([.Wire("c"), .LeftShift, .Wire("d"), .Assignment, .Wire("b")],
+            expectedResults: .Store(wire: "b", expression: .LeftShift(.Reference("c"), .Reference("d"))))
+    }
+    
+    func testRightShift() {
+        Day_7_Parser_Tests.test([.Number(1), .RightShift, .Number(2), .Assignment, .Wire("q")],
+            expectedResults: .Store(wire: "q", expression: .RightShift(.Literal(1), .Literal(2))))
+    }
+    
+    func testInvalidAssignment() {
+        Day_7_Parser_Tests.testParseError(input: .Number(1), .Assignment, .Number(1),
+            expectedException: .InvalidAssignment)
+    }
+    
+    func testExpectedAssignment() {
+        Day_7_Parser_Tests.testParseError(input: .Number(1), .And, .Number(2), expectedException: .ExpectedAssignment)
+    }
+    
+    func testExpectedOperator() {
+        Day_7_Parser_Tests.testParseError(input: .Number(1), expectedException: .ExpectedOperator)
+    }
+    
+    func testUnexpectedSymbol() {
+        Day_7_Parser_Tests.testParseError(input: .Number(1), .And, .Number(1), .Assignment, .Wire("a"), .Number(5),
+            expectedException: .UnexpectedSymbol)
+    }
+    
+    func testMissingValue() {
+        Day_7_Parser_Tests.testParseError(input: .Number(5), .Assignment, expectedException: .MissingValue)
+    }
+    
+    func testExpectedLiteralOrWire() {
+        Day_7_Parser_Tests.testParseError(input: .Assignment, expectedException: .ExpectedLiteralOrWire)
+    }
+    
+    static func test(input: [Symbol], expectedResults: Statement) {
+        let result = try! parse(input)
+        switch (result, expectedResults) {
+        case let (.Store(wire, expression), .Store(expectedWire, expectedExpression)):
+            XCTAssertEqual(wire, expectedWire, "wires match")
+            XCTAssertEqual(expression, expectedExpression, "expressions match")
+        }
+    }
+    
+    static func testParseError(input input: Symbol..., expectedException: ParseError) {
+        do {
+            try parse(input)
+            XCTAssert(false, "expecting exception")
+        } catch let exp as ParseError {
+            XCTAssertEqual(exp, expectedException, "expected exception thrown")
+        } catch {
+            XCTAssert(false, "unexception exception not thrown")
         }
     }
     

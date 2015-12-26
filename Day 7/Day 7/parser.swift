@@ -57,8 +57,8 @@ public func ==(lhs: Symbol, rhs: Symbol) -> Bool {
     }
 }
 
-let whitespace = try! NSRegularExpression(pattern: "\\s", options: [])
-func lex(input: String) -> [Symbol] {
+private let whitespace = try! NSRegularExpression(pattern: "\\s", options: [])
+public func lex(input: String) -> [Symbol] {
     let tokens = input.characters.split {
         whitespace.firstMatchInString(String($0), options: [], range: NSMakeRange(0, 1)) != nil
     }
@@ -86,4 +86,103 @@ func lex(input: String) -> [Symbol] {
         }
     }
     return result
+}
+
+enum ParseError: ErrorType {
+    case ExpectedAssignment
+    case ExpectedLiteralOrWire
+    case ExpectedOperator
+    case InvalidAssignment
+    case UnexpectedSymbol
+    case MissingValue
+}
+
+public func parse(symbols: [Symbol]) throws -> Statement {
+    var seq = symbols.generate()
+    
+    let expression = try parseExpression(&seq)
+    try parseAssignment(&seq)
+    let wire = try parseWire(&seq)
+    
+    if seq.next() != nil {
+        throw ParseError.UnexpectedSymbol
+    }
+    
+    return .Store(wire: wire, expression: expression)
+}
+
+// statement ::= expression -> wire
+// expression ::=  NOT value | value OP value | value
+// value ::= number | wire
+
+private func parseExpression(inout seq: Array<Symbol>.Generator) throws -> Expression {
+    let originalSeq = seq
+    guard let symbol = seq.next() else {
+        throw ParseError.MissingValue
+    }
+    switch symbol {
+    case .Not:
+        return .Not(try parseValue(&seq))
+    default:
+        seq = originalSeq
+        let lhs = try parseValue(&seq)
+        var peekOperator = seq
+        if peekOperator.next() == .Assignment {
+            return lhs
+        } else {
+            let op = try parseOperator(&seq)
+            let rhs = try parseValue(&seq)
+            return op(lhs, rhs)
+        }
+    }
+}
+
+private func parseValue(inout seq: Array<Symbol>.Generator) throws -> Expression {
+    guard let symbol = seq.next() else {
+        throw ParseError.ExpectedLiteralOrWire
+    }
+    switch symbol {
+    case let .Number(num):
+        return .Literal(num)
+    case let .Wire(wire):
+        return .Reference(wire)
+    default:
+        throw ParseError.ExpectedLiteralOrWire
+    }
+}
+
+private func parseOperator(inout seq: Array<Symbol>.Generator) throws -> (Expression, Expression) -> Expression {
+    guard let symbol = seq.next() else {
+        throw ParseError.ExpectedOperator
+    }
+    switch symbol {
+    case .And:
+        return Expression.And
+    case .Or:
+        return Expression.Or
+    case .LeftShift:
+        return Expression.LeftShift
+    case .RightShift:
+        return Expression.RightShift
+    default:
+        throw ParseError.ExpectedOperator
+    }
+}
+
+private func parseAssignment(inout seq: Array<Symbol>.Generator) throws {
+    let symbol = seq.next()
+    if symbol == nil || symbol != .Assignment {
+        throw ParseError.ExpectedAssignment
+    }
+}
+
+private func parseWire(inout seq: Array<Symbol>.Generator) throws -> Wire {
+    guard let symbol = seq.next() else {
+        throw ParseError.MissingValue
+    }
+    if case let .Wire(name) = symbol {
+        return Wire(name)
+    } else {
+        throw ParseError.InvalidAssignment
+    }
 }

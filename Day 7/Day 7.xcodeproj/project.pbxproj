@@ -15,17 +15,19 @@
 		8E359CF21C2B945000B52EC4 /* statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E359CF01C2B945000B52EC4 /* statement.swift */; };
 		8E8A0CC31C2E19E100BFE344 /* parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8A0CC21C2E19E100BFE344 /* parser.swift */; };
 		8E8A0CC41C2E19E100BFE344 /* parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8A0CC21C2E19E100BFE344 /* parser.swift */; };
+		8ED4FD0C1C2E49B8006B7A0C /* day 7 input.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8ED4FD0A1C2E49A8006B7A0C /* day 7 input.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8E359CD51C2B8F5100B52EC4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				8ED4FD0C1C2E49B8006B7A0C /* day 7 input.txt in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -38,6 +40,7 @@
 		8E359CED1C2B904400B52EC4 /* vm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = vm.swift; sourceTree = "<group>"; };
 		8E359CF01C2B945000B52EC4 /* statement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = statement.swift; sourceTree = "<group>"; };
 		8E8A0CC21C2E19E100BFE344 /* parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = parser.swift; sourceTree = "<group>"; };
+		8ED4FD0A1C2E49A8006B7A0C /* day 7 input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "day 7 input.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,7 @@
 				8E8A0CC21C2E19E100BFE344 /* parser.swift */,
 				8E359CF01C2B945000B52EC4 /* statement.swift */,
 				8E359CED1C2B904400B52EC4 /* vm.swift */,
+				8ED4FD0A1C2E49A8006B7A0C /* day 7 input.txt */,
 			);
 			path = "Day 7";
 			sourceTree = "<group>";

@@ -23,7 +23,7 @@
 // THE SOFTWARE.
 //
 
-public enum Expression {
+public enum Expression: Equatable {
     indirect case
         And(Expression, Expression),
         Or(Expression, Expression),
@@ -31,6 +31,27 @@ public enum Expression {
         LeftShift(Expression, Expression),
         RightShift(Expression, Expression)
     case Literal(UInt16), Reference(Wire)
+}
+
+public func ==(lhs: Expression, rhs: Expression) -> Bool {
+    switch (lhs, rhs) {
+    case let (.And(lhs_lexp, lhs_rexp), .And(rhs_lexp, rhs_rexp)):
+        return lhs_lexp == rhs_lexp && lhs_rexp == rhs_rexp
+    case let (.Or(lhs_lexp, lhs_rexp), .Or(rhs_lexp, rhs_rexp)):
+        return lhs_lexp == rhs_lexp && lhs_rexp == rhs_rexp
+    case let (.Not(lhs_exp), .Not(rhs_exp)):
+        return lhs_exp == rhs_exp
+    case let (.LeftShift(lhs_lexp, lhs_rexp), .LeftShift(rhs_lexp, rhs_rexp)):
+        return lhs_lexp == rhs_lexp && lhs_rexp == rhs_rexp
+    case let (.RightShift(lhs_lexp, lhs_rexp), .RightShift(rhs_lexp, rhs_rexp)):
+        return lhs_lexp == rhs_lexp && lhs_rexp == rhs_rexp
+    case let (.Literal(lhs_num), .Literal(rhs_num)):
+        return lhs_num == rhs_num
+    case let (.Reference(lhs_sym), .Reference(rhs_sym)):
+        return lhs_sym == rhs_sym
+    default:
+        return false
+    }
 }
 
 public enum Statement {
