@@ -24,20 +24,17 @@
 //
 
 public enum Expression {
-    case And(Value, Value)
-    case Or(Value, Value)
-    case Not(Value)
-    case LeftShift(Value, Value)
-    case RightShift(Value, Value)
-    case ValueExpression(Value)
+    indirect case
+        And(Expression, Expression),
+        Or(Expression, Expression),
+        Not(Expression),
+        LeftShift(Expression, Expression),
+        RightShift(Expression, Expression)
+    case Literal(UInt16), Reference(Wire)
 }
 
 public enum Statement {
     case Store(wire: Wire, expression: Expression)
-}
-
-public enum Value {
-    case Number(UInt16), WireRef(Wire)
 }
 
 public typealias Wire = String

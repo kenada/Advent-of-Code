@@ -40,87 +40,103 @@ class Day_7_VM_Tests: XCTestCase {
     }
     
     func testStore() {
-        let expectedResults: [String: UInt16] = [
+        let expectedResults: [Wire: UInt16] = [
             "x": 123,
             "y": 456
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .ValueExpression(.Number(123))),
-            .Store(wire: "y", expression: .ValueExpression(.Number(456)))
+            .Store(wire: "x", expression: .Literal(123)),
+            .Store(wire: "y", expression: .Literal(456))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
     func testAnd() {
-        let expectedResults: [String: UInt16] = [
+        let expectedResults: [Wire: UInt16] = [
             "x": 1,
             "y": 3,
             "z": 1
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .ValueExpression(.Number(1))),
-            .Store(wire: "y", expression: .ValueExpression(.Number(3))),
-            .Store(wire: "z", expression: .And(.WireRef("x"), .WireRef("y")))
+            .Store(wire: "x", expression: .Literal(1)),
+            .Store(wire: "y", expression: .Literal(3)),
+            .Store(wire: "z", expression: .And(.Reference("x"), .Reference("y")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
     func testOr() {
-        let expectedResults: [String: UInt16] = [
+        let expectedResults: [Wire: UInt16] = [
             "x": 1,
             "y": 2,
             "z": 3
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .ValueExpression(.Number(1))),
-            .Store(wire: "y", expression: .ValueExpression(.Number(2))),
-            .Store(wire: "z", expression: .Or(.WireRef("x"), .WireRef("y")))
+            .Store(wire: "x", expression: .Literal(1)),
+            .Store(wire: "y", expression: .Literal(2)),
+            .Store(wire: "z", expression: .Or(.Reference("x"), .Reference("y")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
     func testNot() {
-        let expectedResults: [String: UInt16] = [
+        let expectedResults: [Wire: UInt16] = [
             "x": 1,
             "y": 65534,
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .ValueExpression(.Number(1))),
-            .Store(wire: "y", expression: .Not(.WireRef("x")))
+            .Store(wire: "x", expression: .Literal(1)),
+            .Store(wire: "y", expression: .Not(.Reference("x")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
     func testLeftShift() {
-        let expectedResults: [String: UInt16] = [
+        let expectedResults: [Wire: UInt16] = [
             "x": 1,
             "y": 2,
             "z": 4
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .ValueExpression(.Number(1))),
-            .Store(wire: "y", expression: .ValueExpression(.Number(2))),
-            .Store(wire: "z", expression: .LeftShift(.WireRef("x"), .WireRef("y")))
+            .Store(wire: "x", expression: .Literal(1)),
+            .Store(wire: "y", expression: .Literal(2)),
+            .Store(wire: "z", expression: .LeftShift(.Reference("x"), .Reference("y")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
     func testRightShift() {
-        let expectedResults: [String: UInt16] = [
+        let expectedResults: [Wire: UInt16] = [
             "x": 4,
             "y": 2,
             "z": 1
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .ValueExpression(.Number(4))),
-            .Store(wire: "y", expression: .ValueExpression(.Number(2))),
-            .Store(wire: "z", expression: .RightShift(.WireRef("x"), .WireRef("y")))
+            .Store(wire: "x", expression: .Literal(4)),
+            .Store(wire: "y", expression: .Literal(2)),
+            .Store(wire: "z", expression: .RightShift(.Reference("x"), .Reference("y")))
+        ]
+        Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
+    }
+    
+    func testSubExpressions() {
+        let expectedResults: [Wire: UInt16] = [
+            "x": 2,
+            "y": 1
+        ]
+        // Stupid xor tricks, swapping values using xor (x ^= y; y ^= x; x ^= y)
+        let program: [Statement] = [
+            .Store(wire: "x", expression: .Literal(1)),
+            .Store(wire: "y", expression: .Literal(2)),
+            .Store(wire: "x", expression: .And(.And(.Reference("x"), .Reference("y")), .Or(.Reference("x"), .Reference("y")))),
+            .Store(wire: "y", expression: .And(.And(.Reference("y"), .Reference("x")), .Or(.Reference("y"), .Reference("x")))),
+            .Store(wire: "x", expression: .And(.And(.Reference("x"), .Reference("y")), .Or(.Reference("x"), .Reference("y"))))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
     static func test<Program: SequenceType where Program.Generator.Element == Statement>(
-        program: Program, virtualMachine vm: VirtualMachine, expectedResults: [String: UInt16]) {
+        program: Program, virtualMachine vm: VirtualMachine, expectedResults: [Wire: UInt16]) {
             vm.execute(program)
             XCTAssertEqual(vm.core.count, expectedResults.count, "vm.core.count == expectedResults.count")
             for (wire, value) in vm.core {
