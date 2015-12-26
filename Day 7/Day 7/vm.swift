@@ -27,37 +27,51 @@ public class VirtualMachine {
     
     public func reset() {
         self.core = [:]
+        self.memo = [:]
     }
     
-    public func execute<Program: SequenceType where Program.Generator.Element == Statement>(program: Program) {
+    public func load<Program: SequenceType where Program.Generator.Element == Statement>(program: Program) {
         for case let .Store(wire, expression) in program {
-            self.core[wire] = expression.evaluate(self.core)
+            self.core[wire] = expression
         }
     }
     
-    public private(set) var core: [Wire: UInt16] = [:]
+    private var core: [Wire: Expression] = [:]
+    private var memo: [Wire: UInt16] = [:]
+    
+    public var gates: [Wire] { return Array(self.core.keys) }
+    
+    public func read(wire: Wire) -> UInt16? {
+        return self.core[wire]?.evaluate(self.core, memo: &self.memo)
+    }
     
 }
 
 private extension Expression {
     
-    func evaluate(core: [Wire: UInt16]) -> UInt16 {
+    func evaluate(core: [Wire: Expression], inout memo: [Wire: UInt16]) -> UInt16 {
         switch self {
         case let .And(lhs, rhs):
-            return lhs.evaluate(core) & rhs.evaluate(core)
+            return lhs.evaluate(core, memo: &memo) & rhs.evaluate(core, memo: &memo)
         case let .Or(lhs, rhs):
-            return lhs.evaluate(core) | rhs.evaluate(core)
+            return lhs.evaluate(core, memo: &memo) | rhs.evaluate(core, memo: &memo)
         case let .Not(exp):
-            return ~exp.evaluate(core)
+            return ~exp.evaluate(core, memo: &memo)
         case let .LeftShift(lhs, rhs):
-            return lhs.evaluate(core) << rhs.evaluate(core)
+            return lhs.evaluate(core, memo: &memo) << rhs.evaluate(core, memo: &memo)
         case let .RightShift(lhs, rhs):
-            return lhs.evaluate(core) >> rhs.evaluate(core)
+            return lhs.evaluate(core, memo: &memo) >> rhs.evaluate(core, memo: &memo)
         case let Literal(num):
             return num
         case let Reference(wire):
             if let num = core[wire] {
-                return num
+                if let memoizedNum = memo[wire] {
+                    return memoizedNum
+                } else {
+                    let m = num.evaluate(core, memo: &memo)
+                    memo[wire] = m
+                    return m
+                }
             } else {
                 fatalError("“\(wire)” does not exist")
             }

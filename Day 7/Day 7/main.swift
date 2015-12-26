@@ -48,8 +48,7 @@ let program = input.characters.split("\n").map { line -> Statement in
 }
 
 let vm = VirtualMachine()
-vm.execute(program)
+vm.load(program)
 
-for (wire, value) in vm.core {
-    print("\(wire): \(value)")
-}
+let a = vm.read("a")
+print("a: \(a)")

@@ -246,29 +246,22 @@ class Day_7_VM_Tests: XCTestCase {
     
     func testSubExpressions() {
         let expectedResults: [Wire: UInt16] = [
-            "x": 2,
-            "y": 1
+            "q": 3
         ]
-        // Stupid xor tricks, swapping values using xor (x ^= y; y ^= x; x ^= y)
         let program: [Statement] = [
-            .Store(wire: "x", expression: .Literal(1)),
-            .Store(wire: "y", expression: .Literal(2)),
-            .Store(wire: "x", expression: .And(.Not(.And(.Reference("x"), .Reference("y"))),
+            .Store(wire: "q", expression: .And(.Not(.And(.Reference("x"), .Reference("y"))),
                 .Or(.Reference("x"), .Reference("y")))),
-            .Store(wire: "y", expression: .And(.Not(.And(.Reference("y"), .Reference("x"))),
-                .Or(.Reference("y"), .Reference("x")))),
-            .Store(wire: "x", expression: .And(.Not(.And(.Reference("x"), .Reference("y"))),
-                .Or(.Reference("x"), .Reference("y"))))
+            .Store(wire: "x", expression: .Literal(5)),
+            .Store(wire: "y", expression: .Literal(6))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
     static func test<Program: SequenceType where Program.Generator.Element == Statement>(
         program: Program, virtualMachine vm: VirtualMachine, expectedResults: [Wire: UInt16]) {
-            vm.execute(program)
-            XCTAssertEqual(vm.core.count, expectedResults.count, "vm.core.count == expectedResults.count")
-            for (wire, value) in vm.core {
-                XCTAssertEqual(value, expectedResults[wire], "\(wire) value == expectedResults[\(wire)]")
+            vm.load(program)
+            for (wire, expectedValue) in expectedResults {
+                XCTAssertEqual(vm.read(wire), expectedValue, "\(wire) value == expectedResults[\(wire)]")
             }
     }
     
