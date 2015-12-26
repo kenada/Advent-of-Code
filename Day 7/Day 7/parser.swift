@@ -88,7 +88,7 @@ public func lex(input: String) -> [Symbol] {
     return result
 }
 
-enum ParseError: ErrorType {
+public enum ParseError: ErrorType {
     case ExpectedAssignment
     case ExpectedLiteralOrWire
     case ExpectedOperator
