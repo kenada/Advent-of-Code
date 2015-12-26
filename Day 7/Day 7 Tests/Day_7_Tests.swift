@@ -25,9 +25,48 @@
 
 import XCTest
 
-class Day_7_Parser_Tests: XCTestCase {
+class Day_7_Lexer_Tests: XCTestCase {
     
+    func testLiteralStore() {
+        Day_7_Lexer_Tests.testParse("1 -> b", expectedResults: .Number(1), .Assignment, .Wire("b"))
+    }
     
+    func testWireCopy() {
+        Day_7_Lexer_Tests.testParse("a -> b", expectedResults: .Wire("a"), .Assignment, .Wire("b"))
+    }
+    
+    func testNot() {
+        Day_7_Lexer_Tests.testParse("NOT a -> b", expectedResults: .Not, .Wire("a"), .Assignment, .Wire("b"))
+    }
+    
+    func testAnd() {
+        Day_7_Lexer_Tests.testParse("1 AND b -> b", expectedResults: .Number(1), .And, .Wire("b"), .Assignment, .Wire("b"))
+    }
+    
+    func testOr() {
+        Day_7_Lexer_Tests.testParse("a OR 2 -> b", expectedResults: .Wire("a"), .Or, .Number(2), .Assignment, .Wire("b"))
+    }
+    
+    func testLeftShift() {
+        Day_7_Lexer_Tests.testParse("c LSHIFT d -> b", expectedResults: .Wire("c"), .LeftShift, .Wire("d"), .Assignment, .Wire("b"))
+    }
+    
+    func testRightShift() {
+        Day_7_Lexer_Tests.testParse("1 RSHIFT 2 -> q",
+            expectedResults: .Number(1), .RightShift, .Number(2), .Assignment, .Wire("q"))
+    }
+    
+    func parseFailure() {
+        Day_7_Lexer_Tests.testParse("fsldfjasldfk333j", expectedResults: .Wire("fsldfjasldfk333j"))
+    }
+    
+    static func testParse(input: String, expectedResults: Symbol...) {
+        let result = lex(input)
+        XCTAssertEqual(result.count, expectedResults.count, "lengths match")
+        for (symbol, expectedSymbol) in zip(result, expectedResults) {
+            XCTAssertEqual(symbol, expectedSymbol, "symbol sequences match")
+        }
+    }
     
 }
 
