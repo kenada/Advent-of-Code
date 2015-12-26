@@ -67,4 +67,23 @@ extension String {
         return self.escaped.unicodeScalars.count
     }
     
+    public init(xmasEncode str: String) {
+        var result = "\\\""
+        
+        for ch in str.characters {
+            switch ch {
+            case "\\":
+                result += "\\\\"
+            case "\"":
+                result += "\\\""
+            default:
+                result.append(ch)
+            }
+        }
+        
+        result += "\\\""
+        
+        self.init(result)
+    }
+    
 }

@@ -37,6 +37,18 @@ class Day_8_Tests: XCTestCase {
         }
     }
     
+    func testEncode() {
+        let cases = [
+            (string: "", expectedString: "\\\"\\\""),
+            (string: "abc", expectedString: "\\\"abc\\\""),
+            (string: "aaa\\\"aaa", expectedString: "\\\"aaa\\\\\\\"aaa\\\""),
+            (string: "\\x27", expectedString: "\\\"\\\\x27\\\"")
+        ]
+        for `case` in cases {
+            XCTAssertEqual(String(xmasEncode: `case`.string), `case`.expectedString, "strings are encoded correctly")
+        }
+    }
+    
     func testLiteralSize() {
         let cases = [
             (string: "", expectedSize: 2),
