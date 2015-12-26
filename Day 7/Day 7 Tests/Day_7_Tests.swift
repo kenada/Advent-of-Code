@@ -167,9 +167,12 @@ class Day_7_VM_Tests: XCTestCase {
         let program: [Statement] = [
             .Store(wire: "x", expression: .Literal(1)),
             .Store(wire: "y", expression: .Literal(2)),
-            .Store(wire: "x", expression: .And(.And(.Reference("x"), .Reference("y")), .Or(.Reference("x"), .Reference("y")))),
-            .Store(wire: "y", expression: .And(.And(.Reference("y"), .Reference("x")), .Or(.Reference("y"), .Reference("x")))),
-            .Store(wire: "x", expression: .And(.And(.Reference("x"), .Reference("y")), .Or(.Reference("x"), .Reference("y"))))
+            .Store(wire: "x", expression: .And(.Not(.And(.Reference("x"), .Reference("y"))),
+                .Or(.Reference("x"), .Reference("y")))),
+            .Store(wire: "y", expression: .And(.Not(.And(.Reference("y"), .Reference("x"))),
+                .Or(.Reference("y"), .Reference("x")))),
+            .Store(wire: "x", expression: .And(.Not(.And(.Reference("x"), .Reference("y"))),
+                .Or(.Reference("x"), .Reference("y"))))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }

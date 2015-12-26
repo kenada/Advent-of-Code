@@ -25,12 +25,43 @@
 
 public class VirtualMachine {
     
-    public init() {}
+    public func reset() {
+        self.core = [:]
+    }
     
-    public func reset() {}
+    public func execute<Program: SequenceType where Program.Generator.Element == Statement>(program: Program) {
+        for case let .Store(wire, expression) in program {
+            self.core[wire] = expression.evaluate(self.core)
+        }
+    }
     
-    public func execute<Program: SequenceType where Program.Generator.Element == Statement>(program: Program) {}
+    public private(set) var core: [Wire: UInt16] = [:]
     
-    public var core: [Wire: UInt16] = [:]
+}
+
+private extension Expression {
+    
+    func evaluate(core: [Wire: UInt16]) -> UInt16 {
+        switch self {
+        case let .And(lhs, rhs):
+            return lhs.evaluate(core) & rhs.evaluate(core)
+        case let .Or(lhs, rhs):
+            return lhs.evaluate(core) | rhs.evaluate(core)
+        case let .Not(exp):
+            return ~exp.evaluate(core)
+        case let .LeftShift(lhs, rhs):
+            return lhs.evaluate(core) << rhs.evaluate(core)
+        case let .RightShift(lhs, rhs):
+            return lhs.evaluate(core) >> rhs.evaluate(core)
+        case let Literal(num):
+            return num
+        case let Reference(wire):
+            if let num = core[wire] {
+                return num
+            } else {
+                fatalError("“\(wire)” does not exist")
+            }
+        }
+    }
     
 }
