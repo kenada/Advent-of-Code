@@ -50,5 +50,11 @@ let program = input.characters.split("\n").map { line -> Statement in
 let vm = VirtualMachine()
 vm.load(program)
 
-let a = vm.read("a")
+let a = vm.read("a")!
 print("a: \(a)")
+
+let newProgram = [try! parse(lex("\(a) -> b"))]
+vm.load(newProgram)
+
+let a2 = vm.read("a")!
+print("a: \(a2)")

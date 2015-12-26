@@ -34,6 +34,7 @@ public class VirtualMachine {
         for case let .Store(wire, expression) in program {
             self.core[wire] = expression
         }
+        self.memo = [:]
     }
     
     private var core: [Wire: Expression] = [:]
