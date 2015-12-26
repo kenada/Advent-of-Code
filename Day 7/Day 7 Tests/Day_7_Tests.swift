@@ -75,7 +75,7 @@ class Day_7_VM_Tests: XCTestCase {
     let vm = VirtualMachine()
     
     override func setUp() {
-        vm.reboot()
+        vm.reset()
     }
     
     func testStore() {

@@ -27,7 +27,7 @@ public class VirtualMachine {
     
     public init() {}
     
-    public func reboot() {}
+    public func reset() {}
     
     public func execute<Program: SequenceType where Program.Generator.Element == Statement>(program: Program) {}
     
