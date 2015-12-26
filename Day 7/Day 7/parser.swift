@@ -23,6 +23,8 @@
 // THE SOFTWARE.
 //
 
+import Foundation
+
 public enum Symbol: Equatable {
     case Assignment
     
@@ -55,6 +57,33 @@ public func ==(lhs: Symbol, rhs: Symbol) -> Bool {
     }
 }
 
+let whitespace = try! NSRegularExpression(pattern: "\\s", options: [])
 func lex(input: String) -> [Symbol] {
-    return []
+    let tokens = input.characters.split {
+        whitespace.firstMatchInString(String($0), options: [], range: NSMakeRange(0, 1)) != nil
+    }
+    var result = Array(count: tokens.count, repeatedValue: Symbol.Not)
+    for (index, token) in tokens.enumerate() {
+        switch String(token) {
+        case "->":
+            result[index] = .Assignment
+        case "AND":
+            result[index] = .And
+        case "OR":
+            result[index] = .Or
+        case "NOT":
+            result[index] = .Not
+        case "LSHIFT":
+            result[index] = .LeftShift
+        case "RSHIFT":
+            result[index] = .RightShift
+        case let sym:
+            if let num = UInt16(sym) {
+                result[index] = .Number(num)
+            } else {
+                result[index] = .Wire(sym)
+            }
+        }
+    }
+    return result
 }
