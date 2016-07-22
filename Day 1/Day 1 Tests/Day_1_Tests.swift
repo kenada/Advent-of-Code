@@ -27,7 +27,7 @@ import XCTest
 
 class Day_1_Tests: XCTestCase {
     
-    typealias InstructionsCases = (instructions: String, expectedFloor: Int, expectedBasementPosition: Int?)
+    typealias InstructionsCases = (instructions: String, expectedFloor: Floor, expectedBasementPosition: Int?)
 
     let cases: [InstructionsCases] = [
         (instructions: "(())", expectedFloor: 0, expectedBasementPosition: nil),
@@ -44,7 +44,8 @@ class Day_1_Tests: XCTestCase {
     
     func testFloorInstructions() {
         cases.forEach { testCase in
-            let floor = finalFloor(testCase.instructions)
+            let directions = from(string: testCase.instructions)
+            let floor = followed(directions: directions, until: .finished)
             XCTAssert(floor == testCase.expectedFloor,
                 "floor: \(floor) == expected \(testCase.expectedFloor)")
         }
@@ -52,7 +53,8 @@ class Day_1_Tests: XCTestCase {
     
     func testFloorPosition() {
         cases.forEach { testCase in
-            let position = positionWhenFirstEnteringBasement(testCase.instructions)
+            let directions = from(string: testCase.instructions)
+            let position = followed(directions: directions, until: .enteredBasement)
             XCTAssert(position == testCase.expectedBasementPosition,
                 "position: \(position) == expected: \(testCase.expectedBasementPosition)")
         }

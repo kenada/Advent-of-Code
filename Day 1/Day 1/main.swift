@@ -25,9 +25,10 @@
 
 import Foundation
 
-if let instructions = try? String(contentsOfFile: "instructions.txt", encoding: NSUTF8StringEncoding) {
-    print("Santa should go to floor \(finalFloor(instructions))")
-    if let basementPosition = positionWhenFirstEnteringBasement(instructions) {
+if let rawInstructions = try? String(contentsOfFile: "instructions.txt", encoding: .utf8) {
+    let instructions = from(string: rawInstructions)
+    print("Santa should go to floor \(followed(directions: instructions, until: .finished)!)")
+    if let basementPosition = followed(directions: instructions, until: .enteredBasement) {
         print("Santa entered the basement at position \(basementPosition)")
     } else {
         print("Santa did not enter the basement")
