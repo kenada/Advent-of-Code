@@ -32,7 +32,7 @@ func from(string: String) -> AnySequence<Direction> {
     return AnySequence(string.characters)
 }
 
-func moved(from floor: Floor, following ch: Direction) -> Floor {
+func next(startingFrom floor: Floor, following ch: Direction) -> Floor {
     switch ch {
     case "(":
         return floor + 1
@@ -50,12 +50,12 @@ enum EndCondition {
 func followed<T: Sequence>(directions: T, until: EndCondition) -> Floor? where T.Iterator.Element == Direction {
     switch until {
     case .finished:
-        return directions.reduce(0, combine: moved)
+        return directions.reduce(0, combine: next)
     case .enteredBasement:
         typealias MapState = (floor: Int, position: Int, foundPosition: Int?)
         let initialState: MapState = (0, 1, nil)
         return directions.reduce(initialState) { (state, direction) in
-            let newFloor = moved(from: state.floor, following: direction)
+            let newFloor = next(startingFrom: state.floor, following: direction)
             let foundPosition: Int? = (state.foundPosition == nil && newFloor < 0) ? state.position : state.foundPosition
             return (newFloor, state.position + 1, foundPosition)
             }.foundPosition
