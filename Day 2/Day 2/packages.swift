@@ -35,13 +35,11 @@ public extension Box {
     }
 }
 
-public func readPackages(url: NSURL) -> [Box] {
+public func load(contentsOf url: URL) -> [Box] {
     // HACK: Advent of Code requires you to be logged in to download your input. Prior to El Capitan,
     // this would just work. Under El Capitan, cookie storage is no longer shared between applications.
     // This reads the cookies from the (formerly) shared storage and injects them into the application’s
     // cookie jar. Of course, this will fail if you’re not logged into Advent of Code in Safari.
-    
-    guard let rawData = try? String(contentsOfURL: url, encoding: NSUTF8StringEncoding).characters.split("\n") else {
 //    let cookieStorage = HTTPCookieStorage.sharedCookieStorage(forGroupContainerIdentifier: "Cookies")
 //    let cookies = cookieStorage.cookies(for: URL(string: "http://adventofcode.com/day/2/input")!)
 //    
@@ -51,17 +49,19 @@ public func readPackages(url: NSURL) -> [Box] {
 //            storage.setCookie(cookie)
 //        }
 //    }
+
+    guard let rawData = try? String(contentsOf: url, encoding: .utf8).characters.split(separator: "\n") else {
         return []
     }
     return rawData
         .lazy
         .map { (line) -> Box? in
-            let dims = line.split("x")
+            let dims = line.split(separator: "x")
             if dims.count != 3 {
                 return nil
             }
             let components = dims.map { Int(String($0)) }
-            guard let l = components[0], w = components[1], h = components[2] else {
+            guard let l = components[0], let w = components[1], let h = components[2] else {
                 return nil
             }
             return Box(length: l, width: w, height: h)

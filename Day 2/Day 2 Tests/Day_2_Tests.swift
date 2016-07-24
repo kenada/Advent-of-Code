@@ -23,7 +23,6 @@
 // THE SOFTWARE.
 //
 
-import Foundation
 import XCTest
 
 class Day_2_Tests: XCTestCase {
@@ -32,10 +31,10 @@ class Day_2_Tests: XCTestCase {
         // Data URL contents
         // -----------------
         // 5x5x5
-        let data = NSURL(string: "data:text/plain;base64,NXg1eDUK")
+        let data = URL(string: "data:text/plain;base64,NXg1eDUK")
         XCTAssertNotNil(data)
         
-        let boxes = readPackages(data!)
+        let boxes = load(contentsOf: data!)
         XCTAssertEqual(boxes.count, 1, "the array of boxes contains one element")
         
         XCTAssertEqual(boxes[0].length, 5, "the box has the expected length")
@@ -50,10 +49,10 @@ class Day_2_Tests: XCTestCase {
         /// 4x5x6x7
         /// 8x9
         /// 10x11x12
-        let data = NSURL(string: "data:text/plain;base64,MXgyeDMKNHg1eDZ4Nwo4eDkKMTB4MTF4MTIK")
+        let data = URL(string: "data:text/plain;base64,MXgyeDMKNHg1eDZ4Nwo4eDkKMTB4MTF4MTIK")
         XCTAssertNotNil(data)
         
-        let boxes = readPackages(data!)
+        let boxes = load(contentsOf: data!)
         XCTAssertEqual(boxes.count, 2, "the array of boxes contains only two elements")
         
         XCTAssertEqual(boxes[0].length, 1, "the first box has the expected length")
@@ -66,10 +65,10 @@ class Day_2_Tests: XCTestCase {
     }
     
     func testReturnsAnEmptyArrayForAnEmptyFile() {
-        let data = NSURL(string: "data:")
+        let data = URL(string: "data:")
         XCTAssertNotNil(data)
         
-        let boxes = readPackages(data!)
+        let boxes = load(contentsOf: data!)
         XCTAssertTrue(boxes.isEmpty, "the array of boxes is empty")
     }
     
@@ -82,10 +81,10 @@ class Day_2_Tests: XCTestCase {
         /// dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
         /// pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
         /// deserunt mollit anim id est laborum.
-        let data = NSURL(string: "data:text/plain;base64,TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2NpbmcgZWxpdCwgc2VkIGRvIGVpdXNtb2QgdGVtcG9yCmluY2lkaWR1bnQgdXQgbGFib3JlIGV0IGRvbG9yZSBtYWduYSBhbGlxdWEuIFV0IGVuaW0gYWQgbWluaW0gdmVuaWFtLCBxdWlzIG5vc3RydWQKZXhlcmNpdGF0aW9uIHVsbGFtY28gbGFib3JpcyBuaXNpIHV0IGFsaXF1aXAgZXggZWEgY29tbW9kbyBjb25zZXF1YXQuIER1aXMgYXV0ZSBpcnVyZQpkb2xvciBpbiByZXByZWhlbmRlcml0IGluIHZvbHVwdGF0ZSB2ZWxpdCBlc3NlIGNpbGx1bSBkb2xvcmUgZXUgZnVnaWF0IG51bGxhCnBhcmlhdHVyLiBFeGNlcHRldXIgc2ludCBvY2NhZWNhdCBjdXBpZGF0YXQgbm9uIHByb2lkZW50LCBzdW50IGluIGN1bHBhIHF1aSBvZmZpY2lhCmRlc2VydW50IG1vbGxpdCBhbmltIGlkIGVzdCBsYWJvcnVtLg==")
+        let data = URL(string: "data:text/plain;base64,TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2NpbmcgZWxpdCwgc2VkIGRvIGVpdXNtb2QgdGVtcG9yCmluY2lkaWR1bnQgdXQgbGFib3JlIGV0IGRvbG9yZSBtYWduYSBhbGlxdWEuIFV0IGVuaW0gYWQgbWluaW0gdmVuaWFtLCBxdWlzIG5vc3RydWQKZXhlcmNpdGF0aW9uIHVsbGFtY28gbGFib3JpcyBuaXNpIHV0IGFsaXF1aXAgZXggZWEgY29tbW9kbyBjb25zZXF1YXQuIER1aXMgYXV0ZSBpcnVyZQpkb2xvciBpbiByZXByZWhlbmRlcml0IGluIHZvbHVwdGF0ZSB2ZWxpdCBlc3NlIGNpbGx1bSBkb2xvcmUgZXUgZnVnaWF0IG51bGxhCnBhcmlhdHVyLiBFeGNlcHRldXIgc2ludCBvY2NhZWNhdCBjdXBpZGF0YXQgbm9uIHByb2lkZW50LCBzdW50IGluIGN1bHBhIHF1aSBvZmZpY2lhCmRlc2VydW50IG1vbGxpdCBhbmltIGlkIGVzdCBsYWJvcnVtLg==")
         XCTAssertNotNil(data)
         
-        let boxes = readPackages(data!)
+        let boxes = load(contentsOf: data!)
         XCTAssertTrue(boxes.isEmpty, "the array of boxes is empty")
     }
     
