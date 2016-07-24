@@ -35,11 +35,13 @@ func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
     return CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
 }
 
-func +=(inout lhs: CGPoint, rhs: CGPoint) {
+func +=(lhs: inout CGPoint, rhs: CGPoint) {
     lhs = lhs + rhs
 }
 
-func interpret(direction: Character) -> CGPoint {
+typealias Direction = Character
+
+func next(following direction: Direction) -> CGPoint {
     switch direction {
     case "<":
         return CGPoint(x: -1, y: 0)
@@ -54,23 +56,22 @@ func interpret(direction: Character) -> CGPoint {
     }
 }
 
-func housesVisited<S: SequenceType where S.Generator.Element == Character>(directions: S) -> Set<CGPoint> {
+func housesVisited<S: Sequence>(following directions: S) -> Set<CGPoint> where S.Iterator.Element == Character {
     var currentPosition = CGPoint(x: 0, y: 0)
     var housesVisited = Set(arrayLiteral: currentPosition)
     for direction in directions {
-        currentPosition += interpret(direction)
+        currentPosition += next(following: direction)
         housesVisited.insert(currentPosition)
     }
     return housesVisited
 }
 
-func countHousesVisited(directions: String, roboSanta: Bool = false) -> Int {
-    let chs = directions.characters
-    if roboSanta {
-        let santa = zip(chs, Range(start: 0, end: chs.count)).filter { $0.1 % 2 == 0 }.map { $0.0 }
-        let robo = zip(chs, Range(start: 0, end: chs.count)).filter { $0.1 % 2 != 0 }.map { $0.0 }
-        return housesVisited(santa).union(housesVisited(robo)).count
+func countOfHousesVisited<S: Sequence>(following chs: S, withRoboSanta: Bool = false) -> Int where S.Iterator.Element == Character {
+    if withRoboSanta {
+        let santaDirections = chs.enumerated().filter { $0.0 % 2 == 0 }.map { $0.1 }
+        let roboDirections = chs.enumerated().filter { $0.0 % 2 != 0 }.map { $0.1 }
+        return housesVisited(following: santaDirections).union(housesVisited(following: roboDirections)).count
     } else {
-        return housesVisited(chs).count
+        return housesVisited(following: chs).count
     }
 }

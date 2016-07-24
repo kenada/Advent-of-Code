@@ -35,7 +35,7 @@ class Day_3_Tests: XCTestCase {
         ]
         
         for test in tests {
-            let numHouses = countHousesVisited(test.directions)
+            let numHouses = countOfHousesVisited(following: test.directions.characters)
             XCTAssertEqual(numHouses, test.expectedResult, "visiting \(test.directions)")
         }
     }
@@ -48,7 +48,7 @@ class Day_3_Tests: XCTestCase {
         ]
         
         for test in tests {
-            let numHouses = countHousesVisited(test.directions, roboSanta: true)
+            let numHouses = countOfHousesVisited(following: test.directions.characters, withRoboSanta: true)
             XCTAssertEqual(numHouses, test.expectedResult, "visiting: \(test.directions)")
         }
     }

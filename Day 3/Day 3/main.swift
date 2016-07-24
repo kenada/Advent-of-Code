@@ -24,10 +24,10 @@
 //
 
 if let directions = try? String(contentsOfFile: "input.txt") {
-    let housesVisited = countHousesVisited(directions)
+    let housesVisited = countOfHousesVisited(following: directions.characters)
     print("Santed visited \(housesVisited) unique houses")
     
-    let housesVisitedTogether = countHousesVisited(directions, roboSanta: true)
+    let housesVisitedTogether = countOfHousesVisited(following: directions.characters, withRoboSanta: true)
     print("Santa and RoboSanta visited \(housesVisitedTogether) unique houses together")
 } else {
     fatalError("“input.txt” missing")
