@@ -40,17 +40,17 @@ public func readPackages(url: NSURL) -> [Box] {
     // this would just work. Under El Capitan, cookie storage is no longer shared between applications.
     // This reads the cookies from the (formerly) shared storage and injects them into the application’s
     // cookie jar. Of course, this will fail if you’re not logged into Advent of Code in Safari.
-    let cookieStorage = NSHTTPCookieStorage.sharedCookieStorageForGroupContainerIdentifier("Cookies")
-    let cookies = cookieStorage.cookiesForURL(NSURL(string: "http://adventofcode.com/day/2/input")!)
-    
-    if let aocCookies = cookies {
-        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-        for cookie in aocCookies {
-            storage.setCookie(cookie)
-        }
-    }
     
     guard let rawData = try? String(contentsOfURL: url, encoding: NSUTF8StringEncoding).characters.split("\n") else {
+//    let cookieStorage = HTTPCookieStorage.sharedCookieStorage(forGroupContainerIdentifier: "Cookies")
+//    let cookies = cookieStorage.cookies(for: URL(string: "http://adventofcode.com/day/2/input")!)
+//    
+//    if let aocCookies = cookies {
+//        let storage = HTTPCookieStorage.shared
+//        for cookie in aocCookies {
+//            storage.setCookie(cookie)
+//        }
+//    }
         return []
     }
     return rawData
