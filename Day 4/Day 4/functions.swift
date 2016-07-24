@@ -25,15 +25,15 @@
 
 import Foundation
 
-private func hashToString(hash: [UInt8]) -> String {
+private func from(hash: [UInt8]) -> String {
     var result = ""
     for octet in hash {
-        result.appendContentsOf(String(format: "%02x", octet))
+        result.append(String(format: "%02x", octet))
     }
     return result
 }
 
-private func countLeadingZeroes(hash: [UInt8]) -> Int {
+private func countOfLeadingZeroes(_ hash: [UInt8]) -> Int {
     var result = 0
     for octet in hash {
         if octet == 0 {
@@ -48,13 +48,13 @@ private func countLeadingZeroes(hash: [UInt8]) -> Int {
     return result
 }
 
-func findHash(secret: String, leadingZeroes: Int = 5) -> (hash: String, value: Int) {
+func matching(hash secret: String, withLeadingZeroes leadingZeroes: Int) -> (hash: String, value: Int) {
     var x = 0
     repeat {
         let key = "\(secret)\(x)"
         let hash = md5(key)
-        if countLeadingZeroes(hash) >= leadingZeroes {
-            return (hash: hashToString(hash), value: x)
+        if countOfLeadingZeroes(hash) >= leadingZeroes {
+            return (hash: from(hash: hash), value: x)
         }
         x += 1
     } while true

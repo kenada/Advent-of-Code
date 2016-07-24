@@ -23,12 +23,12 @@
 // THE SOFTWARE.
 //
 
-func md5(string: String) -> [UInt8] {
+func md5(_ string: String) -> [UInt8] {
     var state = CC_MD5_CTX()
     CC_MD5_Init(&state)
     CC_MD5_Update(&state, string, CC_LONG(string.characters.count))
     
-    var digest = Array<UInt8>(count: Int(CC_MD5_DIGEST_LENGTH), repeatedValue: 0)
+    var digest = Array<UInt8>(repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
     CC_MD5_Final(&digest, &state)
     return digest
 }

@@ -26,10 +26,10 @@
 let secret = "iwrupvqb"
 
 do {
-    let hash = findHash(secret)
+    let hash = matching(hash: secret, withLeadingZeroes: 5)
     print("Santa finds hash “\(hash.hash)” with five leading zeroes and value “\(hash.value)”")
 }
 do {
-    let hash = findHash(secret, leadingZeroes: 6)
+    let hash = matching(hash: secret, withLeadingZeroes: 6)
     print("Santa finds hash “\(hash.hash)” with six leading zeroes and value “\(hash.value)”")
 }

@@ -32,7 +32,7 @@ class Day_4_Tests: XCTestCase {
         XCTAssertEqual(md5("hashtest"),
             [0x49, 0x38, 0x52, 0x78, 0x62, 0x70, 0xB6, 0x8E, 0x18, 0x2d, 0x6e, 0xb9, 0x39, 0xb1, 0xF8, 0x02])
         
-        let testBundle = NSBundle(forClass: Day_4_Tests.self)
+        let testBundle = Bundle(for: Day_4_Tests.self)
         let path = testBundle.pathForResource("md5.swift", ofType: "txt")
         XCTAssertNotNil(path)
         
@@ -40,7 +40,7 @@ class Day_4_Tests: XCTestCase {
         XCTAssertNotNil(contents)
         
         XCTAssertEqual(md5(contents!),
-            [0xF5, 0xB1, 0xF2, 0x10, 0xAA, 0xE5, 0x65, 0x1E, 0x53, 0x93, 0x33, 0x82, 0xC1, 0xB4, 0x4C, 0x13])
+            [0x3F, 0x62, 0x78, 0xDE, 0x3C, 0xE7, 0xAB, 0xDF, 0xD0, 0xAB, 0xB8, 0x94, 0xC6, 0x9A, 0x7A, 0x50])
     }
     
     func testPart1() {
@@ -50,7 +50,7 @@ class Day_4_Tests: XCTestCase {
         ]
         
         for `case` in cases {
-            XCTAssertEqual(findHash(`case`.secret).value, `case`.expectedResult, "finding hash for: \(`case`.secret)")
+            XCTAssertEqual(matching(hash: `case`.secret, withLeadingZeroes: 5).value, `case`.expectedResult, "finding hash for: \(`case`.secret)")
         }
     }
     
