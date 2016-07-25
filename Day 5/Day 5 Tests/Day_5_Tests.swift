@@ -29,28 +29,28 @@ class Day_5_Tests: XCTestCase {
     
     func testClassification() {
         let cases: [(input: String, expectedResult: NaughtyOrNice)] = [
-            (input: "ugknbfddgicrmopn", expectedResult: .Nice),
-            (input: "aaa", expectedResult: .Nice),
-            (input: "jchzalrnumimnmhp", expectedResult: .Naughty),
-            (input: "haegwjzuvuyypxyu", expectedResult: .Naughty),
-            (input: "dvszwmarrgswjxmb", expectedResult: .Naughty)
+            (input: "ugknbfddgicrmopn", expectedResult: .nice),
+            (input: "aaa", expectedResult: .nice),
+            (input: "jchzalrnumimnmhp", expectedResult: .naughty),
+            (input: "haegwjzuvuyypxyu", expectedResult: .naughty),
+            (input: "dvszwmarrgswjxmb", expectedResult: .naughty)
         ]
         for `case` in cases {
-            XCTAssertEqual(NaughtyOrNice(string: `case`.input), `case`.expectedResult,
+            XCTAssertEqual(niceness(string: `case`.input), `case`.expectedResult,
                 "Checking whether \(`case`.input) is naughty or nice")
         }
     }
     
     func testImprovedClassification() {
-        let cases: [(input: String, expectedResult: ImprovedNaughtyOrNice)] = [
-            (input: "aabcdefegaa", expectedResult: .Nice),
-            (input: "qjhvhtzxzqqjkmpb", expectedResult: .Nice),
-            (input: "xxyxx", expectedResult: .Nice),
-            (input: "uurcxstgmygtbstg", expectedResult: .Naughty),
-            (input: "ieodomkazucvgmuy", expectedResult: .Naughty)
+        let cases: [(input: String, expectedResult: NaughtyOrNice)] = [
+            (input: "aabcdefegaa", expectedResult: .nice),
+            (input: "qjhvhtzxzqqjkmpb", expectedResult: .nice),
+            (input: "xxyxx", expectedResult: .nice),
+            (input: "uurcxstgmygtbstg", expectedResult: .naughty),
+            (input: "ieodomkazucvgmuy", expectedResult: .naughty)
         ]
         for `case` in cases {
-            XCTAssertEqual(ImprovedNaughtyOrNice(string: `case`.input), `case`.expectedResult,
+            XCTAssertEqual(nicenessV2(string: `case`.input), `case`.expectedResult,
                 "Checking whether \(`case`.input) is naughty or nice")
         }
     }

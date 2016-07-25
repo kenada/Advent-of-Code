@@ -25,9 +25,8 @@
 
 let input = try! String(contentsOfFile: "input.txt")
 
-let numNice = input.characters.split("\n").filter { NaughtyOrNice(string: String($0)) == .Nice }.count
+let numNice = input.characters.split(separator: "\n").filter { niceness(string: String($0)) == .nice }.count
 print("\(numNice) strings are nice")
 
-let numBetterNice =
-    input.characters.split("\n").filter { NaughtyOrNice(string: String($0), improvedChecks: true) == .Nice }.count
+let numBetterNice = input.characters.split(separator: "\n").filter { nicenessV2(string: String($0)) == .nice }.count
 print("\(numBetterNice) strings are nice by the new rules")
