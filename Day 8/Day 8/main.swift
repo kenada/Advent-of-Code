@@ -26,15 +26,15 @@ import Foundation
 let input = try! String(contentsOfFile: "day 8 input.txt")
 
 // Part 1
-let difference = input.characters.split("\n").reduce(0) { acc, x in
-    let str = String(x[x.startIndex.successor() ..<  x.endIndex.predecessor()])
+let difference = input.characters.split(separator: "\n").reduce(0) { acc, x in
+    let str = String(x[x.index(after: x.startIndex) ..<  x.index(before: x.endIndex)])
     return acc + (str.literalSize - str.size)
 }
 print("Difference: \(difference)")
 
 
-let difference2 = input.characters.split("\n").reduce(0) { acc, x in
-    let s = String(x[x.startIndex.successor() ..<  x.endIndex.predecessor()])
+let difference2 = input.characters.split(separator: "\n").reduce(0) { acc, x in
+    let s = String(x[x.index(after: x.startIndex) ..<  x.index(before: x.endIndex)])
     let encodedSize = String(xmasEncode: s).literalSize
     let literalSize = String(s).literalSize
     return acc + (encodedSize - literalSize)

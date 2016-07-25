@@ -26,45 +26,45 @@ extension String {
     public var escaped: String {
         var result = ""
         
-        var index = self.characters.startIndex
-        while (index < self.characters.endIndex) {
-            switch self.characters[index] {
+        var index = characters.startIndex
+        while (index < characters.endIndex) {
+            switch characters[index] {
             case "\\":
-                switch self.characters[index.successor()] {
+                switch characters[characters.index(after: index)] {
                 case "\"":
                     result += "\""
-                    index = index.successor()
+                    index = characters.index(after: index)
                 case "\\":
                     result += "\\"
-                    index = index.successor()
+                    index = characters.index(after: index)
                 case "x":
                     var hexNum = ""
-                    hexNum.append(self.characters[index.successor().successor()])
-                    hexNum.append(self.characters[index.successor().successor().successor()])
+                    hexNum.append(characters[characters.index(index, offsetBy: 2)])
+                    hexNum.append(characters[characters.index(index, offsetBy: 3)])
                     if let value = Int(hexNum, radix: 16) {
                         result.append(Character(UnicodeScalar(value)))
-                        index = index.successor().successor().successor()
+                        index = characters.index(index, offsetBy: 3)
                     } else {
-                        result.append(self.characters[index])
+                        result.append(characters[index])
                     }
                 default:
-                    result.append(self.characters[index])
+                    result.append(characters[index])
                 }
             default:
-                result.append(self.characters[index])
+                result.append(characters[index])
             }
-            index = index.successor()
+            index = characters.index(after: index)
         }
         
         return result
     }
     
     public var literalSize: Int {
-        return self.unicodeScalars.count + 2
+        return unicodeScalars.count + 2
     }
     
     public var size: Int {
-        return self.escaped.unicodeScalars.count
+        return escaped.unicodeScalars.count
     }
     
     public init(xmasEncode str: String) {
