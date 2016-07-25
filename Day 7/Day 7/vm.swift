@@ -30,8 +30,8 @@ public class VirtualMachine {
         self.memo = [:]
     }
     
-    public func load<Program: SequenceType where Program.Generator.Element == Statement>(program: Program) {
-        for case let .Store(wire, expression) in program {
+    public func load<Program: Sequence where Program.Iterator.Element == Statement>(program: Program) {
+        for case let .store(wire, expression) in program {
             self.core[wire] = expression
         }
         self.memo = [:]
@@ -50,21 +50,21 @@ public class VirtualMachine {
 
 private extension Expression {
     
-    func evaluate(core: [Wire: Expression], inout memo: [Wire: UInt16]) -> UInt16 {
+    func evaluate(_ core: [Wire: Expression], memo: inout [Wire: UInt16]) -> UInt16 {
         switch self {
-        case let .And(lhs, rhs):
+        case let .and(lhs, rhs):
             return lhs.evaluate(core, memo: &memo) & rhs.evaluate(core, memo: &memo)
-        case let .Or(lhs, rhs):
+        case let .or(lhs, rhs):
             return lhs.evaluate(core, memo: &memo) | rhs.evaluate(core, memo: &memo)
-        case let .Not(exp):
+        case let .not(exp):
             return ~exp.evaluate(core, memo: &memo)
-        case let .LeftShift(lhs, rhs):
+        case let .leftShift(lhs, rhs):
             return lhs.evaluate(core, memo: &memo) << rhs.evaluate(core, memo: &memo)
-        case let .RightShift(lhs, rhs):
+        case let .rightShift(lhs, rhs):
             return lhs.evaluate(core, memo: &memo) >> rhs.evaluate(core, memo: &memo)
-        case let Literal(num):
+        case let literal(num):
             return num
-        case let Reference(wire):
+        case let reference(wire):
             if let num = core[wire] {
                 if let memoizedNum = memo[wire] {
                     return memoizedNum

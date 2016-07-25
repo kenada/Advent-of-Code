@@ -26,108 +26,108 @@
 import Foundation
 
 public enum Symbol: Equatable {
-    case Assignment
+    case assignment
     
-    case Wire(String)
-    case Number(UInt16)
+    case wire(String)
+    case number(UInt16)
     
-    case And, Or, LeftShift, RightShift, Not
+    case and, or, leftShift, rightShift, not
 }
 
 public func ==(lhs: Symbol, rhs: Symbol) -> Bool {
     switch (lhs, rhs) {
-    case (.Assignment, .Assignment):
+    case (.assignment, .assignment):
         return true
-    case let (.Wire(str1), .Wire(str2)) where str1 == str2:
+    case let (.wire(str1), .wire(str2)) where str1 == str2:
         return true
-    case let (.Number(num1), .Number(num2)) where num1 == num2:
+    case let (.number(num1), .number(num2)) where num1 == num2:
         return true
-    case (.And, .And):
+    case (.and, .and):
         return true
-    case (.Or, .Or):
+    case (.or, .or):
         return true
-    case (.LeftShift, .LeftShift):
+    case (.leftShift, .leftShift):
         return true
-    case (.RightShift, .RightShift):
+    case (.rightShift, .rightShift):
         return true
-    case (.Not, .Not):
+    case (.not, .not):
         return true
     default:
         return false
     }
 }
 
-private let whitespace = try! NSRegularExpression(pattern: "\\s", options: [])
+private let whitespace = try! RegularExpression(pattern: "\\s", options: [])
 public func lex(input: String) -> [Symbol] {
     let tokens = input.characters.split {
-        whitespace.firstMatchInString(String($0), options: [], range: NSMakeRange(0, 1)) != nil
+        whitespace.firstMatch(in: String($0), options: [], range: NSMakeRange(0, 1)) != nil
     }
-    var result = Array(count: tokens.count, repeatedValue: Symbol.Not)
-    for (index, token) in tokens.enumerate() {
+    var result = Array(repeating: Symbol.not, count: tokens.count)
+    for (index, token) in tokens.enumerated() {
         switch String(token) {
         case "->":
-            result[index] = .Assignment
+            result[index] = .assignment
         case "AND":
-            result[index] = .And
+            result[index] = .and
         case "OR":
-            result[index] = .Or
+            result[index] = .or
         case "NOT":
-            result[index] = .Not
+            result[index] = .not
         case "LSHIFT":
-            result[index] = .LeftShift
+            result[index] = .leftShift
         case "RSHIFT":
-            result[index] = .RightShift
+            result[index] = .rightShift
         case let sym:
             if let num = UInt16(sym) {
-                result[index] = .Number(num)
+                result[index] = .number(num)
             } else {
-                result[index] = .Wire(sym)
+                result[index] = .wire(sym)
             }
         }
     }
     return result
 }
 
-public enum ParseError: ErrorType {
-    case ExpectedAssignment
-    case ExpectedLiteralOrWire
-    case ExpectedOperator
-    case InvalidAssignment
-    case UnexpectedSymbol
-    case MissingValue
+public enum ParseError: ErrorProtocol {
+    case expectedAssignment
+    case expectedLiteralOrWire
+    case expectedOperator
+    case invalidAssignment
+    case unexpectedSymbol
+    case missingValue
 }
 
 public func parse(symbols: [Symbol]) throws -> Statement {
-    var seq = symbols.generate()
+    var seq = symbols.makeIterator()
     
     let expression = try parseExpression(&seq)
     try parseAssignment(&seq)
     let wire = try parseWire(&seq)
     
     if seq.next() != nil {
-        throw ParseError.UnexpectedSymbol
+        throw ParseError.unexpectedSymbol
     }
     
-    return .Store(wire: wire, expression: expression)
+    return .store(wire: wire, expression: expression)
 }
 
 // statement ::= expression -> wire
 // expression ::=  NOT value | value OP value | value
 // value ::= number | wire
 
-private func parseExpression(inout seq: Array<Symbol>.Generator) throws -> Expression {
+private func parseExpression(_ seq: inout Array<Symbol>.Iterator) throws -> Expression {
     let originalSeq = seq
     guard let symbol = seq.next() else {
-        throw ParseError.MissingValue
+        throw ParseError.missingValue
     }
     switch symbol {
-    case .Not:
-        return .Not(try parseValue(&seq))
+    case .not:
+        return .not(try parseValue(&seq))
     default:
         seq = originalSeq
         let lhs = try parseValue(&seq)
         var peekOperator = seq
-        if peekOperator.next() == .Assignment {
+        if peekOperator.next() == .assignment {
             return lhs
         } else {
             let op = try parseOperator(&seq)
@@ -137,52 +137,52 @@ private func parseExpression(inout seq: Array<Symbol>.Generator) throws -> Expre
     }
 }
 
-private func parseValue(inout seq: Array<Symbol>.Generator) throws -> Expression {
+private func parseValue(_ seq: inout Array<Symbol>.Iterator) throws -> Expression {
     guard let symbol = seq.next() else {
-        throw ParseError.ExpectedLiteralOrWire
+        throw ParseError.expectedLiteralOrWire
     }
     switch symbol {
-    case let .Number(num):
-        return .Literal(num)
-    case let .Wire(wire):
-        return .Reference(wire)
+    case let .number(num):
+        return .literal(num)
+    case let .wire(wire):
+        return .reference(wire)
     default:
-        throw ParseError.ExpectedLiteralOrWire
+        throw ParseError.expectedLiteralOrWire
     }
 }
 
-private func parseOperator(inout seq: Array<Symbol>.Generator) throws -> (Expression, Expression) -> Expression {
+private func parseOperator(_ seq: inout Array<Symbol>.Iterator) throws -> (Expression, Expression) -> Expression {
     guard let symbol = seq.next() else {
-        throw ParseError.ExpectedOperator
+        throw ParseError.expectedOperator
     }
     switch symbol {
-    case .And:
-        return Expression.And
-    case .Or:
-        return Expression.Or
-    case .LeftShift:
-        return Expression.LeftShift
-    case .RightShift:
-        return Expression.RightShift
+    case .and:
+        return Expression.and
+    case .or:
+        return Expression.or
+    case .leftShift:
+        return Expression.leftShift
+    case .rightShift:
+        return Expression.rightShift
     default:
-        throw ParseError.ExpectedOperator
+        throw ParseError.expectedOperator
     }
 }
 
-private func parseAssignment(inout seq: Array<Symbol>.Generator) throws {
+private func parseAssignment(_ seq: inout Array<Symbol>.Iterator) throws {
     let symbol = seq.next()
-    if symbol == nil || symbol != .Assignment {
-        throw ParseError.ExpectedAssignment
+    if symbol == nil || symbol != .assignment {
+        throw ParseError.expectedAssignment
     }
 }
 
-private func parseWire(inout seq: Array<Symbol>.Generator) throws -> Wire {
+private func parseWire(_ seq: inout Array<Symbol>.Iterator) throws -> Wire {
     guard let symbol = seq.next() else {
-        throw ParseError.MissingValue
+        throw ParseError.missingValue
     }
-    if case let .Wire(name) = symbol {
+    if case let .wire(name) = symbol {
         return Wire(name)
     } else {
-        throw ParseError.InvalidAssignment
+        throw ParseError.invalidAssignment
     }
 }

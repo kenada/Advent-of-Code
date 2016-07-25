@@ -28,41 +28,41 @@ import XCTest
 class Day_7_Lexer_Tests: XCTestCase {
     
     func testLiteralStore() {
-        Day_7_Lexer_Tests.testParse("1 -> b", expectedResults: .Number(1), .Assignment, .Wire("b"))
+        Day_7_Lexer_Tests.testParse("1 -> b", expectedResults: .number(1), .assignment, .wire("b"))
     }
     
     func testWireCopy() {
-        Day_7_Lexer_Tests.testParse("a -> b", expectedResults: .Wire("a"), .Assignment, .Wire("b"))
+        Day_7_Lexer_Tests.testParse("a -> b", expectedResults: .wire("a"), .assignment, .wire("b"))
     }
     
     func testNot() {
-        Day_7_Lexer_Tests.testParse("NOT a -> b", expectedResults: .Not, .Wire("a"), .Assignment, .Wire("b"))
+        Day_7_Lexer_Tests.testParse("NOT a -> b", expectedResults: .not, .wire("a"), .assignment, .wire("b"))
     }
     
     func testAnd() {
-        Day_7_Lexer_Tests.testParse("1 AND b -> b", expectedResults: .Number(1), .And, .Wire("b"), .Assignment, .Wire("b"))
+        Day_7_Lexer_Tests.testParse("1 AND b -> b", expectedResults: .number(1), .and, .wire("b"), .assignment, .wire("b"))
     }
     
     func testOr() {
         Day_7_Lexer_Tests.testParse("a OR 2 -> b",
-            expectedResults: .Wire("a"), .Or, .Number(2), .Assignment, .Wire("b"))
+            expectedResults: .wire("a"), .or, .number(2), .assignment, .wire("b"))
     }
     
     func testLeftShift() {
-        Day_7_Lexer_Tests.testParse("c LSHIFT d -> b", expectedResults: .Wire("c"), .LeftShift, .Wire("d"), .Assignment, .Wire("b"))
+        Day_7_Lexer_Tests.testParse("c LSHIFT d -> b", expectedResults: .wire("c"), .leftShift, .wire("d"), .assignment, .wire("b"))
     }
     
     func testRightShift() {
         Day_7_Lexer_Tests.testParse("1 RSHIFT 2 -> q",
-            expectedResults: .Number(1), .RightShift, .Number(2), .Assignment, .Wire("q"))
+            expectedResults: .number(1), .rightShift, .number(2), .assignment, .wire("q"))
     }
     
     func parseFailure() {
-        Day_7_Lexer_Tests.testParse("fsldfjasldfk333j", expectedResults: .Wire("fsldfjasldfk333j"))
+        Day_7_Lexer_Tests.testParse("fsldfjasldfk333j", expectedResults: .wire("fsldfjasldfk333j"))
     }
     
-    static func testParse(input: String, expectedResults: Symbol...) {
-        let result = lex(input)
+    static func testParse(_ input: String, expectedResults: Symbol...) {
+        let result = lex(input: input)
         XCTAssertEqual(result.count, expectedResults.count, "lengths match")
         for (symbol, expectedSymbol) in zip(result, expectedResults) {
             XCTAssertEqual(symbol, expectedSymbol, "symbol sequences match")
@@ -74,78 +74,78 @@ class Day_7_Lexer_Tests: XCTestCase {
 class Day_7_Parser_Tests: XCTestCase {
     
     func testLiteral() {
-        Day_7_Parser_Tests.test([.Number(1), .Assignment, .Wire("b")],
-            expectedResults: .Store(wire: "b", expression: .Literal(1)))
+        Day_7_Parser_Tests.test([.number(1), .assignment, .wire("b")],
+            expectedResults: .store(wire: "b", expression: .literal(1)))
     }
     
     func testWire() {
-        Day_7_Parser_Tests.test([.Wire("a"), .Assignment, .Wire("b")],
-            expectedResults: .Store(wire: "b", expression: .Reference("a")))
+        Day_7_Parser_Tests.test([.wire("a"), .assignment, .wire("b")],
+            expectedResults: .store(wire: "b", expression: .reference("a")))
     }
 
     func testAnd() {
-        Day_7_Parser_Tests.test([.Number(1), .And, .Wire("b"), .Assignment, .Wire("b")],
-            expectedResults: .Store(wire: "b", expression: .And(.Literal(1), .Reference("b"))))
+        Day_7_Parser_Tests.test([.number(1), .and, .wire("b"), .assignment, .wire("b")],
+            expectedResults: .store(wire: "b", expression: .and(.literal(1), .reference("b"))))
     }
     
     func testOr() {
-        Day_7_Parser_Tests.test([.Wire("a"), .Or, .Number(2), .Assignment, .Wire("b")],
-            expectedResults: .Store(wire: "b", expression: .Or(.Reference("a"), .Literal(2))))
+        Day_7_Parser_Tests.test([.wire("a"), .or, .number(2), .assignment, .wire("b")],
+            expectedResults: .store(wire: "b", expression: .or(.reference("a"), .literal(2))))
     }
     
     func testNot() {
-        Day_7_Parser_Tests.test([.Not, .Wire("a"), .Assignment, .Wire("b")],
-            expectedResults: .Store(wire: "b", expression: .Not(.Reference("a"))))
+        Day_7_Parser_Tests.test([.not, .wire("a"), .assignment, .wire("b")],
+            expectedResults: .store(wire: "b", expression: .not(.reference("a"))))
     }
     
     func testLeftShift() {
-        Day_7_Parser_Tests.test([.Wire("c"), .LeftShift, .Wire("d"), .Assignment, .Wire("b")],
-            expectedResults: .Store(wire: "b", expression: .LeftShift(.Reference("c"), .Reference("d"))))
+        Day_7_Parser_Tests.test([.wire("c"), .leftShift, .wire("d"), .assignment, .wire("b")],
+            expectedResults: .store(wire: "b", expression: .leftShift(.reference("c"), .reference("d"))))
     }
     
     func testRightShift() {
-        Day_7_Parser_Tests.test([.Number(1), .RightShift, .Number(2), .Assignment, .Wire("q")],
-            expectedResults: .Store(wire: "q", expression: .RightShift(.Literal(1), .Literal(2))))
+        Day_7_Parser_Tests.test([.number(1), .rightShift, .number(2), .assignment, .wire("q")],
+            expectedResults: .store(wire: "q", expression: .rightShift(.literal(1), .literal(2))))
     }
     
     func testInvalidAssignment() {
-        Day_7_Parser_Tests.testParseError(input: .Number(1), .Assignment, .Number(1),
-            expectedException: .InvalidAssignment)
+        Day_7_Parser_Tests.testParseError(input: .number(1), .assignment, .number(1),
+            expectedException: .invalidAssignment)
     }
     
     func testExpectedAssignment() {
-        Day_7_Parser_Tests.testParseError(input: .Number(1), .And, .Number(2), expectedException: .ExpectedAssignment)
+        Day_7_Parser_Tests.testParseError(input: .number(1), .and, .number(2), expectedException: .expectedAssignment)
     }
     
     func testExpectedOperator() {
-        Day_7_Parser_Tests.testParseError(input: .Number(1), expectedException: .ExpectedOperator)
+        Day_7_Parser_Tests.testParseError(input: .number(1), expectedException: .expectedOperator)
     }
     
     func testUnexpectedSymbol() {
-        Day_7_Parser_Tests.testParseError(input: .Number(1), .And, .Number(1), .Assignment, .Wire("a"), .Number(5),
-            expectedException: .UnexpectedSymbol)
+        Day_7_Parser_Tests.testParseError(input: .number(1), .and, .number(1), .assignment, .wire("a"), .number(5),
+            expectedException: .unexpectedSymbol)
     }
     
     func testMissingValue() {
-        Day_7_Parser_Tests.testParseError(input: .Number(5), .Assignment, expectedException: .MissingValue)
+        Day_7_Parser_Tests.testParseError(input: .number(5), .assignment, expectedException: .missingValue)
     }
     
     func testExpectedLiteralOrWire() {
-        Day_7_Parser_Tests.testParseError(input: .Assignment, expectedException: .ExpectedLiteralOrWire)
+        Day_7_Parser_Tests.testParseError(input: .assignment, expectedException: .expectedLiteralOrWire)
     }
     
-    static func test(input: [Symbol], expectedResults: Statement) {
-        let result = try! parse(input)
+    static func test(_ input: [Symbol], expectedResults: Statement) {
+        let result = try! parse(symbols: input)
         switch (result, expectedResults) {
-        case let (.Store(wire, expression), .Store(expectedWire, expectedExpression)):
+        case let (.store(wire, expression), .store(expectedWire, expectedExpression)):
             XCTAssertEqual(wire, expectedWire, "wires match")
             XCTAssertEqual(expression, expectedExpression, "expressions match")
         }
     }
     
-    static func testParseError(input input: Symbol..., expectedException: ParseError) {
+    static func testParseError(input: Symbol..., expectedException: ParseError) {
         do {
-            try parse(input)
+            _ = try parse(symbols: input)
             XCTAssert(false, "expecting exception")
         } catch let exp as ParseError {
             XCTAssertEqual(exp, expectedException, "expected exception thrown")
@@ -170,8 +170,8 @@ class Day_7_VM_Tests: XCTestCase {
             "y": 456
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .Literal(123)),
-            .Store(wire: "y", expression: .Literal(456))
+            .store(wire: "x", expression: .literal(123)),
+            .store(wire: "y", expression: .literal(456))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
@@ -183,9 +183,9 @@ class Day_7_VM_Tests: XCTestCase {
             "z": 1
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .Literal(1)),
-            .Store(wire: "y", expression: .Literal(3)),
-            .Store(wire: "z", expression: .And(.Reference("x"), .Reference("y")))
+            .store(wire: "x", expression: .literal(1)),
+            .store(wire: "y", expression: .literal(3)),
+            .store(wire: "z", expression: .and(.reference("x"), .reference("y")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
@@ -197,9 +197,9 @@ class Day_7_VM_Tests: XCTestCase {
             "z": 3
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .Literal(1)),
-            .Store(wire: "y", expression: .Literal(2)),
-            .Store(wire: "z", expression: .Or(.Reference("x"), .Reference("y")))
+            .store(wire: "x", expression: .literal(1)),
+            .store(wire: "y", expression: .literal(2)),
+            .store(wire: "z", expression: .or(.reference("x"), .reference("y")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
@@ -210,8 +210,8 @@ class Day_7_VM_Tests: XCTestCase {
             "y": 65534,
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .Literal(1)),
-            .Store(wire: "y", expression: .Not(.Reference("x")))
+            .store(wire: "x", expression: .literal(1)),
+            .store(wire: "y", expression: .not(.reference("x")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
@@ -223,9 +223,9 @@ class Day_7_VM_Tests: XCTestCase {
             "z": 4
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .Literal(1)),
-            .Store(wire: "y", expression: .Literal(2)),
-            .Store(wire: "z", expression: .LeftShift(.Reference("x"), .Reference("y")))
+            .store(wire: "x", expression: .literal(1)),
+            .store(wire: "y", expression: .literal(2)),
+            .store(wire: "z", expression: .leftShift(.reference("x"), .reference("y")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
@@ -237,9 +237,9 @@ class Day_7_VM_Tests: XCTestCase {
             "z": 1
         ]
         let program: [Statement] = [
-            .Store(wire: "x", expression: .Literal(4)),
-            .Store(wire: "y", expression: .Literal(2)),
-            .Store(wire: "z", expression: .RightShift(.Reference("x"), .Reference("y")))
+            .store(wire: "x", expression: .literal(4)),
+            .store(wire: "y", expression: .literal(2)),
+            .store(wire: "z", expression: .rightShift(.reference("x"), .reference("y")))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
@@ -249,19 +249,19 @@ class Day_7_VM_Tests: XCTestCase {
             "q": 3
         ]
         let program: [Statement] = [
-            .Store(wire: "q", expression: .And(.Not(.And(.Reference("x"), .Reference("y"))),
-                .Or(.Reference("x"), .Reference("y")))),
-            .Store(wire: "x", expression: .Literal(5)),
-            .Store(wire: "y", expression: .Literal(6))
+            .store(wire: "q", expression: .and(.not(.and(.reference("x"), .reference("y"))),
+                .or(.reference("x"), .reference("y")))),
+            .store(wire: "x", expression: .literal(5)),
+            .store(wire: "y", expression: .literal(6))
         ]
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
-    static func test<Program: SequenceType where Program.Generator.Element == Statement>(
-        program: Program, virtualMachine vm: VirtualMachine, expectedResults: [Wire: UInt16]) {
-            vm.load(program)
+    static func test<Program: Sequence where Program.Iterator.Element == Statement>(
+        _ program: Program, virtualMachine vm: VirtualMachine, expectedResults: [Wire: UInt16]) {
+            vm.load(program: program)
             for (wire, expectedValue) in expectedResults {
-                XCTAssertEqual(vm.read(wire), expectedValue, "\(wire) value == expectedResults[\(wire)]")
+                XCTAssertEqual(vm.read(wire: wire), expectedValue, "\(wire) value == expectedResults[\(wire)]")
             }
     }
     

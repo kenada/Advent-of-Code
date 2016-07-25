@@ -25,29 +25,29 @@
 
 public enum Expression: Equatable {
     indirect case
-        And(Expression, Expression),
-        Or(Expression, Expression),
-        Not(Expression),
-        LeftShift(Expression, Expression),
-        RightShift(Expression, Expression)
-    case Literal(UInt16), Reference(Wire)
+        and(Expression, Expression),
+        or(Expression, Expression),
+        not(Expression),
+        leftShift(Expression, Expression),
+        rightShift(Expression, Expression)
+    case literal(UInt16), reference(Wire)
 }
 
 public func ==(lhs: Expression, rhs: Expression) -> Bool {
     switch (lhs, rhs) {
-    case let (.And(lhs_lexp, lhs_rexp), .And(rhs_lexp, rhs_rexp)):
+    case let (.and(lhs_lexp, lhs_rexp), .and(rhs_lexp, rhs_rexp)):
         return lhs_lexp == rhs_lexp && lhs_rexp == rhs_rexp
-    case let (.Or(lhs_lexp, lhs_rexp), .Or(rhs_lexp, rhs_rexp)):
+    case let (.or(lhs_lexp, lhs_rexp), .or(rhs_lexp, rhs_rexp)):
         return lhs_lexp == rhs_lexp && lhs_rexp == rhs_rexp
-    case let (.Not(lhs_exp), .Not(rhs_exp)):
+    case let (.not(lhs_exp), .not(rhs_exp)):
         return lhs_exp == rhs_exp
-    case let (.LeftShift(lhs_lexp, lhs_rexp), .LeftShift(rhs_lexp, rhs_rexp)):
+    case let (.leftShift(lhs_lexp, lhs_rexp), .leftShift(rhs_lexp, rhs_rexp)):
         return lhs_lexp == rhs_lexp && lhs_rexp == rhs_rexp
-    case let (.RightShift(lhs_lexp, lhs_rexp), .RightShift(rhs_lexp, rhs_rexp)):
+    case let (.rightShift(lhs_lexp, lhs_rexp), .rightShift(rhs_lexp, rhs_rexp)):
         return lhs_lexp == rhs_lexp && lhs_rexp == rhs_rexp
-    case let (.Literal(lhs_num), .Literal(rhs_num)):
+    case let (.literal(lhs_num), .literal(rhs_num)):
         return lhs_num == rhs_num
-    case let (.Reference(lhs_sym), .Reference(rhs_sym)):
+    case let (.reference(lhs_sym), .reference(rhs_sym)):
         return lhs_sym == rhs_sym
     default:
         return false
@@ -55,7 +55,7 @@ public func ==(lhs: Expression, rhs: Expression) -> Bool {
 }
 
 public enum Statement {
-    case Store(wire: Wire, expression: Expression)
+    case store(wire: Wire, expression: Expression)
 }
 
 public typealias Wire = String

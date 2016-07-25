@@ -25,22 +25,22 @@
 
 let input = try! String(contentsOfFile: "day 7 input.txt")
 
-let program = input.characters.split("\n").map { line -> Statement in
+let program = input.characters.split(separator: "\n").map { line -> Statement in
     let line = String(line)
     do {
-        let statement = try parse(lex(line))
+        let statement = try parse(symbols: lex(input: line))
         return statement
-    } catch ParseError.ExpectedAssignment {
+    } catch ParseError.expectedAssignment {
         fatalError("\(line)\n\n\tExpected assignment statement but something else (or nothing) found.")
-    } catch ParseError.ExpectedLiteralOrWire {
+    } catch ParseError.expectedLiteralOrWire {
         fatalError("\(line)\n\n\tExpected literal or wire but something else (or nothing) found.")
-    } catch ParseError.ExpectedOperator {
+    } catch ParseError.expectedOperator {
         fatalError("\(line)\n\n\tExpected operator but something else (or nothing) found.")
-    } catch ParseError.InvalidAssignment {
+    } catch ParseError.invalidAssignment {
         fatalError("\(line)\n\n\tTarget of assignment is not a wire")
-    } catch ParseError.UnexpectedSymbol {
+    } catch ParseError.unexpectedSymbol {
         fatalError("\(line)\n\n\tUnexpected symbol found at the end of the line. Please remove.")
-    } catch ParseError.MissingValue {
+    } catch ParseError.missingValue {
         fatalError("\(line)\n\n\tValue or wire expected but not found.")
     } catch {
         fatalError()
@@ -48,13 +48,13 @@ let program = input.characters.split("\n").map { line -> Statement in
 }
 
 let vm = VirtualMachine()
-vm.load(program)
+vm.load(program: program)
 
-let a = vm.read("a")!
+let a = vm.read(wire: "a")!
 print("a: \(a)")
 
-let newProgram = [try! parse(lex("\(a) -> b"))]
-vm.load(newProgram)
+let newProgram = [try! parse(symbols: lex(input: "\(a) -> b"))]
+vm.load(program: newProgram)
 
-let a2 = vm.read("a")!
+let a2 = vm.read(wire: "a")!
 print("a: \(a2)")
