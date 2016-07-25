@@ -84,11 +84,11 @@ class Day_6_Parser_Tests: XCTestCase {
     func testParser() {
         let cases = [
             (string: "turn on 0,0 through 999,999",
-                expectedResult: LightGridCommand.TurnOn(area: Rect(x: 0, y: 0, width: 1000, height: 1000))),
+                expectedResult: LightGridCommand.turnOn(area: Rect(x: 0, y: 0, width: 1000, height: 1000))),
             (string: "toggle 0,0 through 999,0",
-                expectedResult: .Toggle(area: Rect(x: 0, y: 0, width: 1000, height: 1))),
+                expectedResult: .toggle(area: Rect(x: 0, y: 0, width: 1000, height: 1))),
             (string: "turn off 499,499 through 500,500",
-                expectedResult: .TurnOff(area: Rect(x: 499, y: 499, width: 2, height: 2)))
+                expectedResult: .turnOff(area: Rect(x: 499, y: 499, width: 2, height: 2)))
         ]
         for `case` in cases {
             let command = LightGridCommand(command: `case`.string)

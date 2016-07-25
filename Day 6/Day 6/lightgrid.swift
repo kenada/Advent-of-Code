@@ -62,7 +62,7 @@ public class LightGrid<T, Ops: ToggleOps where Ops.Element == T> {
     let ops: Ops
     
     private init(size: Size, ops: Ops) {
-        grid = Array(count: size.width, repeatedValue: Array(count: size.height, repeatedValue: ops.defaultMake()))
+        grid = Array(repeating: Array(repeating: ops.defaultMake(), count: size.height), count: size.width)
         self.ops = ops
     }
     
@@ -84,7 +84,7 @@ public class LightGrid<T, Ops: ToggleOps where Ops.Element == T> {
         }
     }
     
-    func turnOn(rect: Rect) {
+    func turnOn(_ rect: Rect) {
         for x in 0 ..< rect.size.width {
             for y in 0 ..< rect.size.height {
                 self[x: x + rect.origin.x, y: y + rect.origin.y] =
@@ -93,7 +93,7 @@ public class LightGrid<T, Ops: ToggleOps where Ops.Element == T> {
         }
     }
     
-    func turnOff(rect: Rect) {
+    func turnOff(_ rect: Rect) {
         for x in 0 ..< rect.size.width {
             for y in 0 ..< rect.size.height {
                 self[x: x + rect.origin.x, y: y + rect.origin.y] =
@@ -102,7 +102,7 @@ public class LightGrid<T, Ops: ToggleOps where Ops.Element == T> {
         }
     }
     
-    func toggle(rect: Rect) {
+    func toggle(_ rect: Rect) {
         for x in 0 ..< rect.size.width {
             for y in 0 ..< rect.size.height {
                 self[x: x + rect.origin.x, y: y + rect.origin.y] =
@@ -118,12 +118,12 @@ public class LightGrid<T, Ops: ToggleOps where Ops.Element == T> {
 }
 
 public protocol ToggleOps {
-    typealias Element
-    func on(input: Element) -> Element
-    func off(input: Element) -> Element
-    func toggle(input: Element) -> Element
+    associatedtype Element
+    func on(_ input: Element) -> Element
+    func off(_ input: Element) -> Element
+    func toggle(_ input: Element) -> Element
     func defaultMake() -> Element
-    func aggregate(acc: Int, input: Element) -> Int
+    func aggregate(_ acc: Int, input: Element) -> Int
 }
 
 public struct BoolToggleOps: ToggleOps {
@@ -133,31 +133,31 @@ public struct BoolToggleOps: ToggleOps {
     public func off(_: Bool) -> Bool {
         return false
     }
-    public func toggle(input: Bool) -> Bool {
+    public func toggle(_ input: Bool) -> Bool {
         return !input
     }
     public func defaultMake() -> Bool {
         return false
     }
-    public func aggregate(acc: Int, input: Bool) -> Int {
+    public func aggregate(_ acc: Int, input: Bool) -> Int {
         return acc + (input ? 1 : 0)
     }
 }
 
 public struct IntToggleOps: ToggleOps {
-    public func on(input: Int) -> Int {
+    public func on(_ input: Int) -> Int {
         return input + 1
     }
-    public func off(input: Int) -> Int {
+    public func off(_ input: Int) -> Int {
         return max(0, input - 1)
     }
-    public func toggle(input: Int) -> Int {
+    public func toggle(_ input: Int) -> Int {
         return input + 2
     }
     public func defaultMake() -> Int {
         return 0
     }
-    public func aggregate(acc: Int, input: Int) -> Int {
+    public func aggregate(_ acc: Int, input: Int) -> Int {
         return acc + input
     }
 }

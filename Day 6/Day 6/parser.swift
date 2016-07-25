@@ -26,37 +26,37 @@
 import Foundation
 
 private let regex =
-    try! NSRegularExpression(pattern: "(turn on|turn off|toggle)\\s+(\\d+)\\s*,(\\d+)\\s+through\\s(\\d+)\\s*,(\\d+)",
+    try! RegularExpression(pattern: "(turn on|turn off|toggle)\\s+(\\d+)\\s*,(\\d+)\\s+through\\s(\\d+)\\s*,(\\d+)",
     options: [])
 
 public enum LightGridCommand: Equatable {
-    case TurnOn(area: Rect), TurnOff(area: Rect), Toggle(area: Rect)
+    case turnOn(area: Rect), turnOff(area: Rect), toggle(area: Rect)
     
     init?(command: String) {
         let nsCommand = command as NSString
         guard let parsed =
-                regex.firstMatchInString(command, options: [], range: NSMakeRange(0, nsCommand.length)) else {
+                regex.firstMatch(in: command, options: [], range: NSMakeRange(0, nsCommand.length)) else {
             return nil
         }
-        guard let x0 = Int(nsCommand.substringWithRange(parsed.rangeAtIndex(2))) else {
+        guard let x0 = Int(nsCommand.substring(with: parsed.range(at: 2))) else {
             return nil
         }
-        guard let y0 = Int(nsCommand.substringWithRange(parsed.rangeAtIndex(3))) else {
+        guard let y0 = Int(nsCommand.substring(with: parsed.range(at: 3))) else {
             return nil
         }
-        guard let x1 = Int(nsCommand.substringWithRange(parsed.rangeAtIndex(4))) else {
+        guard let x1 = Int(nsCommand.substring(with: parsed.range(at: 4))) else {
             return nil
         }
-        guard let y1 = Int(nsCommand.substringWithRange(parsed.rangeAtIndex(5))) else {
+        guard let y1 = Int(nsCommand.substring(with: parsed.range(at: 5))) else {
             return nil
         }
-        switch nsCommand.substringWithRange(parsed.rangeAtIndex(1)) {
+        switch nsCommand.substring(with: parsed.range(at: 1)) {
         case "turn on":
-            self = .TurnOn(area: Rect(x: x0, y: y0, width: x1 - x0 + 1, height: y1 - y0 + 1))
+            self = .turnOn(area: Rect(x: x0, y: y0, width: x1 - x0 + 1, height: y1 - y0 + 1))
         case "turn off":
-            self = .TurnOff(area: Rect(x: x0, y: y0, width: x1 - x0 + 1, height: y1 - y0 + 1))
+            self = .turnOff(area: Rect(x: x0, y: y0, width: x1 - x0 + 1, height: y1 - y0 + 1))
         case "toggle":
-            self = .Toggle(area: Rect(x: x0, y: y0, width: x1 - x0 + 1, height: y1 - y0 + 1))
+            self = .toggle(area: Rect(x: x0, y: y0, width: x1 - x0 + 1, height: y1 - y0 + 1))
         default:
             return nil
         }
@@ -65,11 +65,11 @@ public enum LightGridCommand: Equatable {
 
 public func ==(lhs: LightGridCommand, rhs: LightGridCommand) -> Bool {
     switch (lhs, rhs) {
-    case let (.TurnOn(area), .TurnOn(expectedArea)):
+    case let (.turnOn(area), .turnOn(expectedArea)):
         return area == expectedArea
-    case let (.Toggle(area), .Toggle(expectedArea)):
+    case let (.toggle(area), .toggle(expectedArea)):
         return area == expectedArea
-    case let (.TurnOff(area), .TurnOff(expectedArea)):
+    case let (.turnOff(area), .turnOff(expectedArea)):
         return area == expectedArea
     default:
         return false
