@@ -34,7 +34,7 @@
 		8E1F67241C24D18A00526DED /* Day_3_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day_3_Tests.swift; sourceTree = "<group>"; };
 		8E1F67261C24D18A00526DED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E1F672A1C24D52400526DED /* functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
-		8E1F672D1C24DB8000526DED /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = input.txt; path = ../../../../Downloads/input.txt; sourceTree = "<group>"; };
+		8E1F672D1C24DB8000526DED /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
