@@ -27,53 +27,53 @@ import XCTest
 
 class Day_6_LightGrid_Tests: XCTestCase {
     
-    var grid: BoolLightGrid!
+    var grid: LightGrid!
     
     override func setUp() {
-        grid = BoolLightGrid(width: 1000, height: 1000)
+        grid = LightGrid(width: 1000, height: 1000)
     }
     
     func testTurnOn() {
         let area = Rect(x: 0, y: 0, width: 1000, height: 1000)
-        grid.turnOn(area)
-        XCTAssertEqual(grid.aggregate, 1000000)
+        grid.turnOn(area: area)
+        XCTAssertEqual(grid.lightsOn, 1000000)
     }
     
     func testToggle() {
         let area = Rect(x: 0, y: 0, width: 1000, height: 1)
-        grid.toggle(area)
-        XCTAssertEqual(grid.aggregate, 1000, "turning the lights on")
-        grid.toggle(area)
-        XCTAssertEqual(grid.aggregate, 0, "then turning them back off")
+        grid.toggle(area: area)
+        XCTAssertEqual(grid.lightsOn, 1000, "turning the lights on")
+        grid.toggle(area: area)
+        XCTAssertEqual(grid.lightsOn, 0, "then turning them back off")
     }
     
     func testTurnOff() {
         let area = Rect(x: 499, y: 499, width: 1, height: 1)
-        grid.turnOff(area)
-        XCTAssertEqual(grid.aggregate, 0)
+        grid.turnOff(area: area)
+        XCTAssertEqual(grid.lightsOn, 0)
     }
     
 }
 
 class Day_6_IntGrid_Tests: XCTestCase {
     
-    var grid: IntLightGrid!
+    var grid: LightGrid!
     
     override func setUp() {
-        grid = IntLightGrid(width: 1000, height: 1000)
+        grid = LightGrid(width: 1000, height: 1000)
     }
     
     func testTurnOn() {
         let area = Rect(x: 0, y: 0, width: 1, height: 1)
-        grid.turnOn(area)
-        XCTAssertEqual(grid.aggregate, 1)
+        grid.turnOn(area: area)
+        XCTAssertEqual(grid.lightsOn, 1)
         
     }
     
     func testToggle() {
         let area = Rect(x: 0, y: 0, width: 1000, height: 1000)
-        grid.toggle(area)
-        XCTAssertEqual(grid.aggregate, 2000000)
+        grid.increaseBrightness(by: 2, area: area)
+        XCTAssertEqual(grid.brightness, 2000000)
         
     }
     

@@ -25,22 +25,22 @@
 
 let commands = try! String(contentsOfFile: "day6 input.txt")
 
-let boolGrid = BoolLightGrid(width: 1000, height: 1000)
-let intGrid = IntLightGrid(width: 1000, height: 1000)
+let boolGrid = LightGrid(width: 1000, height: 1000)
+let intGrid = LightGrid(width: 1000, height: 1000)
 
 for case let command? in commands.characters.split(separator: "\n").lazy.map(String.init).map(LightGridCommand.init) {
     switch command {
     case let .turnOn(area):
-        boolGrid.turnOn(area)
-        intGrid.turnOn(area)
+        boolGrid.turnOn(area: area)
+        intGrid.turnOn(area: area)
     case let .turnOff(area):
-        boolGrid.turnOff(area)
-        intGrid.turnOff(area)
+        boolGrid.turnOff(area: area)
+        intGrid.turnOff(area: area)
     case let .toggle(area):
-        boolGrid.toggle(area)
-        intGrid.toggle(area)
+        boolGrid.toggle(area: area)
+        intGrid.increaseBrightness(by: 2, area: area)
     }
 }
 
-print("\(boolGrid.aggregate) lights are lit")
-print("The total brightness is \(intGrid.aggregate)")
+print("\(boolGrid.lightsOn) lights are lit")
+print("The total brightness is \(intGrid.brightness)")
