@@ -2,7 +2,7 @@
 //  Day_4_Tests.swift
 //  Day 4 Tests
 //
-// Copyright (c) 2015 Randy Eckenrode
+// Copyright © 2015–2016 Randy Eckenrode
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,18 +29,20 @@ import XCTest
 class Day_4_Tests: XCTestCase {
     
     func testMD5() {
-        XCTAssertEqual(md5("hashtest"),
+        XCTAssertEqual(md5(string: "hashtest"),
             [0x49, 0x38, 0x52, 0x78, 0x62, 0x70, 0xB6, 0x8E, 0x18, 0x2d, 0x6e, 0xb9, 0x39, 0xb1, 0xF8, 0x02])
         
         let testBundle = Bundle(for: Day_4_Tests.self)
-        let path = testBundle.pathForResource("md5.swift", ofType: "txt")
+        let path = testBundle.urlForResource("md5.swift", withExtension: "txt")
         XCTAssertNotNil(path)
         
-        let contents = try? String(contentsOfFile: path!)
+        let contents = try? Data(contentsOf: path!)
         XCTAssertNotNil(contents)
-        
-        XCTAssertEqual(md5(contents!),
-            [0x7A, 0x25, 0xA6, 0x55, 0xC1, 0x48, 0xA0, 0xE5, 0x0E, 0x66, 0xA6, 0xED, 0x85, 0x43, 0xE1, 0xD8])
+
+        var array: [UInt8] = [UInt8](repeating: 0, count: contents!.count)
+        array.withUnsafeMutableBufferPointer { _ = contents!.copyBytes(to: $0) }
+        XCTAssertEqual(md5(bytes: array),
+            [0xD4, 0x36, 0xCF, 0xB3, 0x5C, 0xEF, 0xC6, 0xED, 0x48, 0x7F, 0xAB, 0xF5, 0xE7, 0xFC, 0xDF, 0xD9])
     }
     
     func testPart1() {

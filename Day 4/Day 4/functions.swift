@@ -2,7 +2,7 @@
 //  functions.swift
 //  Day 4
 //
-// Copyright (c) 2015 Randy Eckenrode
+// Copyright © 2015–2016 Randy Eckenrode
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ func matching(hash secret: String, withLeadingZeroes leadingZeroes: Int) -> (has
     var x = 0
     repeat {
         let key = "\(secret)\(x)"
-        let hash = md5(key)
+        let hash = md5(string: key)
         if countOfLeadingZeroes(hash) >= leadingZeroes {
             return (hash: from(hash: hash), value: x)
         }

@@ -2,7 +2,7 @@
 //  md5.swift
 //  Day 4
 //
-// Copyright (c) 2015 Randy Eckenrode
+// Copyright © 2015–2016 Randy Eckenrode
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,10 @@
 // THE SOFTWARE.
 //
 
-func md5(_ string: String) -> [UInt8] {
+func md5(bytes: [UInt8]) -> [UInt8] {
     var state = CC_MD5_CTX()
     withUnsafeMutablePointer(&state) { _ = CC_MD5_Init($0) }
-    withUnsafeMutablePointer(&state) { _ = CC_MD5_Update($0, string, CC_LONG(string.characters.count)) }
+    withUnsafeMutablePointer(&state) { _ = CC_MD5_Update($0, bytes, CC_LONG(bytes.count)) }
     
     var digest = Array<UInt8>(repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
     digest.withUnsafeMutableBufferPointer { digestPtr in
@@ -34,4 +34,8 @@ func md5(_ string: String) -> [UInt8] {
     }
 
     return digest
+}
+
+func md5(string: String) -> [UInt8] {
+    return md5(bytes: [UInt8](string.utf8))
 }
