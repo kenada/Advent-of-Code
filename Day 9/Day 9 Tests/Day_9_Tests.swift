@@ -48,22 +48,33 @@ class Day_9_Tests: XCTestCase {
             [2, 3, 1],
             [2, 1, 3]
         ]
-        let permutations = src.permutations
+        verify(source: src, expected: expected)
+    }
 
+    func testStringPermutations() {
+        let src = ["a", "b"]
+        let expected = [
+            ["a", "b"],
+            ["b", "a"]
+        ]
+        verify(source: src, expected: expected)
+    }
+
+    private func verify<Element: Comparable>(source: [Element], expected: [[Element]]) {
+        let permutations = source.permutations
         // Verify count
         var count = 0
         let iterator = permutations.makeIterator()
-        var element: [Int]?
+        var element: [Element]?
         repeat {
             element = iterator.next()
             count += 1
         } while element != nil
 
         // Verify elements
-        XCTAssertEqual(6, count, "permutations.count \(count) == 6")
+        XCTAssertEqual(expected.count, count, "permutations.count \(count) == 6")
         for (index, permutation) in permutations.enumerated() {
             XCTAssertEqual(permutation, expected[index], "permutation: \(permutation) == expected: \(expected[index])")
         }
     }
-    
 }
