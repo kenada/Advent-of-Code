@@ -28,16 +28,6 @@ import XCTest
 
 class Day_9_Tests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
     func testPermutations() {
         let src = [1, 2, 3]
         let expected = [
