@@ -60,6 +60,25 @@ class Day_9_Tests: XCTestCase {
         verify(source: src, expected: expected)
     }
 
+    func testDistance() {
+        let distances = [
+            Route(start: "London", end: "Dublin"): 464,
+            Route(start: "London", end: "Belfast"): 518,
+            Route(start: "Dublin", end: "Belfast"): 141
+        ]
+        let cases = [
+            (stops: ["Dublin", "London", "Belfast"], distance: 982),
+            (stops: ["London", "Dublin", "Belfast"], distance: 605),
+            (stops: ["London", "Belfast", "Dublin"], distance: 659),
+            (stops: ["Dublin", "Belfast", "London"], distance: 659),
+            (stops: ["Belfast", "Dublin", "London"], distance: 605),
+            (stops: ["Belfast", "London", "Dublin"], distance: 982)
+        ]
+        for test in cases {
+            XCTAssertEqual(distance(via: test.stops, following: distances), test.distance, "\(test.stops)")
+        }
+    }
+
     private func verify<Element: Comparable>(source: [Element], expected: [[Element]]) {
         let permutations = source.permutations
         // Verify count
