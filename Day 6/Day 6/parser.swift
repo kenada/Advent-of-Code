@@ -26,7 +26,7 @@
 import Foundation
 
 private let regex =
-    try! RegularExpression(pattern: "(turn on|turn off|toggle)\\s+(\\d+)\\s*,(\\d+)\\s+through\\s(\\d+)\\s*,(\\d+)",
+    try! NSRegularExpression(pattern: "(turn on|turn off|toggle)\\s+(\\d+)\\s*,(\\d+)\\s+through\\s(\\d+)\\s*,(\\d+)",
     options: [])
 
 public enum LightGridCommand: Equatable {
@@ -38,19 +38,19 @@ public enum LightGridCommand: Equatable {
                 regex.firstMatch(in: command, options: [], range: NSMakeRange(0, nsCommand.length)) else {
             return nil
         }
-        guard let x0 = Int(nsCommand.substring(with: parsed.range(at: 2))) else {
+        guard let x0 = Int(nsCommand.substring(with: parsed.rangeAt(2))) else {
             return nil
         }
-        guard let y0 = Int(nsCommand.substring(with: parsed.range(at: 3))) else {
+        guard let y0 = Int(nsCommand.substring(with: parsed.rangeAt(3))) else {
             return nil
         }
-        guard let x1 = Int(nsCommand.substring(with: parsed.range(at: 4))) else {
+        guard let x1 = Int(nsCommand.substring(with: parsed.rangeAt(4))) else {
             return nil
         }
-        guard let y1 = Int(nsCommand.substring(with: parsed.range(at: 5))) else {
+        guard let y1 = Int(nsCommand.substring(with: parsed.rangeAt(5))) else {
             return nil
         }
-        switch nsCommand.substring(with: parsed.range(at: 1)) {
+        switch nsCommand.substring(with: parsed.rangeAt(1)) {
         case "turn on":
             self = .turnOn(area: Rect(x: x0, y: y0, width: x1 - x0 + 1, height: y1 - y0 + 1))
         case "turn off":

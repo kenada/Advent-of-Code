@@ -96,7 +96,7 @@ public class LightGrid {
 
     public var brightness: Int {
         return grid.reduce(0) { subtotal, column in
-            subtotal + column.reduce(0, combine: +)
+            subtotal + column.reduce(0, +)
         }
     }
 

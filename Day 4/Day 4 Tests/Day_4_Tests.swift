@@ -33,7 +33,7 @@ class Day_4_Tests: XCTestCase {
             [0x49, 0x38, 0x52, 0x78, 0x62, 0x70, 0xB6, 0x8E, 0x18, 0x2d, 0x6e, 0xb9, 0x39, 0xb1, 0xF8, 0x02])
         
         let testBundle = Bundle(for: Day_4_Tests.self)
-        let path = testBundle.urlForResource("md5.swift", withExtension: "txt")
+        let path = testBundle.url(forResource: "md5.swift", withExtension: "txt")
         XCTAssertNotNil(path)
         
         let contents = try? Data(contentsOf: path!)

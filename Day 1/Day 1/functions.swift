@@ -50,7 +50,7 @@ enum EndCondition {
 func followed<T: Sequence>(directions: T, until: EndCondition) -> Floor? where T.Iterator.Element == Direction {
     switch until {
     case .finished:
-        return directions.reduce(0, combine: next)
+        return directions.reduce(0, next)
     case .enteredBasement:
         typealias MapState = (floor: Int, position: Int, foundPosition: Int?)
         let initialState: MapState = (0, 1, nil)

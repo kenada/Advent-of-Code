@@ -57,7 +57,7 @@ public func ==(lhs: Symbol, rhs: Symbol) -> Bool {
     }
 }
 
-private let whitespace = try! RegularExpression(pattern: "\\s", options: [])
+private let whitespace = try! NSRegularExpression(pattern: "\\s", options: [])
 public func lex(input: String) -> [Symbol] {
     let tokens = input.characters.split {
         whitespace.firstMatch(in: String($0), options: [], range: NSMakeRange(0, 1)) != nil
@@ -88,7 +88,7 @@ public func lex(input: String) -> [Symbol] {
     return result
 }
 
-public enum ParseError: ErrorProtocol {
+public enum ParseError: Error {
     case expectedAssignment
     case expectedLiteralOrWire
     case expectedOperator

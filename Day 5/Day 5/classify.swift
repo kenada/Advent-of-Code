@@ -26,7 +26,7 @@
 import Foundation
 
 private func regexCheck(_ pattern: String) -> (String) -> Bool {
-    let regex = try! RegularExpression(pattern: pattern, options: [])
+    let regex = try! NSRegularExpression(pattern: pattern, options: [])
     return { string in
         let range = NSMakeRange(0, (string as NSString).length)
         return regex.firstMatch(in: string, options: [], range: range) == nil

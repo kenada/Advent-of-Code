@@ -62,9 +62,9 @@ private extension Expression {
             return lhs.evaluate(core, memo: &memo) << rhs.evaluate(core, memo: &memo)
         case let .rightShift(lhs, rhs):
             return lhs.evaluate(core, memo: &memo) >> rhs.evaluate(core, memo: &memo)
-        case let literal(num):
+        case let .literal(num):
             return num
-        case let reference(wire):
+        case let .reference(wire):
             if let num = core[wire] {
                 if let memoizedNum = memo[wire] {
                     return memoizedNum
