@@ -35,7 +35,7 @@ struct Route: Hashable {
         return self.start.hashValue ^ self.end.hashValue
     }
 
-    init(start: City, end: City) {
+    init(_ start: City, _ end: City) {
         self.start = min(start, end)
         self.end = max(start, end)
     }

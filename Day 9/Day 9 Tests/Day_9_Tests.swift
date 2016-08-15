@@ -62,9 +62,9 @@ class Day_9_Tests: XCTestCase {
 
     func testDistance() {
         let distances = [
-            Route(start: "London", end: "Dublin"): 464,
-            Route(start: "London", end: "Belfast"): 518,
-            Route(start: "Dublin", end: "Belfast"): 141
+            Route("London", "Dublin"): 464,
+            Route("London", "Belfast"): 518,
+            Route("Dublin", "Belfast"): 141
         ]
         let cases = [
             (stops: ["Dublin", "London", "Belfast"], distance: 982),
