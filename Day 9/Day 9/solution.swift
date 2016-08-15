@@ -48,7 +48,7 @@ func ==(_ lhs: Route, _ rhs: Route) -> Bool {
 func distance(via stops: Stops, following distances: Routes) -> Int? {
     var result: Int? = 0
     for index in stride(from: stops.startIndex, to: stops.endIndex - 1, by: 1) {
-        result = distances[Route(start: stops[index], end: stops[index+1])].flatMap { distance in
+        result = distances[Route(stops[index], stops[index+1])].flatMap { distance in
             result.map { $0 + distance }
         }
     }
