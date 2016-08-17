@@ -257,8 +257,8 @@ class Day_7_VM_Tests: XCTestCase {
         Day_7_VM_Tests.test(program, virtualMachine: vm, expectedResults: expectedResults)
     }
     
-    static func test<Program: Sequence where Program.Iterator.Element == Statement>(
-        _ program: Program, virtualMachine vm: VirtualMachine, expectedResults: [Wire: UInt16]) {
+    static func test<Program: Sequence>(
+        _ program: Program, virtualMachine vm: VirtualMachine, expectedResults: [Wire: UInt16]) where Program.Iterator.Element == Statement {
             vm.load(program: program)
             for (wire, expectedValue) in expectedResults {
                 XCTAssertEqual(vm.read(wire: wire), expectedValue, "\(wire) value == expectedResults[\(wire)]")

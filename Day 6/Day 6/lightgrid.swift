@@ -40,7 +40,7 @@ public struct Rect: Equatable {
     var origin: Point
     var size: Size
 
-    private var end: Point {
+    fileprivate var end: Point {
         return Point(x: origin.x + size.width, y: origin.y + size.height)
     }
 }
@@ -122,7 +122,7 @@ public class LightGrid {
         return 0 <= point.x && point.x < width && 0 <= point.y && point.y < height
     }
 
-    private func modulate(lower: Point, upper: Point, f: @noescape (Int) -> Int) {
+    private func modulate(lower: Point, upper: Point, f: (Int) -> Int) {
         for x in lower.x..<upper.x {
             for y in lower.y..<upper.y {
                 self[x, y] = f(self[x, y])

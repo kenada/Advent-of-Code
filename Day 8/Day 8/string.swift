@@ -42,7 +42,7 @@ extension String {
                     hexNum.append(characters[characters.index(index, offsetBy: 2)])
                     hexNum.append(characters[characters.index(index, offsetBy: 3)])
                     if let value = Int(hexNum, radix: 16) {
-                        result.append(Character(UnicodeScalar(value)))
+                        result.append(Character(UnicodeScalar(value)!))
                         index = characters.index(index, offsetBy: 3)
                     } else {
                         result.append(characters[index])
@@ -67,7 +67,7 @@ extension String {
         return escaped.unicodeScalars.count
     }
     
-    public init(xmasEncode str: String) {
+    public init?(xmasEncode str: String) {
         var result = "\\\""
         
         for ch in str.characters {

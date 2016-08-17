@@ -35,8 +35,8 @@ print("Difference: \(difference)")
 
 let difference2 = input.characters.split(separator: "\n").reduce(0) { acc, x in
     let s = String(x[x.index(after: x.startIndex) ..<  x.index(before: x.endIndex)])
-    let encodedSize = String(xmasEncode: s).literalSize
+    let encodedSize = String(xmasEncode: s)?.literalSize
     let literalSize = String(s).literalSize
-    return acc + (encodedSize - literalSize)
+    return encodedSize.map({ acc + ($0 - literalSize) }) ?? acc
 }
 print("Difference: \(difference2)")

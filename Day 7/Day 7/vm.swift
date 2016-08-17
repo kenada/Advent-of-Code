@@ -30,7 +30,7 @@ public class VirtualMachine {
         self.memo = [:]
     }
     
-    public func load<Program: Sequence where Program.Iterator.Element == Statement>(program: Program) {
+    public func load<Program: Sequence>(program: Program) where Program.Iterator.Element == Statement {
         for case let .store(wire, expression) in program {
             self.core[wire] = expression
         }

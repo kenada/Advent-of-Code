@@ -25,12 +25,12 @@
 
 func md5(bytes: [UInt8]) -> [UInt8] {
     var state = CC_MD5_CTX()
-    withUnsafeMutablePointer(&state) { _ = CC_MD5_Init($0) }
-    withUnsafeMutablePointer(&state) { _ = CC_MD5_Update($0, bytes, CC_LONG(bytes.count)) }
+    withUnsafeMutablePointer(to: &state) { _ = CC_MD5_Init($0) }
+    withUnsafeMutablePointer(to: &state) { _ = CC_MD5_Update($0, bytes, CC_LONG(bytes.count)) }
     
     var digest = Array<UInt8>(repeating: 0, count: Int(CC_MD5_DIGEST_LENGTH))
     digest.withUnsafeMutableBufferPointer { digestPtr in
-        withUnsafeMutablePointer(&state) { _ = CC_MD5_Final(digestPtr.baseAddress, $0) }
+        withUnsafeMutablePointer(to: &state) { _ = CC_MD5_Final(digestPtr.baseAddress, $0) }
     }
 
     return digest

@@ -36,7 +36,7 @@ class Day_5_Tests: XCTestCase {
             (input: "dvszwmarrgswjxmb", expectedResult: .naughty)
         ]
         for `case` in cases {
-            XCTAssertEqual(niceness(string: `case`.input), `case`.expectedResult,
+            XCTAssertEqual(niceness(`case`.input), `case`.expectedResult,
                 "Checking whether \(`case`.input) is naughty or nice")
         }
     }
@@ -50,7 +50,7 @@ class Day_5_Tests: XCTestCase {
             (input: "ieodomkazucvgmuy", expectedResult: .naughty)
         ]
         for `case` in cases {
-            XCTAssertEqual(nicenessV2(string: `case`.input), `case`.expectedResult,
+            XCTAssertEqual(nicenessV2(`case`.input), `case`.expectedResult,
                 "Checking whether \(`case`.input) is naughty or nice")
         }
     }

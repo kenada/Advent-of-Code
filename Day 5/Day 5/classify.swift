@@ -51,7 +51,7 @@ private let nicenessChecksV2 = [
     regexCheck("(\\w)\\w\\1")
 ]
 
-private func makeNiceness(fromChecks checks: [(String) -> Bool]) -> (string: String) -> NaughtyOrNice {
+private func makeNiceness(fromChecks checks: [(String) -> Bool]) -> (String) -> NaughtyOrNice {
     return { string in
         checks.reduce(.nice) { result, check in
             if check(string) {
