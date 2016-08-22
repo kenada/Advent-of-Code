@@ -114,6 +114,30 @@ class Day_9_Tests: XCTestCase {
         }
     }
 
+    func testParsing() {
+        let input = [
+            "London to Dublin = 464",
+            "London to Belfast = 518",
+            "Dublin to Belfast = 141",
+            "chopped",
+            "London to Dublin = foo"
+        ]
+        let expected: [(route: Route, distance: Int)?] = [
+            (route: Route("London", "Dublin"), distance: 464),
+            (route: Route("London", "Belfast"), distance: 518),
+            (route: Route("Dublin", "Belfast"), distance: 141),
+            nil, nil
+        ]
+        for (string, expected) in zip(input, expected) {
+            if let (route, distance) = parsed(text: string) {
+                XCTAssertEqual(route, expected!.route)
+                XCTAssertEqual(distance, expected!.distance)
+            } else {
+                XCTAssertNil(expected)
+            }
+        }
+    }
+
     private func verify<Element: Comparable>(source: [Element], expected: [[Element]]) {
         let permutations = source.permutations
         // Verify count

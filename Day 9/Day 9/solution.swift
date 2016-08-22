@@ -66,3 +66,10 @@ func longestDistance(via stops: Stops, following routes: Routes) -> Int? {
     let curriedDistance = { distance(via: $0, following: routes) }
     return possibleRoutes.flatMap(curriedDistance).max()
 }
+
+func parsed(text: String) -> (Route, Int)? {
+    let elements = text.characters.words
+    guard elements.count == 5 else { return nil }
+    let route = Route(String(elements[0]), String(elements[2]))
+    return Int(String(elements[4])).map { (route, $0) }
+}
