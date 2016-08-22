@@ -24,5 +24,25 @@
 //
 import Foundation
 
-print("Hello, World!")
+let contents = try! String(contentsOf: URL(fileURLWithPath: "day 9 input.txt"))
+let lines = contents.characters.split(separator: "\n").lazy.map(String.init)
+let routes: Routes = {
+    let routes = lines.lazy.map(parsed(text:))
+    var map: Routes = [:]
+    routes.forEach { _ = $0.map { map[$0.0] = $0.1 } }
+    return map
+}()
+let stops: Stops = {
+    var set: Set<City> = []
+    routes.keys.forEach { route in
+        set.insert(route.start)
+        set.insert(route.end)
+    }
+    return Array(set)
+}()
 
+let longest = longestDistance(via: stops, following: routes)!
+let shortest = shortestDistance(via: stops, following: routes)!
+
+print("Shortest distance: \(shortest)")
+print("Longest distance: \(longest)")

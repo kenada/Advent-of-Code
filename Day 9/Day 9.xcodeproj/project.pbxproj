@@ -13,17 +13,19 @@
 		8E1A2B161D5981FE0029D013 /* Day_9_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1A2B151D5981FE0029D013 /* Day_9_Tests.swift */; };
 		8E1A2B1C1D5982160029D013 /* support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1A2B1B1D5982160029D013 /* support.swift */; };
 		8E1A2B1D1D5982160029D013 /* support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1A2B1B1D5982160029D013 /* support.swift */; };
+		8ED7E1201D6A9BF5009BD159 /* day 9 input.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8E91B7381D6A924800A8FCFB /* day 9 input.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8E1A2B031D5981BD0029D013 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				8ED7E1201D6A9BF5009BD159 /* day 9 input.txt in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -35,6 +37,7 @@
 		8E1A2B151D5981FE0029D013 /* Day_9_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day_9_Tests.swift; sourceTree = "<group>"; };
 		8E1A2B171D5981FE0029D013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E1A2B1B1D5982160029D013 /* support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = support.swift; sourceTree = "<group>"; };
+		8E91B7381D6A924800A8FCFB /* day 9 input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "day 9 input.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,7 @@
 				8E1A2B081D5981BD0029D013 /* main.swift */,
 				8E1A2B1B1D5982160029D013 /* support.swift */,
 				8E02C2561D6157CE0091087D /* solution.swift */,
+				8E91B7381D6A924800A8FCFB /* day 9 input.txt */,
 			);
 			path = "Day 9";
 			sourceTree = "<group>";
