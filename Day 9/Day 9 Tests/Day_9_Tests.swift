@@ -41,6 +41,12 @@ class Day_9_Tests: XCTestCase {
         verify(source: src, expected: expected)
     }
 
+    func testPermutationCount() {
+        let test = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        let count = Array(test.permutations).count
+        XCTAssertEqual(test.indices.reduce(1, { ($1 + 1) * $0 }), count)
+    }
+
     func testStringPermutations() {
         let src = ["a", "b"]
         let expected = [
