@@ -81,3 +81,9 @@ extension Array where Element: Comparable {
         return AnySequence(AnyIterator(iterate))
     }
 }
+
+extension String.CharacterView {
+    var words: [String.CharacterView] {
+        return self.split(separator: " ")
+    }
+}

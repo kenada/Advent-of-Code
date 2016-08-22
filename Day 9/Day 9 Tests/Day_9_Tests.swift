@@ -95,6 +95,25 @@ class Day_9_Tests: XCTestCase {
         XCTAssertEqual(longestDistance(via: cities, following: routes), expected)
     }
 
+    func testWords() {
+        let test = "The quick brown fox jumped over the lazy dog."
+        let expected = [
+            "The".characters,
+            "quick".characters,
+            "brown".characters,
+            "fox".characters,
+            "jumped".characters,
+            "over".characters,
+            "the".characters,
+            "lazy".characters,
+            "dog.".characters
+        ]
+        let results = test.characters.words
+        for (result, expected) in zip(results, expected) {
+            XCTAssertEqual(String(result), String(expected))
+        }
+    }
+
     private func verify<Element: Comparable>(source: [Element], expected: [[Element]]) {
         let permutations = source.permutations
         // Verify count
