@@ -56,13 +56,14 @@ class Day_9_Tests: XCTestCase {
             Route("London", "Belfast"): 518,
             Route("Dublin", "Belfast"): 141
         ]
-        let cases = [
+        let cases: [(stops: [String], distance: Int?)] = [
             (stops: ["Dublin", "London", "Belfast"], distance: 982),
             (stops: ["London", "Dublin", "Belfast"], distance: 605),
             (stops: ["London", "Belfast", "Dublin"], distance: 659),
             (stops: ["Dublin", "Belfast", "London"], distance: 659),
             (stops: ["Belfast", "Dublin", "London"], distance: 605),
-            (stops: ["Belfast", "London", "Dublin"], distance: 982)
+            (stops: ["Belfast", "London", "Dublin"], distance: 982),
+            (stops: ["A", "B", "C"], distance: nil)
         ]
         for test in cases {
             XCTAssertEqual(distance(via: test.stops, following: distances), test.distance, "\(test.stops)")

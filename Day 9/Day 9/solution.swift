@@ -45,14 +45,10 @@ func ==(_ lhs: Route, _ rhs: Route) -> Bool {
     return lhs.start == rhs.start && lhs.end == rhs.end
 }
 
-func distance(via stops: Stops, following distances: Routes) -> Int? {
-    var result: Int? = 0
-    for index in stride(from: stops.startIndex, to: stops.endIndex - 1, by: 1) {
-        result = distances[Route(stops[index], stops[index+1])].flatMap { distance in
-            result.map { $0 + distance }
-        }
-    }
-    return result
+func distance(via cities: Stops, following routes: Routes) -> Int? {
+    let stops = zip(cities, cities[1..<cities.count])
+    let distances = stops.lazy.flatMap { routes[Route($0.0, $0.1)] }
+    return distances.reduce(nil) { return ($0 ?? 0) + $1 }
 }
 
 func shortestDistance(via stops: Stops, following routes: Routes) -> Int? {
