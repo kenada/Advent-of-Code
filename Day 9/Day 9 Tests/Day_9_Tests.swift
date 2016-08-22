@@ -141,17 +141,12 @@ class Day_9_Tests: XCTestCase {
 
     private func verify<Element: Comparable>(source: [Element], expected: [[Element]]) {
         let permutations = source.permutations
+
         // Verify count
-        var count = 0
-        let iterator = permutations.makeIterator()
-        var element: [Element]?
-        repeat {
-            element = iterator.next()
-            count += 1
-        } while element != nil
+        let count = Array(permutations).count
+        XCTAssertEqual(expected.count, count, "permutations.count \(count) == \(expected.count)")
 
         // Verify elements
-        XCTAssertEqual(expected.count, count, "permutations.count \(count) == 6")
         for (index, permutation) in permutations.enumerated() {
             XCTAssertEqual(permutation, expected[index], "permutation: \(permutation) == expected: \(expected[index])")
         }
