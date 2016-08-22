@@ -54,3 +54,9 @@ func distance(via stops: Stops, following distances: Routes) -> Int? {
     }
     return result
 }
+
+func shortestDistance(via stops: Stops, following routes: Routes) -> Int? {
+    let possibleRoutes = stops.permutations
+    let curriedDistance = { distance(via: $0, following: routes) }
+    return possibleRoutes.flatMap(curriedDistance).min()
+}
