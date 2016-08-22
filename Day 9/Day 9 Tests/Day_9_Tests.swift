@@ -82,6 +82,19 @@ class Day_9_Tests: XCTestCase {
         XCTAssertEqual(shortestDistance(via: cities, following: routes), expected)
     }
 
+    func testLongestDistance() {
+        let routes = [
+            Route("London", "Dublin"): 464,
+            Route("London", "Belfast"): 518,
+            Route("Dublin", "Belfast"): 141
+        ]
+        let cities = [
+            "London", "Dublin", "Belfast"
+        ]
+        let expected = 982
+        XCTAssertEqual(longestDistance(via: cities, following: routes), expected)
+    }
+
     private func verify<Element: Comparable>(source: [Element], expected: [[Element]]) {
         let permutations = source.permutations
         // Verify count
