@@ -40,42 +40,54 @@ extension Array where Element: Comparable {
         directions[0] = 0
 
         func iterate() -> [Element]? {
+            guard directions[0] != 42 else { return nil }
+            let result = seq
+
+            // Calculate the next iteration
             // Find the largest value with a non-zero direction
-            var max: (offset: Int, element: (direction: Direction, value: Element))? = nil
-            for index in stride(from: seq.startIndex + 1, to: seq.endIndex, by: 1) {
-                if (max != nil && seq[index] > seq[max!.offset]) || (max == nil && directions[index] != 0) {
-                    max = (offset: index, element: (direction: directions[index], seq[index]))
+            var offset: Int?
+            for index in seq.indices {
+                if let offsetValue = offset {
+                    if seq[index] > seq[offsetValue] && directions[index] != 0 {
+                        offset = index
+                    }
+                } else {
+                    if directions[index] != 0 {
+                        offset = index
+                    }
                 }
             }
-            if let max = max {
+            if let offset = offset {
+                let nextIndex = offset + directions[offset]
+
                 // Swap the element with the next element in its direction
-                let nextIndex = max.offset + max.element.direction
-                let directionTemp = directions[nextIndex]
-                let valueTemp = seq[nextIndex]
-                if nextIndex == seq.startIndex || nextIndex == seq.endIndex || seq[nextIndex] > max.element.value {
-                    seq[nextIndex] = max.element.value
+                let valueTemp = seq[offset]
+                seq[offset] = seq[nextIndex]
+                seq[nextIndex] = valueTemp
+
+                // If it reaches the end, or if the next element is bigger, zero out its direction
+                if nextIndex == seq.startIndex || nextIndex == (seq.endIndex - 1) || seq[nextIndex + directions[offset]] > seq[nextIndex] {
+                    directions[offset] = directions[nextIndex]
                     directions[nextIndex] = 0
                 } else {
-                    seq[nextIndex] = max.element.value
-                    directions[nextIndex] = max.element.direction
+                    let tempDirection = directions[offset]
+                    directions[offset] = directions[nextIndex]
+                    directions[nextIndex] = tempDirection
                 }
-                seq[max.offset] = valueTemp
-                directions[max.offset] = directionTemp
 
                 // Set the direction of the elements greater than the chosen element…
                 // …towards the end
-                for index in stride(from: seq.startIndex, to: max.offset, by: 1) where seq[index] > max.element.value {
+                for index in stride(from: seq.startIndex, to: offset, by: 1) where seq[index] > seq[nextIndex] {
                     directions[index] = +1
                 }
                 // …towards the start
-                for index in stride(from: seq.startIndex + 1, to: seq.endIndex, by: 1) where seq[index] > max.element.value {
+                for index in stride(from: offset + 1, to: seq.endIndex, by: 1) where seq[index] > seq[nextIndex] {
                     directions[index] = -1
                 }
-
-                return seq
             } else {
-                return nil
+                directions[0] = 42
             }
+            return result
         }
 
         return AnySequence(AnyIterator(iterate))
