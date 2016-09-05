@@ -32,5 +32,10 @@ for _ in 1...40 {
     look = look.lookedAndSaid
 }
 
-print("The elves will look and say the following number of words: \(look.count)")
+print("The elves will look and say the following number of words (forty iterations): \(look.count)")
 
+look = input1.characters.map { Int(String($0))! }
+for _ in 1...50 {
+    look = look.lookedAndSaid
+}
+print("The elves will look and say the following number of words (fifty iterations): \(look.count)")
