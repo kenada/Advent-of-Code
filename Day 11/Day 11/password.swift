@@ -93,23 +93,6 @@ private func hasStraight(_ scalars: [UnicodeScalar]) -> Bool {
                 && scalars[x.index + 2].value == scalars[x.index].value + 2
         }
     }
-//    let range = NSMakeRange(0, string.utf16.count)
-//    return string.unicodeScalars.enumerated().reduce(false) { (result, x: (index: Int, digit: UnicodeScalar)) in
-//        if result {
-//            return result
-//        } else {
-//            if x.digit == UnicodeScalar(0x79) || x.digit == UnicodeScalar(0x7A) {
-//                return false
-//            } else {
-//                var scalars = String.UnicodeScalarView()
-//                scalars.append(UnicodeScalar(x.digit.value)!)
-//                scalars.append(UnicodeScalar(x.digit.value+1)!)
-//                scalars.append(UnicodeScalar(x.digit.value+2)!)
-//                let regex = try! NSRegularExpression(pattern: String(scalars))
-//                return regex.matches(in: string, range: range).count != 0
-//            }
-//        }
-//    }
 }
 
 private func lacksExcludedCharacters(_ scalars: [UnicodeScalar]) -> Bool {
