@@ -22,7 +22,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-import Foundation
 
-print("Hello, World!")
+
+let password = try! Password(string: "cqjxjnds")
+
+print("Santa’s next password is \(password.nextValidPassword().value)")
 
