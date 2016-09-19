@@ -36,7 +36,7 @@ class Day_11_Tests: XCTestCase {
             (password: try! Password(string: "ghjaabcc"), expectedResult: true),
             ]
         tests.forEach { (x: (password: Password, expectedResult: Bool)) in
-            XCTAssertEqual(x.password.isValid, x.expectedResult)
+            XCTAssertEqual(x.password.isValid, x.expectedResult, "\(x.password.value)")
         }
     }
 
@@ -51,6 +51,7 @@ class Day_11_Tests: XCTestCase {
             (password: try! Password(string: "aazzzzzz"), expectedResult: "abaaaaaa"),
             (password: try! Password(string: "azzzzzzz"), expectedResult: "baaaaaaa"),
             (password: try! Password(string: "zzzzzzzz"), expectedResult: "aaaaaaaa"),
+            (password: try! Password(string: "deadbeaf"), expectedResult: "deadbeag"),
             ]
         tests.forEach { (x: (password: Password, expectedResult: String)) in
             XCTAssertEqual(x.password.next().value, x.expectedResult)

@@ -23,23 +23,80 @@
 // THE SOFTWARE.
 //
 
+import Foundation
+
 struct Password {
+
+    private static let countMax: Int = 8
+    private static let goodCharacters: NSRegularExpression = try! NSRegularExpression(pattern: "[a-z]{\(countMax)}")
 
     let value: String
 
     init(string: String) throws {
+        let count = string.characters.count
+        if count.distance(to: Password.countMax) > 0 {
+            throw PasswordError.tooShort
+        }
+        if count.distance(to: Password.countMax) < 0 {
+            throw PasswordError.tooLong
+        }
+        if Password.goodCharacters.matches(in: string, range: NSMakeRange(0, string.utf16.count)).count == 0 {
+            throw PasswordError.invalidCharacters
+        }
         value = string
     }
 
     func next() -> Password {
-        return try! Password(string: "default1")
+        let result = value.unicodeScalars.reversed().reduce((result: "", carry: true)) { (x: (result: String, carry: Bool), digit) in
+            if x.carry {
+                if digit == UnicodeScalar(0x7A) { // ASCII 0x7A = z
+                    return (result: "a" + x.result, carry: true)
+                } else {
+                    return (result: String(UnicodeScalar(digit.value + 1)!) + x.result, carry: false)
+                }
+            } else {
+                return (result: String(digit) + x.result, carry: false)
+            }
+        }
+        return try! Password(string: result.0)
     }
 
 }
 
+private func hasStraight(_ string: String) -> Bool {
+    let range = NSMakeRange(0, string.utf16.count)
+    return string.unicodeScalars.enumerated().reduce(false) { (result, x: (index: Int, digit: UnicodeScalar)) in
+        if result {
+            return result
+        } else {
+            var scalars = String.UnicodeScalarView()
+            scalars.append(UnicodeScalar(x.digit.value)!)
+            scalars.append(UnicodeScalar(x.digit.value+1)!)
+            scalars.append(UnicodeScalar(x.digit.value+2)!)
+            let regex = try! NSRegularExpression(pattern: String(scalars))
+            return regex.matches(in: string, range: range).count != 0
+        }
+    }
+}
+
 extension Password {
+    private static let validityChecks: [(String) -> Bool] = [
+        hasStraight,
+        { let regex = try! NSRegularExpression(pattern: "[iol]") // does not contain ‘i’, ‘o’, or ‘l’
+            return {
+                regex.matches(in: $0, range: NSMakeRange(0, $0.utf16.count)).count == 0
+            }
+        }(),
+        { let regex = try! NSRegularExpression(pattern: "([a-z])\\1[a-z]*([a-z])\\2") // two non-overlapping pairs
+            return {
+                regex.matches(in: $0, range: NSMakeRange(0, $0.utf16.count)).count != 0
+            }
+        }()
+    ]
     var isValid: Bool {
-        return false
+        return Password.validityChecks.reduce(true) { (result, check) in
+            return result && check(self.value)
+        }
     }
 }
 
