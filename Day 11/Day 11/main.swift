@@ -25,6 +25,8 @@
 
 
 let password = try! Password(string: "cqjxjnds")
+let newPassword = password.nextValidPassword()
 
-print("Santa’s next password is \(password.nextValidPassword().value)")
+print("Santa’s next password is \(newPassword.value)")
+print("Santa’s next, next password is \(newPassword.nextValidPassword().value)")
 
