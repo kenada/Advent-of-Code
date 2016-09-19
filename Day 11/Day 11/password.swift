@@ -25,12 +25,23 @@
 
 import Foundation
 
+private func fromUnicodeScalars(_ arr: [UnicodeScalar]) -> String {
+    var scalars = String.UnicodeScalarView()
+    arr.forEach { scalar in
+        scalars.append(scalar)
+    }
+    return String(scalars)
+}
+
 struct Password {
 
     private static let countMax: Int = 8
     private static let goodCharacters: NSRegularExpression = try! NSRegularExpression(pattern: "[a-z]{\(countMax)}")
 
-    let value: String
+    fileprivate let rep: [UnicodeScalar]
+    var value: String {
+        return fromUnicodeScalars(self.rep)
+    }
 
     init(string: String) throws {
         let count = string.characters.count
@@ -43,60 +54,94 @@ struct Password {
         if Password.goodCharacters.matches(in: string, range: NSMakeRange(0, string.utf16.count)).count == 0 {
             throw PasswordError.invalidCharacters
         }
-        value = string
+        rep = Array(string.unicodeScalars)
+    }
+
+    private init(unicodeScalars: [UnicodeScalar]) {
+        rep = unicodeScalars
     }
 
     func next() -> Password {
-        let result = value.unicodeScalars.reversed().reduce((result: "", carry: true)) { (x: (result: String, carry: Bool), digit) in
-            if x.carry {
-                if digit == UnicodeScalar(0x7A) { // ASCII 0x7A = z
-                    return (result: "a" + x.result, carry: true)
+        var result = [UnicodeScalar](repeating: UnicodeScalar(0x00), count: self.rep.count)
+        let _ = rep.reversed().enumerated().reduce(true) { (carry, x: (index: Int, digit: UnicodeScalar)) in
+            if carry {
+                if result.count - x.index - 1 < 0 {
+                    return false
+                } else if x.digit == UnicodeScalar(0x7A) { // ASCII 0x7A = z
+                    result[result.count - x.index - 1] = UnicodeScalar(0x61)
+                    return true
                 } else {
-                    return (result: String(UnicodeScalar(digit.value + 1)!) + x.result, carry: false)
+                    result[result.count - x.index - 1] = UnicodeScalar(x.digit.value + 1)!
+                    return false
                 }
             } else {
-                return (result: String(digit) + x.result, carry: false)
+                result[result.count - x.index - 1] = x.digit
+                return false
             }
         }
-        return try! Password(string: result.0)
+        return Password(unicodeScalars: result)
     }
 
 }
 
-private func hasStraight(_ string: String) -> Bool {
-    let range = NSMakeRange(0, string.utf16.count)
-    return string.unicodeScalars.enumerated().reduce(false) { (result, x: (index: Int, digit: UnicodeScalar)) in
-        if result {
+private func hasStraight(_ scalars: [UnicodeScalar]) -> Bool {
+    return scalars.enumerated().reduce(false) { (result, x: (index: Int, digit: UnicodeScalar)) in
+        if result || x.index + 1 >= scalars.count || x.index + 2 >= scalars.count {
             return result
         } else {
-            var scalars = String.UnicodeScalarView()
-            scalars.append(UnicodeScalar(x.digit.value)!)
-            scalars.append(UnicodeScalar(x.digit.value+1)!)
-            scalars.append(UnicodeScalar(x.digit.value+2)!)
-            let regex = try! NSRegularExpression(pattern: String(scalars))
-            return regex.matches(in: string, range: range).count != 0
+            return scalars[x.index + 1].value == scalars[x.index].value + 1
+                && scalars[x.index + 2].value == scalars[x.index].value + 2
         }
+    }
+//    let range = NSMakeRange(0, string.utf16.count)
+//    return string.unicodeScalars.enumerated().reduce(false) { (result, x: (index: Int, digit: UnicodeScalar)) in
+//        if result {
+//            return result
+//        } else {
+//            if x.digit == UnicodeScalar(0x79) || x.digit == UnicodeScalar(0x7A) {
+//                return false
+//            } else {
+//                var scalars = String.UnicodeScalarView()
+//                scalars.append(UnicodeScalar(x.digit.value)!)
+//                scalars.append(UnicodeScalar(x.digit.value+1)!)
+//                scalars.append(UnicodeScalar(x.digit.value+2)!)
+//                let regex = try! NSRegularExpression(pattern: String(scalars))
+//                return regex.matches(in: string, range: range).count != 0
+//            }
+//        }
+//    }
+}
+
+private func lacksExcludedCharacters(_ scalars: [UnicodeScalar]) -> Bool {
+    return scalars.reduce(true) { (result, digit) in
+        let digits = !(digit == UnicodeScalar(0x69) || digit == UnicodeScalar(0x69) || digit == UnicodeScalar(0x69))
+        return result && digits
     }
 }
 
 extension Password {
-    private static let validityChecks: [(String) -> Bool] = [
+    private static let validityChecks: [([UnicodeScalar]) -> Bool] = [
+        lacksExcludedCharacters,
         hasStraight,
-        { let regex = try! NSRegularExpression(pattern: "[iol]") // does not contain ‘i’, ‘o’, or ‘l’
-            return {
-                regex.matches(in: $0, range: NSMakeRange(0, $0.utf16.count)).count == 0
-            }
-        }(),
         { let regex = try! NSRegularExpression(pattern: "([a-z])\\1[a-z]*([a-z])\\2") // two non-overlapping pairs
             return {
-                regex.matches(in: $0, range: NSMakeRange(0, $0.utf16.count)).count != 0
+                let str = fromUnicodeScalars($0)
+                return regex.matches(in: str, range: NSMakeRange(0, str.utf16.count)).count != 0
             }
-        }()
+        }(),
     ]
     var isValid: Bool {
         return Password.validityChecks.reduce(true) { (result, check) in
-            return result && check(self.value)
+            return result && check(self.rep)
         }
+    }
+
+    func nextValidPassword() -> Password {
+        var candidate = self.next()
+        while !candidate.isValid {
+            candidate = candidate.next()
+        }
+        return candidate
     }
 }
 

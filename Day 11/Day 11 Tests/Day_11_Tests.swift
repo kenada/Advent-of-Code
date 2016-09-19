@@ -58,6 +58,16 @@ class Day_11_Tests: XCTestCase {
         }
     }
 
+    func testNextValidPassword() {
+        let tests = [
+            (password: try! Password(string: "abcdefgh"), expectedResult: "abcdffaa"),
+            (password: try! Password(string: "ghijklmn"), expectedResult: "ghjaabcc"),
+            ]
+        tests.forEach { (x: (password: Password, expectedResult: String)) in
+            XCTAssertEqual(x.password.nextValidPassword().value, x.expectedResult)
+        }
+    }
+
     func testGoodPasswords() {
         let input = [
             "hijklmmn",
