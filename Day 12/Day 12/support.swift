@@ -26,15 +26,27 @@
 
 import Foundation
 
-public func sum(jsonObject: Any) -> Double {
+public func sum(jsonObject: Any, ignoring: ([String: Any]) -> Bool) -> Double {
     switch jsonObject {
     case let dict as [String: Any]:
-        return dict.values.reduce(0.0) { $0 + sum(jsonObject: $1) }
+        if !ignoring(dict) {
+            return dict.values.reduce(0.0) { $0 + sum(jsonObject: $1, ignoring: ignoring) }
+        } else {
+            return 0.0
+        }
     case let obj as [Any]:
-        return obj.reduce(0.0) { $0 + sum(jsonObject: $1) }
+        return obj.reduce(0.0) { $0 + sum(jsonObject: $1, ignoring: ignoring) }
     case let dbl as Double:
         return dbl
     default:
         return 0.0
     }
+}
+
+public func sum(jsonObject: Any) -> Double {
+    return sum(jsonObject: jsonObject) { _ in return false }
+}
+
+public func hasRedProperty(_ dict: [String: Any]) -> Bool {
+    return dict.values.reduce(false) { $0 || ($1 as? String ?? "") == "red" }
 }

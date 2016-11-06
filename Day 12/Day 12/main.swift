@@ -35,3 +35,4 @@ guard let doc = try? JSONSerialization.jsonObject(with: data) else {
 }
 
 print("Some of all numbers in the document: \(sum(jsonObject: doc))")
+print("Some of all numbers in the document, ignoring objects with red properties: \(sum(jsonObject: doc, ignoring: hasRedProperty))")

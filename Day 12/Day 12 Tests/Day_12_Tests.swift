@@ -28,20 +28,19 @@ import XCTest
 
 class Day_12_Tests: XCTestCase {
 
-    let cases = [
-        (json: "[ \"hello\", 3, true ]", expectedResult: 3.0),
-        (json: "{ \"someKey\": 42.0, \"anotherKey\": { \"someNestedKey\": true } }", expectedResult: 42),
-        (json: "[1, 2, 3]", expectedResult: 6),
-        (json: "{\"a\": 2, \"b\": 4}", expectedResult: 6),
-        (json: "[[[3]]]", expectedResult: 3),
-        (json: "{\"a\": { \"b\": 4 }, \"c\": -1 }", expectedResult: 3),
-        (json: "{\"a\": [-1, 1]}", expectedResult: 0),
-        (json: "[-1, {\"a\": 1}]", expectedResult: 0),
-        (json: "[]", expectedResult: 0),
-        (json: "{}", expectedResult: 0)
-    ]
-    
     func testSumFilter() {
+        let cases = [
+            (json: "[ \"hello\", 3, true ]", expectedResult: 3.0),
+            (json: "{ \"someKey\": 42.0, \"anotherKey\": { \"someNestedKey\": true } }", expectedResult: 42),
+            (json: "[1, 2, 3]", expectedResult: 6),
+            (json: "{\"a\": 2, \"b\": 4}", expectedResult: 6),
+            (json: "[[[3]]]", expectedResult: 3),
+            (json: "{\"a\": { \"b\": 4 }, \"c\": -1 }", expectedResult: 3),
+            (json: "{\"a\": [-1, 1]}", expectedResult: 0),
+            (json: "[-1, {\"a\": 1}]", expectedResult: 0),
+            (json: "[]", expectedResult: 0),
+            (json: "{}", expectedResult: 0)
+        ]
         cases.forEach { testCase in
             let jsonData = testCase.json.data(using: String.Encoding.utf8)
             XCTAssertNotNil(jsonData)
@@ -50,6 +49,26 @@ class Day_12_Tests: XCTestCase {
             XCTAssertNotNil(jsonObject)
 
             XCTAssertEqual(sum(jsonObject: jsonObject!), testCase.expectedResult)
+        }
+    }
+
+    func testSumFilterIgnoring() {
+        let cases = [
+            (json: "[ \"hello\", 3, true ]", expectedResult: 3.0),
+            (json: "{ \"someKey\": 42.0, \"anotherKey\": { \"someNestedKey\": true } }", expectedResult: 42),
+            (json: "[1, 2, 3]", expectedResult: 6),
+            (json: "[1, {\"c\": \"red\", \"b\": 2}, 3]", expectedResult: 4),
+            (json: "{\"d\": \"red\", \"e\": [1, 2, 3, 4], \"f\": 5}", expectedResult: 0),
+            (json: "[1, \"red\", 5]", expectedResult: 6)
+        ]
+        cases.forEach { testCase in
+            let jsonData = testCase.json.data(using: String.Encoding.utf8)
+            XCTAssertNotNil(jsonData)
+
+            let jsonObject = try? JSONSerialization.jsonObject(with: jsonData!)
+            XCTAssertNotNil(jsonObject)
+
+            XCTAssertEqual(sum(jsonObject: jsonObject!, ignoring: hasRedProperty), testCase.expectedResult)
         }
     }
     
