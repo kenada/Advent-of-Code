@@ -26,6 +26,15 @@
 
 import Foundation
 
-func sum(jsonObject: Any) -> Double {
-    return -42.0
+public func sum(jsonObject: Any) -> Double {
+    switch jsonObject {
+    case let dict as [String: Any]:
+        return dict.values.reduce(0.0) { $0 + sum(jsonObject: $1) }
+    case let obj as [Any]:
+        return obj.reduce(0.0) { $0 + sum(jsonObject: $1) }
+    case let dbl as Double:
+        return dbl
+    default:
+        return 0.0
+    }
 }

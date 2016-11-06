@@ -25,5 +25,13 @@
 
 import Foundation
 
-print("Hello, World!")
+guard let data = try? Data(contentsOf: URL(fileURLWithPath: "day 12 input.txt")) else {
+    print("Data not found")
+    exit(-1)
+}
+guard let doc = try? JSONSerialization.jsonObject(with: data) else {
+    print("Document count not be read")
+    exit(-1)
+}
 
+print("Some of all numbers in the document: \(sum(jsonObject: doc))")

@@ -11,17 +11,19 @@
 		8E37E36D1DCEA999009FDEFD /* Day_12_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E37E36C1DCEA999009FDEFD /* Day_12_Tests.swift */; };
 		8EEF12431DCEAFDD00B4453B /* support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEF12421DCEAFDD00B4453B /* support.swift */; };
 		8EEF12441DCEAFDD00B4453B /* support.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EEF12421DCEAFDD00B4453B /* support.swift */; };
+		8EEF12491DCEB2D000B4453B /* day 12 input.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8EEF12471DCEB2B800B4453B /* day 12 input.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		8E37E3581DCEA944009FDEFD /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				8EEF12491DCEB2D000B4453B /* day 12 input.txt in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -32,6 +34,7 @@
 		8E37E36C1DCEA999009FDEFD /* Day_12_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day_12_Tests.swift; sourceTree = "<group>"; };
 		8E37E36E1DCEA999009FDEFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EEF12421DCEAFDD00B4453B /* support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = support.swift; sourceTree = "<group>"; };
+		8EEF12471DCEB2B800B4453B /* day 12 input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "day 12 input.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +76,7 @@
 		8E37E35C1DCEA944009FDEFD /* Day 12 */ = {
 			isa = PBXGroup;
 			children = (
+				8EEF12471DCEB2B800B4453B /* day 12 input.txt */,
 				8E37E35D1DCEA944009FDEFD /* main.swift */,
 				8EEF12421DCEAFDD00B4453B /* support.swift */,
 			);
