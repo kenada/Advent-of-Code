@@ -1,0 +1,1 @@
+This is an empty file for the null test runner Solution. See runner.swift for details.
