@@ -26,13 +26,20 @@
 import AdventSupport
 import Foundation
 
-guard let solution = SolutionManager.solutions[CommandLine.arguments[1]] else {
+func usage() -> Never {
     let appName = URL(fileURLWithPath: CommandLine.arguments[0]).lastPathComponent
     print("Usage: \(appName) <date-solution>", terminator: "\n\n")
     print("Available date solutions")
     print("------------------------")
     SolutionManager.solutions.keys.sorted().forEach { print("\t\($0)") }
     exit(-1)
+}
+
+guard CommandLine.arguments.count > 1 else {
+    usage()
+}
+guard let solution = SolutionManager.solutions[CommandLine.arguments[1]] else {
+    usage()
 }
 guard let file = Bundle.main.path(forResource: solution.name, ofType: "txt") else {
     print("Data file missing")
