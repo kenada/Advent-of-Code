@@ -25,7 +25,7 @@
 
 import Foundation
 
-public struct Pair<Element>: Hashable where Element: Hashable {
+public struct Pair<Element>: Hashable, Comparable where Element: Hashable, Element: Comparable {
     public var first: Element
     public var second: Element
 
@@ -35,5 +35,14 @@ public struct Pair<Element>: Hashable where Element: Hashable {
 
     public static func ==(_ lhs: Pair, _ rhs: Pair) -> Bool {
         return lhs.first == rhs.first && lhs.second == rhs.second
+    }
+
+    public static func <(_ lhs: Pair, _ rhs: Pair) -> Bool {
+        return lhs.first < rhs.first || (lhs.first == rhs.first && lhs.second < rhs.second)
+    }
+
+    public init(_ first: Element, _ second: Element) {
+        self.first = first
+        self.second = second
     }
 }
