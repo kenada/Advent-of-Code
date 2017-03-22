@@ -27,11 +27,14 @@ import AdventSupport
 import Foundation
 
 func usage() -> Never {
+    func localizedStandardCompare(_ lhs: String, _ rhs: String) -> Bool {
+        return lhs.localizedStandardCompare(rhs) == .orderedAscending
+    }
     let appName = URL(fileURLWithPath: CommandLine.arguments[0]).lastPathComponent
     print("Usage: \(appName) <date-solution>", terminator: "\n\n")
     print("Available date solutions")
     print("------------------------")
-    SolutionManager.solutions.keys.sorted().forEach { print("\t\($0)") }
+    SolutionManager.solutions.keys.sorted(by: localizedStandardCompare).forEach { print("\t\($0)") }
     exit(-1)
 }
 
