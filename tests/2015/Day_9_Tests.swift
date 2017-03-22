@@ -31,9 +31,9 @@ class Day_9_Tests: XCTestCase {
     
    func testDistance() {
         let distances = [
-            Route("London", "Dublin"): 464,
-            Route("London", "Belfast"): 518,
-            Route("Dublin", "Belfast"): 141
+            Route(start: "London", end: "Dublin"): 464,
+            Route(start: "London", end: "Belfast"): 518,
+            Route(start: "Dublin", end: "Belfast"): 141
         ]
         let cases: [(stops: [String], distance: Int?)] = [
             (stops: ["Dublin", "London", "Belfast"], distance: 982),
@@ -51,9 +51,9 @@ class Day_9_Tests: XCTestCase {
 
     func testShortestDistance() {
         let routes = [
-            Route("London", "Dublin"): 464,
-            Route("London", "Belfast"): 518,
-            Route("Dublin", "Belfast"): 141
+            Route(start: "London", end: "Dublin"): 464,
+            Route(start: "London", end: "Belfast"): 518,
+            Route(start: "Dublin", end: "Belfast"): 141
         ]
         let cities = [
             "London", "Dublin", "Belfast"
@@ -64,9 +64,9 @@ class Day_9_Tests: XCTestCase {
 
     func testLongestDistance() {
         let routes = [
-            Route("London", "Dublin"): 464,
-            Route("London", "Belfast"): 518,
-            Route("Dublin", "Belfast"): 141
+            Route(start: "London", end: "Dublin"): 464,
+            Route(start: "London", end: "Belfast"): 518,
+            Route(start: "Dublin", end: "Belfast"): 141
         ]
         let cities = [
             "London", "Dublin", "Belfast"
@@ -84,9 +84,9 @@ class Day_9_Tests: XCTestCase {
             "London to Dublin = foo"
         ]
         let expected: [(route: Route, distance: Int)?] = [
-            (route: Route("London", "Dublin"), distance: 464),
-            (route: Route("London", "Belfast"), distance: 518),
-            (route: Route("Dublin", "Belfast"), distance: 141),
+            (route: Route(start: "London", end: "Dublin"), distance: 464),
+            (route: Route(start: "London", end: "Belfast"), distance: 518),
+            (route: Route(start: "Dublin", end: "Belfast"), distance: 141),
             nil, nil
         ]
         for (string, expected) in zip(input, expected) {

@@ -28,28 +28,21 @@ import AdventSupport
 typealias City = String
 typealias Stops = [City]
 typealias Routes = [Route: Int]
+typealias Route = Pair<City>
 
-struct Route: Hashable {
-    var start: String
-    var end: String
-
-    var hashValue: Int {
-        return self.start.hashValue ^ self.end.hashValue
+extension Pair where Element: Comparable {
+    init(start: Element, end: Element) {
+        self.first = min(start, end)
+        self.second = max(start, end)
     }
 
-    init(_ start: City, _ end: City) {
-        self.start = min(start, end)
-        self.end = max(start, end)
-    }
-}
-
-func ==(_ lhs: Route, _ rhs: Route) -> Bool {
-    return lhs.start == rhs.start && lhs.end == rhs.end
+    var start: Element { return self.first }
+    var end: Element { return self.second }
 }
 
 func distance(via cities: Stops, following routes: Routes) -> Int? {
     let stops = zip(cities, cities[1..<cities.count])
-    let distances = stops.lazy.flatMap { routes[Route($0.0, $0.1)] }
+    let distances = stops.lazy.flatMap { routes[Pair(start: $0.0, end: $0.1)] }
     return distances.reduce(nil) { return ($0 ?? 0) + $1 }
 }
 
@@ -68,7 +61,7 @@ func longestDistance(via stops: Stops, following routes: Routes) -> Int? {
 func parsed(text: String) -> (Route, Int)? {
     let elements = text.characters.words
     guard elements.count == 5 else { return nil }
-    let route = Route(String(elements[0]), String(elements[2]))
+    let route = Route(start: String(elements[0]), end: String(elements[2]))
     return Int(String(elements[4])).map { (route, $0) }
 }
 

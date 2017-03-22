@@ -10,6 +10,7 @@
 		8E2D9B541DE68DA1006C5098 /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D9B521DE68DA1006C5098 /* md5.swift */; };
 		8E2D9B561DE68DA6006C5098 /* manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D9B551DE68DA6006C5098 /* manager.swift */; };
 		8E2D9B591DE68DBF006C5098 /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D9B521DE68DA1006C5098 /* md5.swift */; };
+		8E5390941E820B3E000BCA60 /* pair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5390931E820B3E000BCA60 /* pair.swift */; };
 		8EAF55591DE7E01500B49ECE /* CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EAF55581DE7E01500B49ECE /* CoreGraphics.swift */; };
 		8EB478AD1DE68CDA00AA3C09 /* AdventSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EB478A31DE68CDA00AA3C09 /* AdventSupport.framework */; };
 		8EB478B41DE68CDA00AA3C09 /* AdventSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 8EB478A61DE68CDA00AA3C09 /* AdventSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -47,6 +48,7 @@
 /* Begin PBXFileReference section */
 		8E2D9B521DE68DA1006C5098 /* md5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = md5.swift; path = ../src/Support/md5.swift; sourceTree = "<group>"; };
 		8E2D9B551DE68DA6006C5098 /* manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = manager.swift; path = ../src/Support/manager.swift; sourceTree = "<group>"; };
+		8E5390931E820B3E000BCA60 /* pair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = pair.swift; path = ../src/Support/pair.swift; sourceTree = "<group>"; };
 		8EAF55581DE7E01500B49ECE /* CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreGraphics.swift; path = ../src/Support/CoreGraphics.swift; sourceTree = "<group>"; };
 		8EB478A31DE68CDA00AA3C09 /* AdventSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdventSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EB478A61DE68CDA00AA3C09 /* AdventSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AdventSupport.h; path = ../src/Support/AdventSupport.h; sourceTree = "<group>"; };
@@ -95,6 +97,14 @@
 			name = MD5;
 			sourceTree = "<group>";
 		};
+		8E5390921E820B22000BCA60 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				8E5390931E820B3E000BCA60 /* pair.swift */,
+			);
+			name = Types;
+			sourceTree = "<group>";
+		};
 		8EAF55571DE7DFE100B49ECE /* Foundation Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +131,7 @@
 				8EAF55571DE7DFE100B49ECE /* Foundation Extensions */,
 				8E2D9B501DE68D88006C5098 /* MD5 */,
 				8E2D9B4F1DE68D7F006C5098 /* Solution Manager */,
+				8E5390921E820B22000BCA60 /* Types */,
 				8EE31CC31DE6929900E90323 /* Tests */,
 				8EB478A41DE68CDA00AA3C09 /* Products */,
 			);
@@ -261,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E2D9B561DE68DA6006C5098 /* manager.swift in Sources */,
+				8E5390941E820B3E000BCA60 /* pair.swift in Sources */,
 				8ED5B7731DE9372200DEB3CC /* Array.swift in Sources */,
 				8ED5B7741DE9372200DEB3CC /* String.swift in Sources */,
 				8EAF55591DE7E01500B49ECE /* CoreGraphics.swift in Sources */,
