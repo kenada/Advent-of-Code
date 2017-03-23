@@ -72,14 +72,14 @@ class Day13: Solution {
     var name = "Day 13"
 
     func part1(input: String) {
-        let lines = input.characters.split(separator: "\n")
+        let lines = input.lines
 
         var people: Set<Person> = []
         var mapping: [Pair<Person>: Int] = [:]
 
         do {
             let parsedLines = lines.flatMap { line -> (Pair<Person>, Int)? in
-                let parsedLine = parsed(ofDay13: String(line))
+                let parsedLine = parsed(ofDay13: line)
                 _ = parsedLine.map {
                     people.insert($0.0.first)
                     people.insert($0.0.second)
