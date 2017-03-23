@@ -1,8 +1,8 @@
 //
-//  day 12.swift
+//  day 13.swift
 //  Advent of Code 2015
 //
-// Copyright © 2016 Randy Eckenrode
+// Copyright © 2017 Randy Eckenrode
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
