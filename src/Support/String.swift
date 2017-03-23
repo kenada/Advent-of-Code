@@ -28,3 +28,9 @@ extension String.CharacterView {
         return self.split(separator: " ")
     }
 }
+
+extension String {
+    public var lines: [String] {
+        return self.characters.lazy.split(separator: "\n").map(String.init(_:))
+    }
+}

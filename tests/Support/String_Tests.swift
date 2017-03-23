@@ -47,4 +47,13 @@ class String_Tests: XCTestCase {
         }
     }
 
+    func testLines() {
+        let test = "A\nB\nC\nD"
+        let expected = ["A", "B", "C", "D"]
+        let results = test.lines
+        for (result, expected) in zip(results, expected) {
+            XCTAssertEqual(String(result), String(expected))
+        }
+    }
+
 }
