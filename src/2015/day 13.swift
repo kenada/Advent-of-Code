@@ -27,7 +27,6 @@ import AdventSupport
 import Foundation
 
 typealias Person = String
-typealias Pairing = Pair<Person>
 
 func happiness(of people: [Person], withRelationships lookup: [Pair<Person>: Int]) -> Int {
     let pairings = pairs(of: people)
