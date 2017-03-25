@@ -77,7 +77,13 @@ class Day13: Solution {
     }
 
     func part2(input: String) {
-
+        var (people, mapping) = Day13.reading(input: input)
+        people.forEach { person in
+            mapping[Pair("Me", person)] = 0
+            mapping[Pair(person, "Me")] = 0
+        }
+        people.append("Me")
+        Day13.solution(withTable: people, dispositions: mapping, label: "part 2")
     }
 
     private static func reading(input: String) -> ([Person], [Pair<Person>: Int]) {
