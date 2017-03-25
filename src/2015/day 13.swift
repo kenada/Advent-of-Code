@@ -72,6 +72,15 @@ class Day13: Solution {
     var name = "Day 13"
 
     func part1(input: String) {
+        let (people, mapping) = Day13.reading(input: input)
+        Day13.solution(withTable: people, dispositions: mapping, label: "part 1")
+    }
+
+    func part2(input: String) {
+
+    }
+
+    private static func reading(input: String) -> ([Person], [Pair<Person>: Int]) {
         let lines = input.lines
 
         var people: Set<Person> = []
@@ -91,7 +100,11 @@ class Day13: Solution {
             }
         }
 
-        let permutations = Array(people).permutations
+        return (Array(people), mapping)
+    }
+
+    private static func solution(withTable people: [Person], dispositions mapping: [Pair<Person>: Int], label: String) {
+        let permutations = people.permutations
         var totalHappiness = Int.min
 
         permutations.forEach { permutation in
@@ -101,11 +114,7 @@ class Day13: Solution {
             }
         }
 
-        print("The total change in happiness for the best seating arrangement is: \(totalHappiness)")
-    }
-
-    func part2(input: String) {
-
+        print("The total change in happiness for the best seating arrangement in \(label) is: \(totalHappiness)")
     }
 
 }
