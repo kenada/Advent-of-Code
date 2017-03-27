@@ -103,4 +103,13 @@ class Day_14_Tests: XCTestCase {
             XCTAssertNotNil(Reindeer(string: line))
         }
     }
+
+    func testWinningScore() {
+        let data = [
+            Reindeer(name: "Comet", topSpeed: 14, duration: 10, restingTime: 127),
+            Reindeer(name: "Dancer", topSpeed: 16, duration: 11, restingTime: 162)
+        ]
+        let expectedScore = 689
+        XCTAssertEqual(winningScore(for: data, timeLimit: 1000), expectedScore)
+    }
 }

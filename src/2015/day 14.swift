@@ -75,9 +75,36 @@ extension Reindeer {
     }
 }
 
+func winningScore(for reindeers: [Reindeer], timeLimit: Int) -> Int {
+    var scores: [String: Int] = [:]
+    for second in 1...timeLimit {
+        var leaders: [String] = []
+        let _ = reindeers.reduce(-1) { (maxDistance, reindeer) in
+            let maybeMax = reindeer.distanceFlown(at: second)
+            if maybeMax == maxDistance {
+                leaders.append(reindeer.name)
+                return maxDistance
+            } else if maybeMax > maxDistance {
+                leaders = [reindeer.name]
+                return maybeMax
+            } else {
+                return maxDistance
+            }
+        }
+        for leader in leaders {
+            scores[leader] = (scores[leader] ?? 0) + 1
+        }
+    }
+    return scores.reduce(-1) { (score, reindeer: (_: String, score: Int)) in
+        return max(score, reindeer.score)
+    }
+}
+
 // MARK: - Solution
 
 class Day14: Solution {
+    static let timeLimit = 2503
+
     required init() {}
 
     var name = "Day 14"
@@ -85,13 +112,15 @@ class Day14: Solution {
     func part1(input: String) {
         let reindeer = input.lines.flatMap(Reindeer.init(string:))
         let maxDistance = reindeer.reduce(-1) { (maxDistance, reindeer) in
-            return max(maxDistance, reindeer.distanceFlown(at: 2503))
+            return max(maxDistance, reindeer.distanceFlown(at: Day14.timeLimit))
         }
         print("The distance traveled by the winning reindeer: \(maxDistance)")
     }
     
     func part2(input: String) {
-        
+        let reindeer = input.lines.flatMap(Reindeer.init(string:))
+        let score = winningScore(for: reindeer, timeLimit: Day14.timeLimit)
+        print("The winning score is: \(score)")
     }
     
 }
