@@ -75,11 +75,11 @@ extension Reindeer {
     }
 }
 
-func winningScore(for reindeers: [Reindeer], timeLimit: Int) -> Int {
+func winningScore(for reindeer: [Reindeer], timeLimit: Int) -> Int {
     var scores: [String: Int] = [:]
     for second in 1...timeLimit {
         var leaders: [String] = []
-        let _ = reindeers.reduce(-1) { (maxDistance, reindeer) in
+        let _ = reindeer.reduce(-1) { (maxDistance, reindeer) in
             let maybeMax = reindeer.distanceFlown(at: second)
             if maybeMax == maxDistance {
                 leaders.append(reindeer.name)
