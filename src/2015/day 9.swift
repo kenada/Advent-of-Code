@@ -30,7 +30,7 @@ typealias Stops = [City]
 typealias Routes = [Route: Int]
 typealias Route = Pair<City>
 
-extension Pair where Element: Comparable {
+extension Pair where Element == City {
     init(start: Element, end: Element) {
         self.first = min(start, end)
         self.second = max(start, end)
