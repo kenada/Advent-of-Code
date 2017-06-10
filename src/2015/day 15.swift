@@ -73,6 +73,28 @@ extension Ingredient: Hashable {
     }
 }
 
+extension Array where Iterator.Element: Integer {
+
+    public func neighbors(boundedBy bounds: Range<Array.Index>) -> [Array] {
+        var result: [Array] = []
+
+        for index in self.indices {
+            var neighborBase = self
+            neighborBase[index] += 1 as Iterator.Element
+            for neighborIndex in self.indices where neighborIndex != index {
+                if neighborBase[neighborIndex] > 0 {
+                    var neighbor = neighborBase
+                    neighbor[neighborIndex] -= 1 as Iterator.Element
+                    result.append(neighbor)
+                }
+            }
+        }
+
+        return result
+    }
+
+}
+
 private func combinedScore<IngredientSequence, DistSequence>(for ingredients: IngredientSequence, distribution teaspoons: DistSequence) -> Int
     where IngredientSequence: Sequence, IngredientSequence.Iterator.Element == Ingredient, DistSequence: Sequence, DistSequence.Iterator.Element == Int {
         let capacity = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.capacity  * $1.1 })
@@ -80,22 +102,6 @@ private func combinedScore<IngredientSequence, DistSequence>(for ingredients: In
         let flavor = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.flavor  * $1.1 })
         let texture = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.texture  * $1.1 })
         return capacity * durability * flavor * texture
-}
-
-private func neighbors(for array: [Int], withMaximum max: Int) -> [[Int]] {
-    var result: [[Int]] = []
-    array.indices.forEach { (index) in
-        var neighborBase = array
-        neighborBase[index] += 1
-        array.indices.lazy.filter({ $0 != index }).forEach { (idx) in
-            if neighborBase[idx] > 0 {
-                var neighbor = neighborBase
-                neighbor[idx] -= 1
-                result.append(neighbor)
-            }
-        }
-    }
-    return result
 }
 
 private func randomSolution(ofElements count: Int, totalling max: Int) -> [Int] {
@@ -122,7 +128,7 @@ func findingBestCookie(for ingredients: [Ingredient], teaspoons: Int) -> [Ingred
 
     var score = 0
     while true {
-        let candidates = neighbors(for: dist, withMaximum: teaspoons).filter {
+        let candidates = dist.neighbors(boundedBy: 0..<teaspoons).filter {
             combinedScore(for: ingredients, distribution: $0) >= score
         }
         if candidates.count > 0 {

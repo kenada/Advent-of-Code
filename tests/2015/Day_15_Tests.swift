@@ -78,4 +78,48 @@ class Day_15_Tests: XCTestCase {
         }
     }
 
+    func testNeighborsAtBounds() {
+        let input = (collection: [100, 0, 0, 0], bounds: 0..<100 as Range)
+        let expectedResult = [
+            [99, 0, 0, 1],
+            [99, 1, 0, 0],
+            [99, 0, 1, 0]
+        ].sorted(by: Day_15_Tests.arrayLessThan)
+        let result = input.collection.neighbors(boundedBy: input.bounds).sorted(by: Day_15_Tests.arrayLessThan)
+        XCTAssertEqual(result.count, expectedResult.count)
+        for (collection, expectedCollection) in zip(result, expectedResult) {
+            XCTAssertEqual(collection, expectedCollection)
+        }
+    }
+
+    func testNeighborsUnbounded() {
+        let input = (collection: [25, 25, 25, 25], bounds: 0..<100 as Range)
+        let expectedResult = [
+            [24, 25, 25, 26],
+            [24, 25, 26, 25],
+            [24, 26, 25, 25],
+            [25, 24, 25, 26],
+            [25, 24, 26, 25],
+            [25, 25, 24, 26],
+            [25, 25, 26, 24],
+            [25, 26, 24, 25],
+            [25, 26, 25, 24],
+            [26, 24, 25, 25],
+            [26, 25, 24, 25],
+            [26, 25, 25, 24]
+        ].sorted(by: Day_15_Tests.arrayLessThan)
+        let result = input.collection.neighbors(boundedBy: input.bounds).sorted(by: Day_15_Tests.arrayLessThan)
+        XCTAssertEqual(result.count, expectedResult.count)
+        for (collection, expectedCollection) in zip(result, expectedResult) {
+            XCTAssertEqual(collection, expectedCollection)
+        }
+    }
+
+    private static func arrayLessThan(lhs: [Int], rhs: [Int]) -> Bool {
+        guard let (lhsElement, rhsElement) = zip(lhs, rhs).first(where: !=) else {
+            return lhs.count < rhs.count
+        }
+        return lhsElement < rhsElement
+    }
+
 }
