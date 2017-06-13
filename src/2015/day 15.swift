@@ -95,13 +95,21 @@ extension Array where Iterator.Element: Integer {
 
 }
 
-private func combinedScore<IngredientSequence, DistSequence>(for ingredients: IngredientSequence, distribution teaspoons: DistSequence) -> Int
-    where IngredientSequence: Sequence, IngredientSequence.Iterator.Element == Ingredient, DistSequence: Sequence, DistSequence.Iterator.Element == Int {
+private func combinedScore<Ingredients, Distribution>(for ingredients: Ingredients, distribution teaspoons: Distribution) -> Int
+    where Ingredients: Collection, Ingredients.Iterator.Element == Ingredient, Distribution: Sequence, Distribution.Iterator.Element == Int {
         let capacity = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.capacity  * $1.1 })
         let durability = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.durability  * $1.1 })
         let flavor = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.flavor  * $1.1 })
         let texture = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.texture  * $1.1 })
         return capacity * durability * flavor * texture
+}
+
+private func combinedScore<Ingredients, Distribution>(for ingredients: Ingredients, distribution teaspoons: Distribution, calories: Int) -> Int where Ingredients: Collection, Ingredients.Iterator.Element == Ingredient, Distribution: Collection, Distribution.Iterator.Element == Int {
+    let cookieCalories = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.calories * $1.1 })
+    guard cookieCalories == calories else {
+        return 0
+    }
+    return combinedScore(for: ingredients, distribution: teaspoons)
 }
 
 private func randomSolution(ofElements count: Int, totalling max: Int) -> [Int] {
@@ -116,12 +124,18 @@ private func randomSolution(ofElements count: Int, totalling max: Int) -> [Int] 
     return result
 }
 
-func findingBestCookie(for ingredients: [Ingredient], teaspoons: Int) -> [Ingredient: Int] {
+func findingBestCookie(for ingredients: [Ingredient], teaspoons: Int, calories: Int? = nil) -> [Ingredient: Int] {
     guard ingredients.count > 0 else {
         return [:]
     }
     guard ingredients.count > 1 else {
         return [ingredients[0]: combinedScore(for: ingredients, distribution: [teaspoons])]
+    }
+    let scoringFunction: ([Ingredient], [Int]) -> Int
+    if let calories = calories {
+        scoringFunction = { combinedScore(for: $0, distribution: $1, calories: calories) }
+    } else {
+        scoringFunction = combinedScore
     }
 
     var dist = randomSolution(ofElements: ingredients.count, totalling: teaspoons)
@@ -129,11 +143,11 @@ func findingBestCookie(for ingredients: [Ingredient], teaspoons: Int) -> [Ingred
     var score = 0
     while true {
         let candidates = dist.neighbors(boundedBy: 0..<teaspoons).filter {
-            combinedScore(for: ingredients, distribution: $0) >= score
+            scoringFunction(ingredients, $0) >= score
         }
         if candidates.count > 0 {
             dist = candidates[Int(arc4random_uniform(UInt32(candidates.count)))]
-            score = combinedScore(for: ingredients, distribution: dist)
+            score = scoringFunction(ingredients, dist)
         } else {
             break
         }
@@ -153,6 +167,7 @@ class Day15: Solution {
 
     public let name = "Day 15"
     let teaspoons = 100
+    let calories = 500
 
     public required init() {
     }
@@ -160,16 +175,25 @@ class Day15: Solution {
     public func part1(input: String) {
         let ingredients = input.lines.flatMap(Ingredient.init)
         let bestCookie = findingBestCookie(for: ingredients, teaspoons: teaspoons)
-        
+
         print("The best cookie that can be made with these ingredients has the following score and ingredients")
         print("\nScore: \(combinedScore(for: bestCookie.keys, distribution: bestCookie.keys.lazy.flatMap({ bestCookie[$0] })))")
         bestCookie.forEach { (ingredient, quantity) in
             print("\(quantity) teaspoons of \(ingredient.name)")
         }
+        print("")
     }
 
     public func part2(input: String) {
+        let ingredients = input.lines.flatMap(Ingredient.init)
+        let bestCookie = findingBestCookie(for: ingredients, teaspoons: teaspoons, calories: calories)
 
+        print("The best cookie that can be made with these ingredients and has \(calories) has the following score and ingredients")
+        print("\nScore: \(combinedScore(for: bestCookie.keys, distribution: bestCookie.keys.lazy.flatMap({ bestCookie[$0] })))")
+        bestCookie.forEach { (ingredient, quantity) in
+            print("\(quantity) teaspoons of \(ingredient.name)")
+        }
+        print("")
     }
 
 }

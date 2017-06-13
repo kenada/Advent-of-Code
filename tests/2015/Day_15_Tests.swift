@@ -47,6 +47,25 @@ class Day_15_Tests: XCTestCase {
         }
     }
 
+    func testCappedSolution() {
+        let ingredients = [
+            Ingredient(name: "Butterscotch", capacity: -1, durability: -2, flavor:  6, texture:  3, calories: 8),
+            Ingredient(name: "Cinnamon", capacity:  2, durability:  3, flavor: -2, texture: -1, calories: 3)
+        ]
+        let expectedResults = [
+            ingredients[0]: 40,
+            ingredients[1]: 60
+        ]
+        let solution = findingBestCookie(for: ingredients, teaspoons: 100, calories: 500)
+        for (ingredient, quantity) in expectedResults {
+            let solutionQuantity = solution[ingredient]
+            XCTAssertNotNil(solutionQuantity)
+            if let solutionQuantity = solutionQuantity {
+                XCTAssertEqual(solutionQuantity, quantity)
+            }
+        }
+    }
+
     func testParsing() {
         let ingredients = [
             "Butterscotch: capacity -1, durability -2, flavor 6, texture 3, calories 8",
