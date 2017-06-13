@@ -159,11 +159,8 @@ class Day15: Solution {
 
     public func part1(input: String) {
         let ingredients = input.lines.flatMap(Ingredient.init)
-
-        print("Hrm")
-        print(combinedScore(for: ingredients, distribution: [50, 10, 30, 10]))
-
         let bestCookie = findingBestCookie(for: ingredients, teaspoons: teaspoons)
+        
         print("The best cookie that can be made with these ingredients has the following score and ingredients")
         print("\nScore: \(combinedScore(for: bestCookie.keys, distribution: bestCookie.keys.lazy.flatMap({ bestCookie[$0] })))")
         bestCookie.forEach { (ingredient, quantity) in
