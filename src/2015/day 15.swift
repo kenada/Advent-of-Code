@@ -73,23 +73,39 @@ extension Ingredient: Hashable {
     }
 }
 
-extension Array where Element: Numeric, Element: Comparable {
+extension RangeReplaceableCollection where Element: Comparable & Numeric {
 
-    public func neighbors(boundedBy bounds: Range<Array.Index>) -> [Array] {
-        var result: [Array] = []
+    public func neighbors(boundedBy bounds: Range<Element>) -> [Self] {
+        var result: [Self] = []
 
-        for index in self.indices {
-            var neighborBase = self
-            neighborBase[index] += 1 as! Iterator.Element
-            for neighborIndex in self.indices where neighborIndex != index {
-                if neighborBase[neighborIndex] > 0 {
-                    var neighbor = neighborBase
-                    neighbor[neighborIndex] -= 1 as! Iterator.Element
-                    result.append(neighbor)
+        for (index, value) in zip(self.indices, self) {
+            if value < bounds.upperBound {
+                for (neighborIndex, neighborValue) in zip(self.indices, self) where neighborIndex != index {
+                    if neighborValue > bounds.lowerBound {
+                        var neighbor = Self()
+                        neighbor.reserveCapacity(self.count)
+
+                        let next: Index
+                        if neighborIndex < index {
+                            neighbor.append(contentsOf: self[self.startIndex..<neighborIndex])
+                            neighbor.append(neighborValue - 1)
+                            neighbor.append(contentsOf: self[self.index(after: neighborIndex)..<index])
+                            neighbor.append(value + 1)
+                            next = self.index(after: index)
+                        } else {
+                            neighbor.append(contentsOf: self[self.startIndex..<index])
+                            neighbor.append(value + 1)
+                            neighbor.append(contentsOf: self[self.index(after: index)..<neighborIndex])
+                            neighbor.append(neighborValue - 1)
+                            next = self.index(after: neighborIndex)
+                        }
+                        neighbor.append(contentsOf: self[next..<self.endIndex])
+
+                        result.append(neighbor)
+                    }
                 }
             }
         }
-
         return result
     }
 
