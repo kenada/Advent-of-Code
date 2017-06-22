@@ -49,7 +49,13 @@ class Day_12_Tests: XCTestCase {
             let jsonObject = try? JSONSerialization.jsonObject(with: jsonData!)
             XCTAssertNotNil(jsonObject)
 
-            XCTAssertEqual(sum(jsonObject: jsonObject!), testCase.expectedResult)
+            let decoder = JSONDecoder()
+            do {
+                let v = try decoder.decode(Array<Double>.self, from: testCase.json.data(using: .utf8)!)
+                print("Printing v: \(v)")
+            } catch {}
+
+            XCTAssertEqual(sum(jsonObject: jsonObject!), testCase.expectedResult, testCase.json)
         }
     }
 
@@ -69,7 +75,7 @@ class Day_12_Tests: XCTestCase {
             let jsonObject = try? JSONSerialization.jsonObject(with: jsonData!)
             XCTAssertNotNil(jsonObject)
 
-            XCTAssertEqual(sum(jsonObject: jsonObject!, ignoring: hasRedProperty), testCase.expectedResult)
+            XCTAssertEqual(sum(jsonObject: jsonObject!, ignoring: hasRedProperty), testCase.expectedResult, testCase.json)
         }
     }
     

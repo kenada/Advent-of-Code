@@ -35,7 +35,7 @@ func happiness(of people: [Person], withRelationships lookup: [Pair<Person>: Int
 
 func pairs(of people: [Person]) -> [Pair<Person>] {
     guard people.count > 1 else { return [] }
-    var result = zip(people, people[1..<people.count]).map(Pair.init(_:_:))
+    var result = zip(people, people[1..<people.count]).map { Pair.init($0.0, $0.1) }
     result.append(Pair(people.last!, people.first!))
     result.append(contentsOf: result.lazy.map { Pair($0.second, $0.first) })
     return result
@@ -51,16 +51,16 @@ func parsed(ofDay13 input: String) -> (Pair<Person>, Int)? {
         return nil
     }
 
-    let gainOrLose = nsInput.substring(with: match.rangeAt(2))
+    let gainOrLose = nsInput.substring(with: match.range(at: 2))
     guard gainOrLose == "gain" || gainOrLose == "lose" else {
         return nil
     }
 
-    guard let happiness = Int(nsInput.substring(with: match.rangeAt(3))) else {
+    guard let happiness = Int(nsInput.substring(with: match.range(at: 3))) else {
         return nil
     }
 
-    return (Pair(nsInput.substring(with: match.rangeAt(1)), nsInput.substring(with: match.rangeAt(4))),
+    return (Pair(nsInput.substring(with: match.range(at: 1)), nsInput.substring(with: match.range(at: 4))),
             happiness * (gainOrLose == "gain" ? 1 : -1))
 }
 
@@ -101,7 +101,7 @@ class Day13: Solution {
                 }
                 return parsedLine
             }
-            parsedLines.forEach { (pairing, happiness) in
+            parsedLines.forEach { let (pairing, happiness) = $0; return
                 mapping[pairing] = happiness
             }
         }

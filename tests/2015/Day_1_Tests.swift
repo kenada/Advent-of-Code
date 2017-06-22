@@ -48,7 +48,7 @@ class Day_1_Tests: XCTestCase {
             let directions = from(string: testCase.instructions)
             let floor = followed(directions: directions, until: .finished)
             XCTAssert(floor == testCase.expectedFloor,
-                "floor: \(floor) == expected \(testCase.expectedFloor)")
+                      "floor: \(String(describing: floor)) == expected \(String(describing: testCase.expectedFloor))")
         }
     }
     
@@ -57,7 +57,7 @@ class Day_1_Tests: XCTestCase {
             let directions = from(string: testCase.instructions)
             let position = followed(directions: directions, until: .enteredBasement)
             XCTAssert(position == testCase.expectedBasementPosition,
-                "position: \(position) == expected: \(testCase.expectedBasementPosition)")
+                      "position: \(String(describing: position)) == expected: \(String(describing: testCase.expectedBasementPosition))")
         }
     }
     

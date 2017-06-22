@@ -45,13 +45,13 @@ extension Ingredient {
             return nil
         }
 
-        let name = nsString.substring(with: match.rangeAt(1))
+        let name = nsString.substring(with: match.range(at: 1))
         guard
-            let capacity   = Int(nsString.substring(with: match.rangeAt(2))),
-            let durability = Int(nsString.substring(with: match.rangeAt(3))),
-            let flavor     = Int(nsString.substring(with: match.rangeAt(4))),
-            let texture    = Int(nsString.substring(with: match.rangeAt(5))),
-            let calories   = Int(nsString.substring(with: match.rangeAt(6))) else {
+            let capacity   = Int(nsString.substring(with: match.range(at: 2))),
+            let durability = Int(nsString.substring(with: match.range(at: 3))),
+            let flavor     = Int(nsString.substring(with: match.range(at: 4))),
+            let texture    = Int(nsString.substring(with: match.range(at: 5))),
+            let calories   = Int(nsString.substring(with: match.range(at: 6))) else {
                 return nil
         }
         self.init(name: name, capacity: capacity, durability: durability, flavor: flavor, texture: texture, calories: calories)
@@ -73,18 +73,18 @@ extension Ingredient: Hashable {
     }
 }
 
-extension Array where Iterator.Element: Integer {
+extension Array where Element: Numeric, Element: Comparable {
 
     public func neighbors(boundedBy bounds: Range<Array.Index>) -> [Array] {
         var result: [Array] = []
 
         for index in self.indices {
             var neighborBase = self
-            neighborBase[index] += 1 as Iterator.Element
+            neighborBase[index] += 1 as! Iterator.Element
             for neighborIndex in self.indices where neighborIndex != index {
                 if neighborBase[neighborIndex] > 0 {
                     var neighbor = neighborBase
-                    neighbor[neighborIndex] -= 1 as Iterator.Element
+                    neighbor[neighborIndex] -= 1 as! Iterator.Element
                     result.append(neighbor)
                 }
             }
@@ -154,7 +154,7 @@ func findingBestCookie(for ingredients: [Ingredient], teaspoons: Int, calories: 
     }
 
     var result: [Ingredient: Int] = [:]
-    zip(ingredients, dist).forEach { (ingredient, teaspoons) in
+    zip(ingredients, dist).forEach { let (ingredient, teaspoons) = $0; return
         result[ingredient] = teaspoons
     }
 
@@ -178,7 +178,7 @@ class Day15: Solution {
 
         print("The best cookie that can be made with these ingredients has the following score and ingredients")
         print("\nScore: \(combinedScore(for: bestCookie.keys, distribution: bestCookie.keys.lazy.flatMap({ bestCookie[$0] })))")
-        bestCookie.forEach { (ingredient, quantity) in
+        bestCookie.forEach { let (ingredient, quantity) = $0; return
             print("\(quantity) teaspoons of \(ingredient.name)")
         }
         print("")
@@ -190,7 +190,7 @@ class Day15: Solution {
 
         print("The best cookie that can be made with these ingredients and has \(calories) has the following score and ingredients")
         print("\nScore: \(combinedScore(for: bestCookie.keys, distribution: bestCookie.keys.lazy.flatMap({ bestCookie[$0] })))")
-        bestCookie.forEach { (ingredient, quantity) in
+        bestCookie.forEach { let (ingredient, quantity) = $0; return
             print("\(quantity) teaspoons of \(ingredient.name)")
         }
         print("")

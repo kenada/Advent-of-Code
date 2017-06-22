@@ -28,13 +28,13 @@ import Foundation
 /// Solutions to Advent of Code problems implement this protocol to be discovered by the main driver program.
 /// `part1(input:)` and `part2(input:)` are not guaranteed to be called in any order or even at all.
 @objc public protocol Solution {
-    init()
+    @objc init()
     /// An identifier by which the solution is known. Used to invoke the solution from the command-line.
-    var name: String { get }
+    @objc var name: String { get }
     /// Invoked to display the solution to the first part of the Advent of Code problem.
-    func part1(input: String)
+    @objc func part1(input: String)
     /// Invoked to display the solution to the second part of the Advent of Code problem.
-    func part2(input: String)
+    @objc func part2(input: String)
 }
 
 public enum SolutionManager {
@@ -42,7 +42,7 @@ public enum SolutionManager {
         let classCount = objc_getClassList(nil, 0)
         var classes = [AnyClass?](repeating: nil, count: Int(classCount))
         classes.withUnsafeMutableBufferPointer { body in
-            let autoptr = AutoreleasingUnsafeMutablePointer<AnyClass?>(body.baseAddress)
+            let autoptr = AutoreleasingUnsafeMutablePointer<AnyClass>(body.baseAddress)
             _ = objc_getClassList(autoptr, classCount)
         }
 

@@ -63,13 +63,13 @@ extension Reindeer {
         }
         guard match.numberOfRanges == 5 else { return nil }
 
-        let name = input.substring(with: match.rangeAt(1))
+        let name = input.substring(with: match.range(at: 1))
 
-        guard let topSpeed = Int(input.substring(with: match.rangeAt(2))) else { return nil }
+        guard let topSpeed = Int(input.substring(with: match.range(at: 2))) else { return nil }
 
-        guard let duration = Int(input.substring(with: match.rangeAt(3))) else { return nil }
+        guard let duration = Int(input.substring(with: match.range(at: 3))) else { return nil }
 
-        guard let restingTime = Int(input.substring(with: match.rangeAt(4))) else { return nil }
+        guard let restingTime = Int(input.substring(with: match.range(at: 4))) else { return nil }
 
         self.init(name: name, topSpeed: topSpeed, duration: duration, restingTime: restingTime)
     }

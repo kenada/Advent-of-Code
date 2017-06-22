@@ -55,7 +55,7 @@ class Day_14_Tests: XCTestCase {
         ]
         zip(data, expectedResults).forEach {
             let reindeer = $0.0, expectedResults = $0.1
-            expectedResults.forEach { (time, status) in
+            expectedResults.forEach { let (time, status) = $0; return
                 XCTAssertEqual(reindeer.status(at: time), status, "time: \(time)")
             }
         }
@@ -88,7 +88,7 @@ class Day_14_Tests: XCTestCase {
         ]
         zip(data, expectedResults).forEach {
             let reindeer = $0.0, expectedResults = $0.1
-            expectedResults.forEach { (time, distance) in
+            expectedResults.forEach { let (time, distance) = $0; return
                 XCTAssertEqual(reindeer.distanceFlown(at: time), distance, "time: \(time)")
             }
         }

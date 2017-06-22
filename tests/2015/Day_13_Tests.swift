@@ -99,7 +99,7 @@ class Day_13_Tests: XCTestCase {
             (Pair("David", "Bob"), -7),
             (Pair("David", "Carol"), 41)
         ]
-        zip(input, results).forEach { (line, result) in
+        zip(input, results).forEach { let (line, result) = $0;
             let parsedLine = parsed(ofDay13: line)
             XCTAssertNotNil(parsedLine)
             if let parsedLine = parsedLine {

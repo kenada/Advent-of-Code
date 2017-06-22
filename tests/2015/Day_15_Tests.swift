@@ -135,7 +135,7 @@ class Day_15_Tests: XCTestCase {
     }
 
     private static func arrayLessThan(lhs: [Int], rhs: [Int]) -> Bool {
-        guard let (lhsElement, rhsElement) = zip(lhs, rhs).first(where: !=) else {
+        guard let (lhsElement, rhsElement) = zip(lhs, rhs).first(where: { $0.0 != $0.1 }) else {
             return lhs.count < rhs.count
         }
         return lhsElement < rhsElement

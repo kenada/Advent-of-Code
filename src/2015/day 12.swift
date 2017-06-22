@@ -36,8 +36,14 @@ func sum(jsonObject: Any, ignoring: ([String: Any]) -> Bool) -> Double {
         }
     case let obj as [Any]:
         return obj.reduce(0.0) { $0 + sum(jsonObject: $1, ignoring: ignoring) }
-    case let dbl as Double:
-        return dbl
+    case let num as NSNumber:
+        // NSJSONSerialization uses NSNumber for all numerical values, including boolean types. As of Swift 4,
+        // NSNumber bridges a boolean value of “true” to 1.0 when it is interpretted as a Double. Work around
+        // this by checking the NSNumber’s original C type. 99 is the standard encoding for a char (i.e., bool).
+        guard num.objCType.pointee != 99 else {
+            return 0
+        }
+        return jsonObject as! Double
     default:
         return 0.0
     }
