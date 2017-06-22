@@ -78,32 +78,28 @@ extension RangeReplaceableCollection where Element: Comparable & Numeric {
     public func neighbors(boundedBy bounds: Range<Element>) -> [Self] {
         var result: [Self] = []
 
-        for (index, value) in zip(self.indices, self) {
-            if value < bounds.upperBound {
-                for (neighborIndex, neighborValue) in zip(self.indices, self) where neighborIndex != index {
-                    if neighborValue > bounds.lowerBound {
-                        var neighbor = Self()
-                        neighbor.reserveCapacity(self.count)
+        for (index, value) in zip(self.indices, self) where value < bounds.upperBound {
+            for (neighborIndex, neighborValue) in zip(self.indices, self) where neighborIndex != index && neighborValue > bounds.lowerBound {
+                var neighbor = Self()
+                neighbor.reserveCapacity(self.count)
 
-                        let next: Index
-                        if neighborIndex < index {
-                            neighbor.append(contentsOf: self[self.startIndex..<neighborIndex])
-                            neighbor.append(neighborValue - 1)
-                            neighbor.append(contentsOf: self[self.index(after: neighborIndex)..<index])
-                            neighbor.append(value + 1)
-                            next = self.index(after: index)
-                        } else {
-                            neighbor.append(contentsOf: self[self.startIndex..<index])
-                            neighbor.append(value + 1)
-                            neighbor.append(contentsOf: self[self.index(after: index)..<neighborIndex])
-                            neighbor.append(neighborValue - 1)
-                            next = self.index(after: neighborIndex)
-                        }
-                        neighbor.append(contentsOf: self[next..<self.endIndex])
-
-                        result.append(neighbor)
-                    }
+                let next: Index
+                if neighborIndex < index {
+                    neighbor.append(contentsOf: self[self.startIndex..<neighborIndex])
+                    neighbor.append(neighborValue - 1)
+                    neighbor.append(contentsOf: self[self.index(after: neighborIndex)..<index])
+                    neighbor.append(value + 1)
+                    next = self.index(after: index)
+                } else {
+                    neighbor.append(contentsOf: self[self.startIndex..<index])
+                    neighbor.append(value + 1)
+                    neighbor.append(contentsOf: self[self.index(after: index)..<neighborIndex])
+                    neighbor.append(neighborValue - 1)
+                    next = self.index(after: neighborIndex)
                 }
+                neighbor.append(contentsOf: self[next..<self.endIndex])
+
+                result.append(neighbor)
             }
         }
         return result
@@ -112,7 +108,7 @@ extension RangeReplaceableCollection where Element: Comparable & Numeric {
 }
 
 private func combinedScore<Ingredients, Distribution>(for ingredients: Ingredients, distribution teaspoons: Distribution) -> Int
-    where Ingredients: Collection, Ingredients.Iterator.Element == Ingredient, Distribution: Sequence, Distribution.Iterator.Element == Int {
+    where Ingredients: Collection, Ingredients.Element == Ingredient, Distribution: Sequence, Distribution.Element == Int {
         let capacity = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.capacity  * $1.1 })
         let durability = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.durability  * $1.1 })
         let flavor = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.flavor  * $1.1 })
@@ -120,7 +116,7 @@ private func combinedScore<Ingredients, Distribution>(for ingredients: Ingredien
         return capacity * durability * flavor * texture
 }
 
-private func combinedScore<Ingredients, Distribution>(for ingredients: Ingredients, distribution teaspoons: Distribution, calories: Int) -> Int where Ingredients: Collection, Ingredients.Iterator.Element == Ingredient, Distribution: Collection, Distribution.Iterator.Element == Int {
+private func combinedScore<Ingredients, Distribution>(for ingredients: Ingredients, distribution teaspoons: Distribution, calories: Int) -> Int where Ingredients: Collection, Ingredients.Element == Ingredient, Distribution: Collection, Distribution.Element == Int {
     let cookieCalories = max(0, zip(ingredients, teaspoons).reduce(0) { $0 + $1.0.calories * $1.1 })
     guard cookieCalories == calories else {
         return 0
