@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E0A1B581EFD4BF70093A498 /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0A1B571EFD4BF70093A498 /* json.swift */; };
 		8E2D9B541DE68DA1006C5098 /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D9B521DE68DA1006C5098 /* md5.swift */; };
 		8E2D9B561DE68DA6006C5098 /* manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D9B551DE68DA6006C5098 /* manager.swift */; };
 		8E2D9B591DE68DBF006C5098 /* md5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2D9B521DE68DA1006C5098 /* md5.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8E0A1B571EFD4BF70093A498 /* json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = json.swift; path = ../src/Support/json.swift; sourceTree = "<group>"; };
 		8E2D9B521DE68DA1006C5098 /* md5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = md5.swift; path = ../src/Support/md5.swift; sourceTree = "<group>"; };
 		8E2D9B551DE68DA6006C5098 /* manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = manager.swift; path = ../src/Support/manager.swift; sourceTree = "<group>"; };
 		8E5390931E820B3E000BCA60 /* pair.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = pair.swift; path = ../src/Support/pair.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				8E5390931E820B3E000BCA60 /* pair.swift */,
+				8E0A1B571EFD4BF70093A498 /* json.swift */,
 			);
 			name = Types;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 					8EB478AB1DE68CDA00AA3C09 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = CUE75WLJ78;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -274,6 +278,7 @@
 				8E2D9B561DE68DA6006C5098 /* manager.swift in Sources */,
 				8E5390941E820B3E000BCA60 /* pair.swift in Sources */,
 				8ED5B7731DE9372200DEB3CC /* Array.swift in Sources */,
+				8E0A1B581EFD4BF70093A498 /* json.swift in Sources */,
 				8ED5B7741DE9372200DEB3CC /* String.swift in Sources */,
 				8EAF55591DE7E01500B49ECE /* CoreGraphics.swift in Sources */,
 				8E2D9B541DE68DA1006C5098 /* md5.swift in Sources */,
@@ -476,7 +481,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.largeandhighquality.AdventSupportTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = ../lib;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -491,7 +497,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.largeandhighquality.AdventSupportTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = ../lib;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

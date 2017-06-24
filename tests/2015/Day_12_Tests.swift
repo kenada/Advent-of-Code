@@ -24,6 +24,7 @@
 //
 
 @testable import Advent_of_Code_2015
+import AdventSupport
 import Foundation
 import XCTest
 
@@ -42,18 +43,13 @@ class Day_12_Tests: XCTestCase {
             (json: "[]", expectedResult: 0),
             (json: "{}", expectedResult: 0)
         ]
-        cases.forEach { testCase in
+        for testCase in cases {
             let jsonData = testCase.json.data(using: String.Encoding.utf8)
             XCTAssertNotNil(jsonData)
 
-            let jsonObject = try? JSONSerialization.jsonObject(with: jsonData!)
-            XCTAssertNotNil(jsonObject)
-
             let decoder = JSONDecoder()
-            do {
-                let v = try decoder.decode(Array<Double>.self, from: testCase.json.data(using: .utf8)!)
-                print("Printing v: \(v)")
-            } catch {}
+            let jsonObject = try? decoder.decode(JSON.self, from: jsonData!)
+            XCTAssertNotNil(jsonObject)
 
             XCTAssertEqual(sum(jsonObject: jsonObject!), testCase.expectedResult, testCase.json)
         }
@@ -68,11 +64,12 @@ class Day_12_Tests: XCTestCase {
             (json: "{\"d\": \"red\", \"e\": [1, 2, 3, 4], \"f\": 5}", expectedResult: 0),
             (json: "[1, \"red\", 5]", expectedResult: 6)
         ]
-        cases.forEach { testCase in
+        for testCase in cases {
             let jsonData = testCase.json.data(using: String.Encoding.utf8)
             XCTAssertNotNil(jsonData)
 
-            let jsonObject = try? JSONSerialization.jsonObject(with: jsonData!)
+            let decoder = JSONDecoder()
+            let jsonObject = try? decoder.decode(JSON.self, from: jsonData!)
             XCTAssertNotNil(jsonObject)
 
             XCTAssertEqual(sum(jsonObject: jsonObject!, ignoring: hasRedProperty), testCase.expectedResult, testCase.json)

@@ -26,35 +26,40 @@
 import AdventSupport
 import Foundation
 
-func sum(jsonObject: Any, ignoring: ([String: Any]) -> Bool) -> Double {
+func sum(jsonObject: JSON, ignoring: ([String: JSON]) -> Bool) -> Double {
     switch jsonObject {
-    case let dict as [String: Any]:
+    case let .object(dict):
         if !ignoring(dict) {
-            return dict.values.reduce(0.0) { $0 + sum(jsonObject: $1, ignoring: ignoring) }
+            return dict.values.reduce(0) { $0 + sum(jsonObject: $1, ignoring: ignoring) }
         } else {
-            return 0.0
-        }
-    case let obj as [Any]:
-        return obj.reduce(0.0) { $0 + sum(jsonObject: $1, ignoring: ignoring) }
-    case let num as NSNumber:
-        // NSJSONSerialization uses NSNumber for all numerical values, including boolean types. As of Swift 4,
-        // NSNumber bridges a boolean value of “true” to 1.0 when it is interpretted as a Double. Work around
-        // this by checking the NSNumber’s original C type. 99 is the standard encoding for a char (i.e., bool).
-        guard num.objCType.pointee != 99 else {
             return 0
         }
-        return jsonObject as! Double
+    case let .array(arr):
+        return arr.reduce(0) { $0 + sum(jsonObject: $1, ignoring: ignoring) }
+    case .boolean:
+        return 0
+    case let .number(num):
+        return num
     default:
-        return 0.0
+        return 0
     }
 }
 
-func sum(jsonObject: Any) -> Double {
+func sum(jsonObject: JSON) -> Double {
     return sum(jsonObject: jsonObject) { _ in return false }
 }
 
-func hasRedProperty(_ dict: [String: Any]) -> Bool {
-    return dict.values.reduce(false) { $0 || ($1 as? String ?? "") == "red" }
+func hasRedProperty(_ dict: [String: JSON]) -> Bool {
+    return dict.values.reduce(false) { (acc, val) in
+        let string: String
+        switch val {
+        case let .string(str):
+            string = str
+        default:
+            string = ""
+        }
+        return acc || string == "red"
+    }
 }
 
 // MARK: - Solution
@@ -76,12 +81,13 @@ class Day12: Solution {
         }
     }
 
-    private class func processJson(string: String, f: (Any) -> Void) {
+    private class func processJson(string: String, f: (JSON) -> Void) {
         guard let data = string.data(using: .utf8) else {
             print("Data not found")
             return
         }
-        guard let doc = try? JSONSerialization.jsonObject(with: data) else {
+        let decoder = JSONDecoder()
+        guard let doc = try? decoder.decode(JSON.self, from: data) else {
             print("Document count not be read")
             return
         }
